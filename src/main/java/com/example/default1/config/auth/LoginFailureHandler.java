@@ -27,7 +27,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             MediaType jsonMimeType = MediaType.APPLICATION_JSON;
             jsonConverter.write(map, jsonMimeType, new ServletServerHttpResponse(response));
         } else {
-            response.sendRedirect("/user/login?error");
+            response.sendRedirect("/login?error=2");
         }
     }
 }
