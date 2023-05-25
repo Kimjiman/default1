@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.default1.config.auth.LoginUserMapper">
+	<sql id="selectQuery">
+		SELECT
+			`id`
+			, `login_id`
+			, `password`
+			, `name`
+			, `create_time`
+			, `create_id`
+		FROM `user`
+	</sql>
+
+	<select id="selectLoginUserByLoginId" resultType="com.example.default1.config.auth.LoginUser">
+		<include refid="selectQuery" />
+		WHERE `login_id` = #{loginId}
+	</select>
+</mapper>
