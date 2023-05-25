@@ -1,6 +1,7 @@
-MYSQL
-localhost:3306/test?serverTimezone=Asia/Seoul
-root / 1234
+**MYSQL**
+
+*localhost:3306/test?serverTimezone=Asia/Seoul
+root / 1234*
 
 CREATE TABLE `user` (
 `id` bigint NOT NULL AUTO_INCREMENT,
