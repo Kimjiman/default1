@@ -38,8 +38,6 @@ public class AddressUtil {
             } else if (agent.contains("Firefox")) { // Firefox
                 browser = "Firefox";
             } else if (agent.contains("Safari")) { // Chrome, Safari
-                // Chrome과 Safari는 모두 Safari가 agent에 포함되어있으며, Safari의 경우 Chrome이 포함되는 경우가 존재함.
-                // Safari의 경우 Version문자열이 포함되어있기 때문에, Version으로 구별한다.
                 if (agent.contains("Version")) {
                     browser = "Safari";
                 } else {

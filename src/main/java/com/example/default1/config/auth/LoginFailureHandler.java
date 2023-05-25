@@ -20,9 +20,10 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
                                         AuthenticationException exception) throws IOException {
 
         if (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("isLogin", false);
-            map.put("message", exception.getMessage());
+            Map<String, Object> map = Map.of(
+                "isLogin", false
+                , "message", exception.getMessage()
+            );
             MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
             MediaType jsonMimeType = MediaType.APPLICATION_JSON;
             jsonConverter.write(map, jsonMimeType, new ServletServerHttpResponse(response));

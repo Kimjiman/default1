@@ -20,7 +20,7 @@ public class LoginUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LoginUser loginUser = loginUserMapper.selectLoginUserByLoginId(username);
         if(loginUser != null) {
-            loginUser.setRoleList(List.of("ROLE_USER"));
+            loginUser.setRoleList(List.of("USER"));
         } else {
             throw new CustomException(2001, "가입되지 않은 사용자입니다.");
         }

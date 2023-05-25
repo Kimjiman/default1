@@ -21,7 +21,7 @@ public class LoginUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return loginUser.getRoleList().stream()
-                .map(it -> new SimpleGrantedAuthority("ROLE" + it))
+                .map(it -> new SimpleGrantedAuthority("ROLE_" + it))
                 .collect(Collectors.toList());
     }
 

@@ -1,6 +1,6 @@
 package com.example.default1.config.auth;
+
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +17,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
 
-        if(request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")){
-            Map<String,Object> map = new HashMap<>();
-            map.put("isLogin", true);
-            map.put("message", "로그인되었습니다.");
+        if (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")) {
+            Map<String, Object> map = Map.of(
+                "isLogin", true,
+                "message", "로그인되었습니다."
+            );
             MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
             MediaType jsonMimeType = MediaType.APPLICATION_JSON;
             jsonConverter.write(map, jsonMimeType, new ServletServerHttpResponse(response));
