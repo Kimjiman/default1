@@ -296,7 +296,6 @@ public class FileManager {
                 }
             } else {
                 encodedFilename = new String(fileName.getBytes(StandardCharsets.UTF_8), "ISO_8859_1");
-                /* throw new IOException("Not supported browser"); */
             }
             encodedFilename = encodedFilename.replaceAll(",", "");
             response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);

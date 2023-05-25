@@ -14,8 +14,8 @@
 			, `ext`
 			, `type`
 			, `size`
-			, `create_date`
-			, `creator`
+			, `create_time`
+			, `create_id`
 		FROM `file`
 	</sql>
 

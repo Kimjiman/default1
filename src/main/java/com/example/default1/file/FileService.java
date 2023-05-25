@@ -1,10 +1,10 @@
 package com.example.default1.file;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.default1.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +23,16 @@ public class FileService {
         return fileMapper.findAllIn(ids);
     }
 
+    public FileInfo getById(Long id) {
+        return fileMapper.findById(id);
+    }
+
     @Transactional
-    public FileInfo upload(HttpServletRequest request, HttpServletResponse response, MultipartFile mf, String refPath, Long refId) {
+    public FileInfo upload(MultipartFile mf, String refPath, Long refId) {
         FileInfo fileInfo = fileManager.upload(mf);
         fileInfo.setRefPath(refPath);
         fileInfo.setRefId(refId);
+        fileInfo.setCreateId(SessionUtil.getUserId());
         fileMapper.insert(fileInfo);
         return fileInfo;
     }
@@ -55,10 +60,6 @@ public class FileService {
     public void deleteByRef(FileInfo fileInfo) {
         List<FileInfo> fileInfoList = fileMapper.findListBy(fileInfo);
         fileInfoList.forEach(it -> fileMapper.deleteByRef(it));
-    }
-
-    public FileInfo getById(Long id) {
-        return fileMapper.findById(id);
     }
 }
 
