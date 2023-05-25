@@ -33,12 +33,14 @@ public class FileController {
         return fileService.getList(ids);
     }
 
-    @PostMapping(value = "/upload")
+    @PostMapping(value = "/upload/{refPath}/{refId}")
     @ResponseBody
-    public List<FileInfo> fileUpload(HttpServletRequest request, HttpServletResponse response, List<MultipartFile> files) {
+    public List<FileInfo> fileUpload(HttpServletRequest request
+            , HttpServletResponse response, List<MultipartFile> files
+            , @PathVariable String refPath, @PathVariable Long refId) {
         List<FileInfo> fileInfoList = new ArrayList<>();
         if(files == null) throw new NullPointerException("파일이 없습니다.");
-        files.forEach(file -> fileInfoList.add(fileService.upload(request, response, file)));
+        files.forEach(file -> fileInfoList.add(fileService.upload(request, response, file, refPath, refId)));
         return fileInfoList;
     }
 
@@ -67,6 +69,20 @@ public class FileController {
             fileService.delete(Long.valueOf(strId));
         } catch (Exception e) {
             logger.error("파일 아이디 오류: {}", strId);
+        }
+    }
+
+    @DeleteMapping(value="/ref/{refPath}/{refId}")
+    @ResponseBody
+    public void deleteByRef(@PathVariable("refPath") String refPath, @PathVariable("refId") Long refId) {
+        try {
+            FileInfo fileInfo = FileInfo.builder()
+                                    .refPath(refPath)
+                                    .refId(refId)
+                                    .build();
+            fileService.deleteByRef(fileInfo);
+        } catch (Exception e) {
+            logger.error("ref error: refPath:{}, refId:{}", refPath, refId);
         }
     }
 

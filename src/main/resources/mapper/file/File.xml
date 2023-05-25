@@ -5,16 +5,29 @@
 <mapper namespace="com.example.default1.file.FileMapper">
 	<sql id="selectQuery">
 		SELECT
-			`id`,
-			`ori_name`,
-			`new_name`,
-			`save_path`,
-			`ext`,
-			`type`,
-			`size`,
-			`create_date`,
-			`creator`
+			`id`
+			, `ref_path`
+			, `ref_id`
+			, `ori_name`
+			, `new_name`
+			, `save_path`
+			, `ext`
+			, `type`
+			, `size`
+			, `create_date`
+			, `creator`
 		FROM `file`
+	</sql>
+
+	<sql id="searchCondition">
+		<where>
+			<if test="refPath != null and refPath != ''">
+				AND `ref_path` = #{refPath}
+			</if>
+			<if test="refId != null">
+				AND `ref_id` = #{refId}
+			</if>
+		</where>
 	</sql>
 
 	<select id="findById" resultType="com.example.default1.file.FileInfo">
@@ -28,6 +41,11 @@
 		<foreach collection="ids" item="item" separator="," open="(" close=")">
 			#{item}
 		</foreach>
+	</select>
+
+	<select id="findBy" resultType="com.example.default1.file.FileInfo">
+		<include refid="selectQuery" />
+		<include refid="searchCondition" />
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">

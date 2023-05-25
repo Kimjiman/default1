@@ -1,13 +1,13 @@
 const fileApi = {
-   async uploadFile(files, division, refId) {
+   async uploadFile(files, refPath, refId) {
         let formData = new FormData();
         files.forEach(it => {
             formData.append("file", it);
         })
 
-        await com.requestFileAjax({
+        await com.ajaxFile({
             type: "POST",
-            url: "/uploadFile/" + division + "/" + refId,
+            url: `/file/${refPath}/${refId}`,
             data: formData
         }, function (res) {
             console.log(res);
@@ -17,16 +17,16 @@ const fileApi = {
     async deleteFile(fileId) {
         await com.ajax({
             type: "DELETE",
-            url: "/deleteFile/" + fileId,
+            url: `/file/${fileId}`,
         }, function (res) {
             console.log(res);
         })
     },
 
-    async deleteFiles(division, refId) {
+    async deleteFiles(refPath, refId) {
         await com.ajax({
             type: "DELETE",
-            url: "/deleteFileByRef/" + division + "/" + refId,
+            url: `/file/ref/${refPath}/${refId}`,
         }, function (res) {
             console.log(res);
         })

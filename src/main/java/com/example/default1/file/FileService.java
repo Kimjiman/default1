@@ -1,4 +1,5 @@
 package com.example.default1.file;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +24,10 @@ public class FileService {
     }
 
     @Transactional
-    public FileInfo upload(HttpServletRequest request, HttpServletResponse response, MultipartFile mf) {
+    public FileInfo upload(HttpServletRequest request, HttpServletResponse response, MultipartFile mf, String refPath, Long refId) {
         FileInfo fileInfo = fileManager.upload(mf);
+        fileInfo.setRefPath(refPath);
+        fileInfo.setRefId(refId);
         fileMapper.insert(fileInfo);
         return fileInfo;
     }
@@ -46,6 +49,12 @@ public class FileService {
         FileInfo fileInfo = fileMapper.findById(id);
         int result = fileMapper.delete(id);
         if(result > 0) fileManager.delete(fileInfo);
+    }
+
+    @Transactional
+    public void deleteByRef(FileInfo fileInfo) {
+        List<FileInfo> fileInfoList = fileMapper.findListBy(fileInfo);
+        fileInfoList.forEach(it -> fileMapper.deleteByRef(it));
     }
 
     public FileInfo getById(Long id) {
