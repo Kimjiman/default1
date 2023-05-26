@@ -12,13 +12,17 @@ public class Pager {
     private Integer rowSize = 10;       // 보여줄 글의 개수
     private Integer pageSize = 5;       // 페이지 개수
     private Integer totalRow;           // 총 글의 개수
-
     private Integer totalPage;          // 총 페이지의 개수
     private Integer startPage;          // 시작페이지
     private Integer lastPage;           // 마지막페이지
     private Integer prevPage;           // 이전페이지
     private Integer nextPage;           // 다음페이지
 
+    /**
+     * 현재 페이지와 총 글의 개수로 페이징 정보 구하기
+     * @param page 현재 페이지
+     * @param totalRow 총 글의 개수
+     */
     public void of(Integer page, Integer totalRow) {
         this.totalRow = totalRow;
         this.totalPage = this.totalRow / this.rowSize;
@@ -34,7 +38,6 @@ public class Pager {
         if(this.page >= this.totalPage) {
             this.page = this.totalPage;
         }
-
 
         this.startPage = (this.page + 1) - this.page % this.pageSize;
         if(this.page <= this.pageSize) {
