@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.example.default1.config.auth.LoginFailureHandler;
 import com.example.default1.config.auth.LoginSuccessHandler;
 import com.example.default1.config.auth.LoginUserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,10 +36,9 @@ import org.springframework.web.accept.HeaderContentNegotiationStrategy;
 @Configuration
 @EnableWebSecurity
 @Slf4j
+@RequiredArgsConstructor
 public class SecurityConfig {
-
-    @Autowired
-    private LoginUserService loginUserService;
+    private final LoginUserService loginUserService;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -88,8 +87,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(authorizeRequest -> authorizeRequest
                         .antMatchers(
-                                "/"
-                                , "/login"
+                                "/login"
+                                , "/join"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

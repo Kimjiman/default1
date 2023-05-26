@@ -5,19 +5,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.example.default1.utils.SessionUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
+@RequiredArgsConstructor
 public class FileService {
-
-    @Autowired
-    private FileManager fileManager;
-    @Autowired
-    private FileMapper fileMapper;
+    private final FileManager fileManager;
+    private final FileMapper fileMapper;
 
     public List<FileInfo> getList(List<Long> ids) {
         return fileMapper.findAllIn(ids);

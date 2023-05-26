@@ -6,9 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/file")
+@RequiredArgsConstructor
 public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-    @Autowired
-    private FileService fileService;
+    private final FileService fileService;
 
     @GetMapping
     @ResponseBody
