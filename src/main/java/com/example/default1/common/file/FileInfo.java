@@ -1,4 +1,4 @@
-package com.example.default1.file;
+package com.example.default1.common.file;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

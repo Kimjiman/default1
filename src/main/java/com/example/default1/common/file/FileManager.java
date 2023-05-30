@@ -1,4 +1,4 @@
-package com.example.default1.file;
+package com.example.default1.common.file;
 
 import java.io.File;
 import java.io.FileInputStream;
