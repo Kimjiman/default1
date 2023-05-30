@@ -33,7 +33,7 @@ PRIMARY KEY (`id`)
 ---
 CREATE TABLE `code_group` (
 `id` bigint NOT NULL AUTO_INCREMENT,
-`code` varchar(10) DEFAULT NULL,
+`group_code` varchar(10) DEFAULT NULL,
 `name` varchar(100) DEFAULT NULL,
 `create_time` datetime DEFAULT NULL,
 `create_id` bigint DEFAULT NULL,

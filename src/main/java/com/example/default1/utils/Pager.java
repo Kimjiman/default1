@@ -9,7 +9,8 @@ import lombok.ToString;
 @ToString
 public class Pager {
     private Integer page;               // 현재 페이지
-    private Integer rowSize = 10;       // 보여줄 글의 개수
+    private Integer limit = 10;         // 보여줄 글의 개수
+    private Integer offset;             // 시작페이지 (DB)
     private Integer pageSize = 5;       // 페이지 개수
     private Integer totalRow;           // 총 글의 개수
     private Integer totalPage;          // 총 페이지의 개수
@@ -25,9 +26,9 @@ public class Pager {
      */
     public void of(Integer page, Integer totalRow) {
         this.totalRow = totalRow;
-        this.totalPage = this.totalRow / this.rowSize;
-        if (this.totalRow % this.rowSize > 0) {
-            this.totalPage = this.totalRow / this.rowSize + 1;
+        this.totalPage = this.totalRow / this.limit;
+        if (this.totalRow % this.limit > 0) {
+            this.totalPage = this.totalRow / this.limit + 1;
         }
 
         this.page = page;
@@ -44,6 +45,8 @@ public class Pager {
             this.startPage = 1;
         }
 
+        this.offset = startPage - 1;
+
         this.lastPage = this.startPage + this.pageSize - 1;
         if(this.lastPage >= this.totalPage) {
             this.lastPage = this.totalPage;
@@ -54,7 +57,7 @@ public class Pager {
             this.prevPage = 1;
         }
 
-        this.nextPage = this.prevPage + this.rowSize;
+        this.nextPage = this.prevPage + this.limit;
         if(this.nextPage >= this.totalPage) {
             this.nextPage = this.totalPage;
         }

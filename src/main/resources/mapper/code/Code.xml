@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.default1.common.code.mapper.CodeMapper">
+    <sql id="selectCodeGroupQuery">
+        SELECT `id`
+               , `group_code`
+               , `name`
+               , `create_time`
+               , `create_id`
+               , `update_time`
+               , `update_id`
+        FROM `code_group`
+    </sql>
+
+    <sql id="selectCodeQuery">
+        SELECT t1.id
+             , t1.code_group_id
+             , t2.group_code
+             , t1.code
+             , t2.name AS group_code_name
+             , t1.name
+             , t1.order
+             , t1.info
+             , t1.create_time
+             , t1.create_id
+             , t1.update_time
+             , t1.update_id
+        FROM `code` t1
+        LEFT JOIN `code_group` t2 ON t1.code_group_id = t2.id
+    </sql>
+
+
+    <select id="selectCodeGroupList" resultType="com.example.default1.common.code.model.CodeGroup">
+        <include refid="selectCodeGroupQuery" />
+        ORDER BY id DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectCode" resultType="com.example.default1.common.code.model.Code">
+        <include refid="selectCodeQuery" />
+        ORDER BY `id` DESC, `order` DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+</mapper>
