@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Code extends Pager {
+public class Code {
     private Long id;
     private Long codeGroupId;
-    private String groupCode;
+    private String codeGroup;
     private String code;
-    private String groupCodeName;
+    private String codeGroupName;
     private String name;
     private Integer order;
     private String info;

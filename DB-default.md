@@ -33,11 +33,11 @@ PRIMARY KEY (`id`)
 ---
 CREATE TABLE `code_group` (
 `id` bigint NOT NULL AUTO_INCREMENT,
-`group_code` varchar(10) DEFAULT NULL,
+`code_group` varchar(10) DEFAULT NULL,
 `name` varchar(100) DEFAULT NULL,
-`create_time` datetime DEFAULT NULL,
+`create_time` datetime DEFAULT CURRENT_TIMESTAMP,
 `create_id` bigint DEFAULT NULL,
-`update_time` datetime DEFAULT NULL,
+`update_time` datetime DEFAULT CURRENT_TIMESTAMP,
 `update_id` bigint DEFAULT NULL,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3
@@ -49,9 +49,9 @@ CREATE TABLE `code` (
 `name` varchar(100) DEFAULT NULL,
 `order` int DEFAULT NULL,
 `info` varchar(1000) DEFAULT NULL,
-`create_time` datetime DEFAULT NULL,
+`create_time` datetime DEFAULT CURRENT_TIMESTAMP,
 `create_id` bigint DEFAULT NULL,
-`update_time` datetime DEFAULT NULL,
+`update_time` datetime DEFAULT CURRENT_TIMESTAMP,
 `update_id` bigint DEFAULT NULL,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3

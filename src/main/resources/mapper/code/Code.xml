@@ -4,43 +4,179 @@
 
 <mapper namespace="com.example.default1.common.code.mapper.CodeMapper">
     <sql id="selectCodeGroupQuery">
-        SELECT `id`
-               , `group_code`
-               , `name`
-               , `create_time`
-               , `create_id`
-               , `update_time`
-               , `update_id`
+        SELECT
+            `id`
+            , `code_group`
+            , `name`
+            , `create_time`
+            , `create_id`
+            , `update_time`
+            , `update_id`
         FROM `code_group`
     </sql>
 
     <sql id="selectCodeQuery">
-        SELECT t1.id
-             , t1.code_group_id
-             , t2.group_code
-             , t1.code
-             , t2.name AS group_code_name
-             , t1.name
-             , t1.order
-             , t1.info
-             , t1.create_time
-             , t1.create_id
-             , t1.update_time
-             , t1.update_id
+        SELECT
+            t1.id
+            , t1.code_group_id
+            , t1.code
+            , t2.code_group
+            , t2.name AS code_group_name
+            , t1.name
+            , t1.order
+            , t1.info
+            , t1.create_time
+            , t1.create_id
+            , t1.update_time
+            , t1.update_id
         FROM `code` t1
         LEFT JOIN `code_group` t2 ON t1.code_group_id = t2.id
     </sql>
 
+    <sql id="searchCodeGroupCondition">
+        <where>
+            <if test="codeGroup != null and codeGroup != ''">
+                AND code_group LIKE concat('%', #{codeGroup}, '%')
+            </if>
+            <if test="name != null and name != ''">
+                AND `name` LIKE concat('%', #{name}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <sql id="searchCodeCondtion">
+        <where>
+            <if test="codeGroup != null and codeGroup != ''">
+                AND t2.code_group = #{codeGroup}
+            </if>
+            <if test="code != null and code != ''">
+                AND t1.code = LIKE concat('%', #{code}, '%')
+            </if>
+            <if test="codeGroupName != null and codeGroupName != ''">
+                AND t2.code_group_name LIKE concat('%', #{codeGroupName}, '%')
+            </if>
+            <if test="name != null and name != ''">
+                AND t1.name LIKE concat('%', #{name}, '%')
+            </if>
+        </where>
+    </sql>
 
     <select id="selectCodeGroupList" resultType="com.example.default1.common.code.model.CodeGroup">
         <include refid="selectCodeGroupQuery" />
-        ORDER BY id DESC
-        LIMIT #{limit} OFFSET #{offset}
+        ORDER BY id
     </select>
 
-    <select id="selectCode" resultType="com.example.default1.common.code.model.Code">
-        <include refid="selectCodeQuery" />
-        ORDER BY `id` DESC, `order` DESC
-        LIMIT #{limit} OFFSET #{offset}
+    <select id="selectCodeGroupById" resultType="com.example.default1.common.code.model.CodeGroup">
+        <include refid="selectCodeGroupQuery" />
+        WHERE id = #{id}
     </select>
+
+    <select id="selectCodeList" resultType="com.example.default1.common.code.model.Code">
+        <include refid="selectCodeQuery" />
+        <include refid="searchCodeCondtion" />
+        ORDER BY `code_group_id`, `order`
+    </select>
+
+    <select id="selectCodeById" resultType="com.example.default1.common.code.model.Code">
+        <include refid="selectCodeQuery" />
+        WHERE t1.id = #{id}
+   </select>
+
+    <insert id="insertCodeGroup">
+        INSERT INTO code_group (
+            `code_group`
+            , `name`
+            , `create_id`
+            , `update_id`
+        ) VALUES (
+            (SELECT code_group FROM (SELECT IFNULL(max(code_group) + 1, 100) code_group FROM code_group)
+             as code_group)
+            , #{name}
+            , #{createId}
+            , #{updateId}
+        )
+    </insert>
+
+    <insert id="insertCode">
+        INSERT INTO code (
+            code_group_id
+            , `code`
+            , name
+            , `order`
+            , info
+            , create_id
+            , update_id
+        ) VALUES (
+            (SELECT code_group FROM code_group WHERE id = #{codeGroupId})
+            , (SELECT code FROM (SELECT CONCAT(
+                (SELECT code_group FROM code_group WHERE id = #{codeGroupId})
+                , (SELECT IFNULL(LPAD(MAX(SUBSTR(code, 4)) + 1, 3, '0'), '001') FROM code WHERE code_group_id = #{codeGroupId})
+                ) as `code`) as `code`)
+            , #{name}
+            , <choose>
+                <when test="order != null">
+                    #{order}
+                </when>
+                <otherwise>
+                    (SELECT `order` FROM
+                        (SELECT IFNULL(max(`order`) + 1, 1) `order` FROM `code` WHERE code_group_id = #{codeGroupId})
+                     as `order`)
+                </otherwise>
+              </choose>
+            , #{info}
+            , #{createId}
+            , #{updateId}
+        )
+    </insert>
+
+    <update id="updateCodeGroup">
+        UPDATE code_group
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateCode">
+        UPDATE code
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="info != null and info != ''">
+                info = #{info},
+            </if>
+            <choose>
+                <when test="order != null">
+                    #{order},
+                </when>
+                <otherwise>
+                    (SELECT `order` FROM
+                        (SELECT IFNULL(max(`order`) + 1, 1) `order` FROM `code`
+                            WHERE code_group_id = (SELECT code_group_id FROM `code` WHERE `id` = #{id})
+                    ) as `order`),
+                </otherwise>
+            </choose>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteCodeGroupById">
+        DELETE FROM code_group
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteCodeByCodeGroupId">
+        DELETE FROM `code`
+        WHERE code_group_id = #{codeGroupId}
+    </delete>
+
+    <delete id="deleteCodeById">
+        DELETE FROM `code`
+        WHERE id = #{id}
+    </delete>
 </mapper>
