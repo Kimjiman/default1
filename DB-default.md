@@ -13,7 +13,7 @@ CREATE TABLE `user` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3
 ---
-INSERT INTO user (login_id, password, name, create_id) 
+INSERT INTO user (login_id, password, name, create_id)
 VALUES ('admin', '$2a$10$eDF5L0FKJz0b8Fq2R19..uDnP2imIDEigv1AxYXHSn0uIKrYAAg7a', '관리자', '1')
 ---
 CREATE TABLE `file` (
