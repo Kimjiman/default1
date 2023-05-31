@@ -6,36 +6,36 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 public enum YesNo {
-    YES ("Y", true),
-    NO  ("N", false);
+    YES (true, "Y"),
+    NO  (false, "N");
 
-    private final String key;
-    private final boolean value;
+    private final boolean key;
+    private final String value;
 
-    YesNo(String key, boolean value) {
+    YesNo(boolean key, String value) {
         this.key = key;
         this.value = value;
     }
 
-    public String getKey() {
+    public boolean getKey() {
         return key;
     }
 
     @JsonValue
-    public boolean isValue() {
+    public String isValue() {
         return value;
     }
 
     @JsonCreator
-    public static YesNo of(String key) {
-        if(StringUtils.isEmpty(key)) {
+    public static YesNo ofKey(Boolean key) {
+        if(key == null) {
             throw new CustomException(2700, "key is null");
         }
 
         StringBuilder sb = new StringBuilder();
 
         for(YesNo yn : YesNo.values()) {
-            if(yn.key.equals(key)) {
+            if(yn.key == key) {
                 return yn;
             }
         }
