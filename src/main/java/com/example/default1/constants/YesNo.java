@@ -27,7 +27,7 @@ public enum YesNo {
     }
 
     @JsonCreator
-    public static YesNo ofKey(Boolean key) {
+    public static YesNo of(Boolean key) {
         if(key == null) {
             throw new CustomException(2700, "key is null");
         }
