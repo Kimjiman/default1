@@ -1,4 +1,4 @@
-package com.example.default1.constants.enumYypeHandler;
+package com.example.default1.constants.enumTypeHandler;
 
 import com.example.default1.constants.enumModel.YN;
 import org.apache.ibatis.type.BaseTypeHandler;
