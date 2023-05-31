@@ -89,6 +89,7 @@ public class SecurityConfig {
                         .antMatchers(
                                 "/login"
                                 , "/join"
+                                , "/user/join"
                                 , "/test"
                         ).permitAll()
                         .anyRequest().authenticated()

@@ -12,16 +12,22 @@
             <input type="text" id="name" name="name" placeholder="이름"/>
         </p>
         <p>
-            <input type="button" value="로그인" onclick="login()" />
-            <input type="button" value="회원가입" onclick="window.location.href = '/join'" />
+            <input type="button" value="회원가입" onclick="join()" />
+            <input type="button" value="로그인" onclick="window.location.href = '/login'" />
         </p>
     </form>
 </th:block>
 
 <th:block layout:fragment="script">
     <script>
-        const login = () => {
-            console.log($("#frm").serializeObject());
+        const join = () => {
+            com.ajax({
+                type: "post",
+                url: "/user/join",
+                params: $("#frm").serializeObject()
+            }, function(res) {
+                console.log(res);
+            })
         }
     </script>
 </th:block>

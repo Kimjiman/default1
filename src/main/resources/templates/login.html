@@ -17,8 +17,14 @@
 
 <th:block layout:fragment="script">
     <script>
-        const login = () => {
-            console.log($("#frm").serializeObject());
+        const login = async() => {
+            com.ajax({
+                type: "post",
+                url: "/loginProc",
+                params: $("#frm").serializeObject()
+            }, function(res) {
+                console.log(res);
+            })
         }
     </script>
 </th:block>

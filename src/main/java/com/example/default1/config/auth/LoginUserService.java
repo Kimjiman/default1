@@ -17,8 +17,8 @@ public class LoginUserService implements UserDetailsService {
     private final LoginUserMapper loginUserMapper;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        LoginUser loginUser = loginUserMapper.selectLoginUserByLoginId(username);
+    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
+        LoginUser loginUser = loginUserMapper.selectLoginUserByLoginId(loginId);
         if(loginUser != null) {
             loginUser.setRoleList(List.of("USER"));
         } else {

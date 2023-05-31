@@ -14,7 +14,7 @@ PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3
 ---
 INSERT INTO user (login_id, password, name, create_id)
-VALUES ('admin', '$2a$10$eDF5L0FKJz0b8Fq2R19..uDnP2imIDEigv1AxYXHSn0uIKrYAAg7a', '관리자', '1')
+VALUES ('admin', '$2a$10$JHRc1ScPG1dQncw9Jh8oJOyCtIzgi2uCYbQnu4OYz1QVcDs8kWpD2', '관리자', '1')
 ---
 CREATE TABLE `file` (
 `id` bigint NOT NULL,
