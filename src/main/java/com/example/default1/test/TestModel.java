@@ -1,6 +1,6 @@
 package com.example.default1.test;
 
-import com.example.default1.constants.YN;
+import com.example.default1.constants.enumModel.YN;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;

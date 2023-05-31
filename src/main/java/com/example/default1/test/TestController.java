@@ -20,8 +20,7 @@ public class TestController {
 
     @PostMapping("/test")
     public ResponseEntity<?> test1(@RequestBody TestModel testModel) {
-        log.info("testModel: {}", testModel);
-        //testMapper.testInsert(testModel);
+        testMapper.testInsert(testModel);
         return ResponseEntity.ok(testMapper.testSql());
     }
 }

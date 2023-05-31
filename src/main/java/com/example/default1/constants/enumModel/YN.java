@@ -1,4 +1,4 @@
-package com.example.default1.constants;
+package com.example.default1.constants.enumModel;
 
 import com.example.default1.exception.CustomException;
 import com.fasterxml.jackson.annotation.JsonCreator;

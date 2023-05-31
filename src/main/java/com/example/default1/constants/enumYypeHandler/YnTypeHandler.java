@@ -1,6 +1,6 @@
-package com.example.default1.config.enumConfig;
+package com.example.default1.constants.enumYypeHandler;
 
-import com.example.default1.constants.YN;
+import com.example.default1.constants.enumModel.YN;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
