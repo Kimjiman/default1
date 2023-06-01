@@ -18,7 +18,7 @@
 
 	</sql>
 
-	<select id="findById" resultType="com.example.default1.config.auth.LoginUser">
+	<select id="findById" resultType="com.example.default1.front.user.model.User">
 		<include refid="selectQuery" />
 		WHERE `id` = #{id}
 	</select>
