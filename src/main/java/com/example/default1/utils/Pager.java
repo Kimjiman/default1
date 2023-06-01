@@ -19,19 +19,18 @@ public class Pager {
     private Integer prevPage;           // 이전페이지
     private Integer nextPage;           // 다음페이지
 
+
     /**
-     * 현재 페이지와 총 글의 개수로 페이징 정보 구하기
-     * @param page 현재 페이지
+     * 총 글의 개수로 페이징 정보 구하기
      * @param totalRow 총 글의 개수
      */
-    public void of(Integer page, Integer totalRow) {
+    public void of(Integer totalRow) {
         this.totalRow = totalRow;
         this.totalPage = this.totalRow / this.limit;
         if (this.totalRow % this.limit > 0) {
             this.totalPage = this.totalRow / this.limit + 1;
         }
 
-        this.page = page;
         if(this.page == null || this.page < 1) {
             this.page = 1;
         }
@@ -61,5 +60,15 @@ public class Pager {
         if(this.nextPage >= this.totalPage) {
             this.nextPage = this.totalPage;
         }
+    }
+
+    /**
+     * 현재 페이지와 총 글의 개수로 페이징 정보 구하기
+     * @param page 현재 페이지
+     * @param totalRow 총 글의 개수
+     */
+    public void of(Integer page, Integer totalRow) {
+        this.page = page;
+        this.of(totalRow);
     }
 }
