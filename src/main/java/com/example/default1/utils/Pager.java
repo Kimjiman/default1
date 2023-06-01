@@ -93,4 +93,14 @@ public class Pager {
         this.pageSize = pageSize;
         this.of(totalRow);
     }
+
+    /**
+     * 글의 번호 매기기
+     * @param pager pager 객체
+     * @param idx 글의 순서
+     * @return 글의 번호
+     */
+    public Integer getRowNumber(Pager pager, Integer idx) {
+        return pager.getTotalRow() - ((pager.getPage() - 1) * pager.getLimit() + idx);
+    }
 }
