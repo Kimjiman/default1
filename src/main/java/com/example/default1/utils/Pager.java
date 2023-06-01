@@ -21,7 +21,6 @@ public class Pager {
 
 
     /**
-     * 총 글의 개수로 페이징 정보 구하기
      * @param totalRow 총 글의 개수
      */
     public void of(Integer totalRow) {
@@ -63,12 +62,35 @@ public class Pager {
     }
 
     /**
-     * 현재 페이지와 총 글의 개수로 페이징 정보 구하기
      * @param page 현재 페이지
      * @param totalRow 총 글의 개수
      */
     public void of(Integer page, Integer totalRow) {
         this.page = page;
+        this.of(totalRow);
+    }
+
+    /**
+     * @param totalRow 총 글의 개수
+     * @param limit 글의 개수
+     * @param pageSize 페이지 사이즈
+     */
+    public void of(Integer totalRow, Integer limit, Integer pageSize) {
+        this.limit = limit;
+        this.pageSize = pageSize;
+        this.of(totalRow);
+    }
+
+    /**
+     * @param page 현재 페이지
+     * @param totalRow 총 글의 개수
+     * @param limit 글의 개수
+     * @param pageSize 페이지 사이즈
+     */
+    public void of(Integer page, Integer totalRow, Integer limit, Integer pageSize) {
+        this.page = page;
+        this.limit = limit;
+        this.pageSize = pageSize;
         this.of(totalRow);
     }
 }
