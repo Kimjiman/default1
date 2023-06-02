@@ -91,6 +91,7 @@ public class SecurityConfig {
                                 , "/join"
                                 , "/user/join"
                                 , "/test"
+                                , "/test/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -108,10 +109,10 @@ public class SecurityConfig {
                         .deleteCookies("REMEMBER_ME_COOKIE")
                         .invalidateHttpSession(true)
                 )
-                .rememberMe(rememberMe -> rememberMe
-                        .key("REMEMBER_KEY")
+                /*.rememberMe(rememberMe -> rememberMe
+                        .key("REMEMBER_ME_KEY")
                         .rememberMeServices(tokenBasedRememberMeServices())
-                )
+                )*/
                 //첫번째 로그인 사용자는 로그아웃, 두번째 사용자 로그인 session-registry-alias : 접속자 정보보기
                 /*.sessionManagement(sessionManagement -> sessionManagement
                     .maximumSessions(1)
@@ -126,7 +127,7 @@ public class SecurityConfig {
 
     @Bean
     public RememberMeServices tokenBasedRememberMeServices() {
-        TokenBasedRememberMeServices tokenBasedRememberMeServices = new TokenBasedRememberMeServices("REMEMBER_KEY", loginUserService);
+        TokenBasedRememberMeServices tokenBasedRememberMeServices = new TokenBasedRememberMeServices("REMEMBER_ME_KEY", loginUserService);
         tokenBasedRememberMeServices.setAlwaysRemember(true);    // 체크박스 클릭안해도 무조건 유지
         tokenBasedRememberMeServices.setTokenValiditySeconds(60 * 60 * 24 * 30);    // 30일
         tokenBasedRememberMeServices.setCookieName("REMEMBER_ME_COOKIE");
