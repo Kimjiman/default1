@@ -14,12 +14,12 @@ public class TestController {
     @GetMapping("/test")
     public ResponseEntity<?> test(TestModel testModel) {
         log.info("testModel: {}", testModel);
-        //testMapper.testInsert(testModel);
         return ResponseEntity.ok(testMapper.testSql());
     }
 
     @PostMapping("/test")
     public ResponseEntity<?> test1(@RequestBody TestModel testModel) {
+        log.info("testModel: {}", testModel);
         testMapper.testInsert(testModel);
         return ResponseEntity.ok(testMapper.testSql());
     }
