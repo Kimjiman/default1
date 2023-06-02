@@ -1,5 +1,6 @@
 package com.example.default1.utils;
 
+import com.example.default1.config.auth.LoginUser;
 import com.example.default1.config.auth.LoginUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,6 +39,11 @@ public class SessionUtil {
             //((AuthInfo)obj).getUser().setPassword(SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
             return ((LoginUserDetails) obj);
         }
+    }
+
+    public static LoginUser getLoginUser() {
+        LoginUserDetails loginUserDetails = getUser();
+        return loginUserDetails != null ? loginUserDetails.getLoginUser() : null;
     }
 
     public static Long getUserId() {

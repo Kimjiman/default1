@@ -109,10 +109,10 @@ public class SecurityConfig {
                         .deleteCookies("REMEMBER_ME_COOKIE")
                         .invalidateHttpSession(true)
                 )
-                /*.rememberMe(rememberMe -> rememberMe
+                .rememberMe(rememberMe -> rememberMe
                         .key("REMEMBER_ME_KEY")
                         .rememberMeServices(tokenBasedRememberMeServices())
-                )*/
+                )
                 //첫번째 로그인 사용자는 로그아웃, 두번째 사용자 로그인 session-registry-alias : 접속자 정보보기
                 /*.sessionManagement(sessionManagement -> sessionManagement
                     .maximumSessions(1)

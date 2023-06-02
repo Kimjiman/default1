@@ -32,7 +32,7 @@ public class LoginUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.loginUser.getLoginId() == null ? "" : this.loginUser.getName();
+        return this.loginUser.getLoginId() == null ? "" : this.loginUser.getLoginId();
     }
 
     @Override
