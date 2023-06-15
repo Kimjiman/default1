@@ -20,6 +20,10 @@ public class Pager {
     private Integer lastPage;           // 마지막페이지
     private Integer prevPage;           // 이전페이지
     private Integer nextPage;           // 다음페이지
+    private boolean isStartPage = true; // 시작페이지 체크
+    private boolean isLastPage = true;  // 이전페이지 체크
+    private boolean isPrevPage = true;  // 이전페이지 체크
+    private boolean isNextPage = true;  // 다음페이지 체크
     private Integer rowNum;             // 페이지 번호
 
 
@@ -44,6 +48,7 @@ public class Pager {
         this.startPage = (this.page + 1) - this.page % this.pageSize;
         if(this.page <= this.pageSize) {
             this.startPage = 1;
+            this.isStartPage = false;
         }
 
         this.offset = startPage - 1;
@@ -51,16 +56,19 @@ public class Pager {
         this.lastPage = this.startPage + this.pageSize - 1;
         if(this.lastPage >= this.totalPage) {
             this.lastPage = this.totalPage;
+            this.isLastPage = false;
         }
 
         this.prevPage = (this.page - this.pageSize + 1) - this.page % this.pageSize;
         if(this.page <= this.pageSize) {
             this.prevPage = 1;
+            this.isPrevPage = false;
         }
 
         this.nextPage = this.prevPage + this.limit;
         if(this.nextPage >= this.totalPage) {
             this.nextPage = this.totalPage;
+            this.isNextPage = false;
         }
     }
 
