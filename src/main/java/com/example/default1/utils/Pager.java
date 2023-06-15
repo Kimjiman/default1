@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -18,6 +20,7 @@ public class Pager {
     private Integer lastPage;           // 마지막페이지
     private Integer prevPage;           // 이전페이지
     private Integer nextPage;           // 다음페이지
+    private Integer rowNum;             // 페이지 번호
 
 
     /**
@@ -96,11 +99,11 @@ public class Pager {
 
     /**
      * 글의 번호 매기기
-     * @param pager pager 객체
-     * @param idx 글의 순서
-     * @return 글의 번호
+     * @param objectList ObjectList extends Pager
      */
-    public Integer getRowNumber(Pager pager, Integer idx) {
-        return pager.getTotalRow() - ((pager.getPage() - 1) * pager.getLimit() + idx);
+    public void rowNumberOver(List<? extends Pager> objectList) {
+        for(int i = this.getTotalRow() - 1; i >= 0; i--) {
+            objectList.get(i).setRowNum(this.getTotalRow() - ((this.getPage() - 1) * this.getLimit() + i));
+        }
     }
 }
