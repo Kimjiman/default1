@@ -1,6 +1,8 @@
-package com.example.default1.test;
+package com.example.default1.module.test.controller;
 
 import com.example.default1.exception.CustomException;
+import com.example.default1.module.test.mapper.TestMapper;
+import com.example.default1.module.test.model.TestModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ public class TestController {
         if(testModel.getId() == 1) {
             throw new CustomException(2023, "테스트");
         }
-        log.info("testModel: {}", testModel);
+//        log.info("testModel: {}", testModel);
         return ResponseEntity.ok(testMapper.testSql());
     }
 

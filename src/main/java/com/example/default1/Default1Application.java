@@ -5,10 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.ApplicationPidFileWriter;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import java.security.NoSuchAlgorithmException;
 
 @SpringBootApplication
+@EnableAspectJAutoProxy
 public class Default1Application extends SpringBootServletInitializer {
     private static final Class<?> app = Default1Application.class;
 

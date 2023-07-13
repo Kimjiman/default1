@@ -1,4 +1,4 @@
-package com.example.default1.test;
+package com.example.default1.module.test.model;
 
 import com.example.default1.constants.YN;
 import com.fasterxml.jackson.annotation.JsonInclude;
