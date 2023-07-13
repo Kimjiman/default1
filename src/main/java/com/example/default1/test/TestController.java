@@ -1,5 +1,6 @@
 package com.example.default1.test;
 
+import com.example.default1.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,9 @@ public class TestController {
 
     @GetMapping("/test")
     public ResponseEntity<?> test(TestModel testModel) {
+        if(testModel.getId() == 1) {
+            throw new CustomException(2023, "테스트");
+        }
         log.info("testModel: {}", testModel);
         return ResponseEntity.ok(testMapper.testSql());
     }

@@ -57,7 +57,7 @@ public class FileService {
     @Transactional
     public void deleteByRef(FileInfo fileInfo) {
         List<FileInfo> fileInfoList = fileMapper.findListBy(fileInfo);
-        fileInfoList.forEach(it -> fileMapper.deleteByRef(it));
+        fileInfoList.forEach(fileMapper::deleteByRef);
     }
 }
 
