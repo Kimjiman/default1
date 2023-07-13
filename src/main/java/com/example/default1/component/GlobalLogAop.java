@@ -28,6 +28,7 @@ public class GlobalLogAop {
         String params = Arrays.toString(joinPoint.getArgs());                // 실행된 메서드의 파라미터
 
         log.info("{}.{}: {}", className, methodName, params);
+
         Object retVal = joinPoint.proceed();                        // 실제 메서드 시작
         return retVal;
     }

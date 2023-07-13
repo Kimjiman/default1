@@ -7,10 +7,12 @@ logging:
             audit: OFF
             resultset: OFF
             resultsettable: OFF
-            sqlonly: DEBUG
+            sqlonly: INFO
             sqltiming: OFF
             connection : OFF
         root: INFO
+    pattern:
+        console: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([${LOG_LEVEL_PATTERN:%5p}]) %clr(%-36.36(%logger{0}.%method)){cyan} %4.4L %clr(:){faint} %m%n'
 mybatis:
     configuration:
         map-underscore-to-camel-case: true
