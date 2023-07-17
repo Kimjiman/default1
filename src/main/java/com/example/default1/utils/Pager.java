@@ -21,7 +21,7 @@ public class Pager {
     private Integer prevPage;           // 이전페이지
     private Integer nextPage;           // 다음페이지
     private boolean isStartPage = true; // 시작페이지 체크
-    private boolean isLastPage = true;  // 이전페이지 체크
+    private boolean isLastPage = true;  // 마지막페이지 체크
     private boolean isPrevPage = true;  // 이전페이지 체크
     private boolean isNextPage = true;  // 다음페이지 체크
     private Integer rowNum;             // 페이지 번호

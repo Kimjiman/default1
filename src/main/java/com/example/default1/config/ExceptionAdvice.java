@@ -2,13 +2,10 @@ package com.example.default1.config;
 
 import com.example.default1.base.model.Response;
 import com.example.default1.exception.CustomException;
+import com.example.default1.utils.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,9 +20,6 @@ import java.io.IOException;
 @ControllerAdvice
 @Slf4j
 public class ExceptionAdvice {
-    private final MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-    private final MediaType jsonMimeType = MediaType.APPLICATION_JSON;
-
     @ExceptionHandler({Exception.class})
     @ResponseBody
     public Response<?> InternalServerException(Exception ex) {
@@ -54,7 +48,7 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String NotFoundException(HttpServletRequest request, HttpServletResponse response, NoHandlerFoundException ex, Model model) throws IOException {
         if (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")) {
-            jsonConverter.write(Response.fail(HttpStatus.NOT_FOUND.value(), ex.getCause().getMessage()), jsonMimeType, new ServletServerHttpResponse(response));
+            CommonUtil.responseFail(HttpStatus.NOT_FOUND.value(), ex.getCause().getMessage(), response);
             return null;
         } else {
             model.addAttribute("errorCode", 404);
