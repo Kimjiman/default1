@@ -10,7 +10,7 @@ const com = {
                 }
             },
             error: function (xhr) {
-                if (xhr.status == "403") {
+                if (xhr.status === "403") {
                     document.location.href = "/login";
                 }
                 /* else if(2000 <= Number(xhr.status) &&  Number(xhr.status) < 3000) {
@@ -39,7 +39,7 @@ const com = {
                 }
             },
             error: function (xhr) {
-                if (xhr.status == "403") {
+                if (xhr.status === "403") {
                     document.location.href = "/login";
                 } else {
                     console.log(xhr);

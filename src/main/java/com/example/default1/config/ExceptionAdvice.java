@@ -51,7 +51,7 @@ public class ExceptionAdvice {
             CommonUtil.responseFail(HttpStatus.NOT_FOUND.value(), ex.getCause().getMessage(), response);
             return null;
         } else {
-            model.addAttribute("errorCode", 404);
+            model.addAttribute("status", 404);
             model.addAttribute("message", ex.getMessage());
             return "error";
         }
