@@ -38,7 +38,7 @@ public class SysUtil {
     public static String getTime(int milliseconds) {
 
         int seconds = (int) (milliseconds / 1000) % 60;            //초
-        int minutes = (int) ((milliseconds / (1000 * 60)) % 60);  //분
+        int minutes = (int) ((milliseconds / (1000 * 60)) % 60);   //분
         int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);//시
 
         return hours + " : " + minutes + " : " + seconds;

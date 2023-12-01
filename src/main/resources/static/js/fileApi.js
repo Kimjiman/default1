@@ -1,9 +1,7 @@
 const fileApi = {
-   async uploadFile(files, refPath, refId) {
+    async uploadFile(files, refPath, refId) {
         let formData = new FormData();
-        files.forEach(it => {
-            formData.append("file", it);
-        })
+        files.forEach(it => formData.append("file", it));
 
         await com.ajaxFile({
             type: "POST",
