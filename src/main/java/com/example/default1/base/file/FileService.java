@@ -50,13 +50,13 @@ public class FileService {
     @Transactional
     public void delete(Long id) {
         FileInfo fileInfo = fileMapper.findById(id);
-        int result = fileMapper.delete(id);
+        int result = fileMapper.deleteById(id);
         if(result > 0) fileManager.delete(fileInfo);
     }
 
     @Transactional
     public void deleteByRef(FileInfo fileInfo) {
-        List<FileInfo> fileInfoList = fileMapper.findListBy(fileInfo);
+        List<FileInfo> fileInfoList = fileMapper.findBy(fileInfo);
         fileInfoList.forEach(fileMapper::deleteByRef);
     }
 }

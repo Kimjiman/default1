@@ -8,9 +8,9 @@ import java.util.List;
 public interface FileMapper {
     FileInfo findById(Long id);
     List<FileInfo> findAllIn(List<Long> ids);
-    List<FileInfo> findListBy(FileInfo fileInfo);
+    List<FileInfo> findBy(FileInfo fileInfo);
     void insert(FileInfo fileInfo);
-    int delete(Long id);
+    int deleteById(Long id);
     int deleteAllIn(List<Long> ids);
     int deleteByRef(FileInfo fileInfo);
 }
