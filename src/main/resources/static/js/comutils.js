@@ -85,7 +85,7 @@ const com = {
     },
 
     /**
-     * 날자 변환
+     * 날짜 변환
      * yyyy-MM-dd, yyyy-MM-dd HH:mm:ss, yyyy-MM-dd a/p hh:mm:ss, yyyy-MM-dd E
      * @param {날짜 Date} format
      * @param date

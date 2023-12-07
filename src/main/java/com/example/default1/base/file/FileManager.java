@@ -45,7 +45,7 @@ public class FileManager {
         Calendar time = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         String savePath = sdf.format(time.getTime()); // 파일 저장경로
-        String storePath = this.storePath + "/" + savePath; // 파일 실제 저장경로
+        String storePath = this.storePath + File.separator + savePath; // 파일 실제 저장경로
         String oriName = mf.getOriginalFilename(); // 파일 기존이름
         if (oriName.contains("..")) {
             throw new RuntimeException("파일 이름 에러 '..' 사용 불가");
@@ -72,7 +72,7 @@ public class FileManager {
             bytes = mf.getBytes();
             FileCopyUtils.copy(bytes, file);
         } catch (IOException e) {
-            log.info("upload IOException: {}", e.getMessage());
+            log.error("upload IOException: {}", e.getMessage());
             throw new CustomException(2999, e.getMessage());
         }
 
@@ -99,7 +99,7 @@ public class FileManager {
         Calendar time = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         String savePath = sdf.format(time.getTime()); // 파일 저장경로
-        String storePath = this.storePath + "/" + savePath; // 파일 실제 저장경로
+        String storePath = this.storePath + File.separator + savePath; // 파일 실제 저장경로
 
         List<FileInfo> fileInfoList = new ArrayList<>();
 
@@ -168,8 +168,8 @@ public class FileManager {
                 throw new NullPointerException("삭제된 파일 입니다.");
             }
 
-            String storePath = this.storePath + "/" + fileInfo.getSavePath();
-            File file = new File(storePath + "/" + fileInfo.getNewName());
+            String storePath = this.storePath + File.separator + fileInfo.getSavePath();
+            File file = new File(storePath + File.separator + fileInfo.getNewName());
 
             // 파일 유무 체크
             boolean isFile = true;
@@ -212,7 +212,7 @@ public class FileManager {
                 out.close();
             }
         } catch (Exception e) {
-            log.info("Exception: {}", e.getMessage());
+            log.error("Exception: {}", e.getMessage());
             throw new CustomException(2999, e.getMessage());
         }
     }
@@ -228,8 +228,8 @@ public class FileManager {
     public FileInfo readFile(HttpServletResponse response, FileInfo fileInfo) {
         if (fileInfo == null) return null;
 
-        String storePath = this.storePath + "/" + fileInfo.getSavePath();
-        File file = new File(storePath + "/" + fileInfo.getNewName());
+        String storePath = this.storePath +  File.separator + fileInfo.getSavePath();
+        File file = new File(storePath + File.separator + fileInfo.getNewName());
 
         response.setContentType(fileInfo.getType());
         response.setContentLength((int) file.length());
@@ -248,7 +248,7 @@ public class FileManager {
                 os.close();
             }
         } catch (IOException e) {
-            log.info("read file error: {}", e.getMessage());
+            log.error("read file error: {}", e.getMessage());
             throw new CustomException(2999, e.getMessage());
         }
 
@@ -270,6 +270,7 @@ public class FileManager {
     }
 
     // 브라우저에 따른 공백처리, 한글 처리용 인코딩
+    // TODO: 2023-12-07 업데이트 필요
     public void setDisposition(String fileName, String browser, HttpServletResponse response) {
         String dispositionPrefix = "attachment; filename=";
         String encodedFilename = null;
@@ -300,7 +301,7 @@ public class FileManager {
             encodedFilename = encodedFilename.replaceAll(",", "");
             response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);
         } catch (Exception e) {
-            log.info("setDisposition Exception: {}", e.getMessage());
+            log.error("setDisposition Exception: {}", e.getMessage());
             throw new CustomException(2999, e.getMessage());
         }
 

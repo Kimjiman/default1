@@ -20,6 +20,7 @@ public class AddressUtil {
      * @param request
      * @return
      */
+    // TODO: 2023-12-07 업데이트 필요
     public static String getBrowser(HttpServletRequest request) {
         String agent = request.getHeader("User-Agent");
         String browser = "undefine";
@@ -54,6 +55,7 @@ public class AddressUtil {
      * @param request
      * @return
      */
+    // TODO: 2023-12-07 업데이트 필요
     public static String getIpAddress(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
 
@@ -85,6 +87,7 @@ public class AddressUtil {
      * @param request
      * @return
      */
+    // TODO: 2023-12-07 업데이트 필요
     public static String getOs(HttpServletRequest request) {
         String agent = request.getHeader("User-Agent");
         String os = "undefined";

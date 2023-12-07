@@ -51,6 +51,12 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * static 밑의 하위 경로 매핑을 위해 1번순서로 보안필터적용
+     * @param http 
+     * @return
+     * @throws Exception
+     */
     @Bean
     @Order(1)
     public SecurityFilterChain exceptionSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -63,6 +69,12 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * 매핑 url과 다른 세팅을 위한용도로 2번째 순서로 적용
+     * @param http 
+     * @return
+     * @throws Exception
+     */
     @Bean
     @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

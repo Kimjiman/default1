@@ -7,8 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @Controller
 @RequestMapping("/file")
 @RequiredArgsConstructor
 public class FileController {
-    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
-
     private final FileService fileService;
 
     @GetMapping
@@ -48,7 +46,7 @@ public class FileController {
         try {
             fileService.download(request, response, Long.valueOf(strId));
         } catch (Exception e) {
-            logger.error("파일 아이디 오류: {}", strId);
+            log.error("파일 아이디 오류: {}", strId);
         }
     }
 
@@ -57,7 +55,7 @@ public class FileController {
         try {
             fileService.readFile(response, Long.valueOf(strId));
         } catch (Exception e) {
-            logger.error("파일 아이디 오류: {}", strId);
+            log.error("파일 아이디 오류: {}", strId);
         }
     }
 
@@ -67,7 +65,7 @@ public class FileController {
         try {
             fileService.delete(Long.valueOf(strId));
         } catch (Exception e) {
-            logger.error("파일 아이디 오류: {}", strId);
+            log.error("파일 아이디 오류: {}", strId);
         }
     }
 
@@ -81,7 +79,7 @@ public class FileController {
                                     .build();
             fileService.deleteByRef(fileInfo);
         } catch (Exception e) {
-            logger.error("ref error: refPath:{}, refId:{}", refPath, refId);
+            log.error("ref error: refPath:{}, refId:{}", refPath, refId);
         }
     }
 }

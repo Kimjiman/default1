@@ -3,6 +3,7 @@ package com.example.default1.constants;
 import com.example.default1.exception.CustomException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
 
 import java.util.Arrays;
 
@@ -11,6 +12,7 @@ public enum YN {
     N ("false", "N");
 
     private final String key;
+    @Getter
     private final String value;
 
     YN(String key, String value) {
@@ -28,10 +30,6 @@ public enum YN {
     @JsonValue
     public String isKey() {
         return key;
-    }
-    
-    public String getValue() {
-        return value;
     }
 
     // RequestBody로 받기위해서 JsonCreator로 key(String/Boolean)을 받아서 ENUM값을 전달한다.
