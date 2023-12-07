@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class GlobalLogAop {
     @Pointcut(
             "execution(* com.example.default1.module..controller..*(..))"
+            + " || execution(* com.example.default1.base..controller..*(..))"
 //            + " || execution(* com.example.default1.module..mapper..*(..))"
         )
     private void pointCut() {

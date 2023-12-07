@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.example.default1.config.auth.LoginFailureHandler;
 import com.example.default1.config.auth.LoginSuccessHandler;
 import com.example.default1.config.auth.LoginUserService;
+import com.example.default1.utils.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -139,7 +140,8 @@ public class SecurityConfig {
         return (req, res, ex) -> {
             log.error("unauthorized: session[{}] uri[{}] message[{}]", req.getSession().getId(), req.getRequestURI(), ex.getMessage());
             String msg = ex.getMessage();
-            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
+            CommonUtil.responseFail(HttpServletResponse.SC_UNAUTHORIZED, msg, res);
+//            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
         };
     }
 
