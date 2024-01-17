@@ -1,6 +1,3 @@
-file:
-    store:
-        path: c:/tmp/default1
 logging:
     level:
         jdbc:
@@ -42,6 +39,8 @@ spring:
         cache: true
         prefix: classpath:/templates/
         suffix: .html
+    profiles:
+        active: local
 springdoc:
     default-consumes-media-type: application/json;charset=UTF-8
     default-produces-media-type: application/json;charset=UTF-8
@@ -55,3 +54,20 @@ springdoc:
     cache:
         disabled: true
     packages-to-scan: com.example.default1
+---
+file:
+    store:
+        path: c:/tmp/default1
+spring:
+    config:
+        activate:
+            on-profile: local
+---
+file:
+    store:
+        path: ./file
+spring:
+    config:
+        activate:
+            on-profile: dev
+---
