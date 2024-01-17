@@ -39,6 +39,8 @@ spring:
         cache: true
         prefix: classpath:/templates/
         suffix: .html
+    profiles:
+        active: local
 springdoc:
     default-consumes-media-type: application/json;charset=UTF-8
     default-produces-media-type: application/json;charset=UTF-8
