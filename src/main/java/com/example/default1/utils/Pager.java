@@ -107,10 +107,10 @@ public class Pager {
 
     /**
      * 글의 번호 매기기
-     * @param objectList ObjectList extends Pager
+     * @param objectList ? extends Pager
      */
     public void rowNumberOver(Pager pager, List<? extends Pager> objectList) {
-        for(int i = pager.getTotalRow() - 1; i >= 0; i--) {
+        for(int i = objectList.size() - 1; i >= 0; i--) {
             objectList.get(i).setRowNum(pager.getTotalRow() - ((pager.getPage() - 1) * pager.getLimit() + i));
         }
     }
