@@ -55,19 +55,22 @@ springdoc:
         disabled: true
     packages-to-scan: com.example.default1
 ---
-file:
-    store:
-        path: c:/tmp/default1
 spring:
     config:
         activate:
             on-profile: local
----
 file:
     store:
-        path: ./file
+        path: c:/tmp/default1
+---
 spring:
     config:
         activate:
             on-profile: dev
+file:
+    store:
+        path: ./file
+logging:
+    file:
+        name: ./log/file.log
 ---
