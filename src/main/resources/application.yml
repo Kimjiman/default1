@@ -69,8 +69,8 @@ spring:
             on-profile: dev
 file:
     store:
-        path: ./file
+        path: /web/file
 logging:
     file:
-        name: ./log/file.log
+        name: /web/jar/log/file.log
 ---
