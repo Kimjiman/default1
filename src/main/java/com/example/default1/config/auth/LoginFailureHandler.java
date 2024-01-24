@@ -18,7 +18,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
                                         AuthenticationException exception) throws IOException {
 
         if (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")) {
-            CommonUtil.responseFail(2, exception.getMessage(), response);
+            CommonUtil.responseFail(3001, exception.getMessage(), response);
         } else {
             response.sendRedirect("/login?error=2");
         }
