@@ -93,6 +93,8 @@ public class SecurityConfig {
         preferredMatcher.setUseEquals(true);
 
         return http
+                .cors()
+                .and()
                 .headers(header -> header
                         //X-Frame-Options 셋팅 , 크로스 사이트 스크립트 방지 해재 default 'DENY'
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
@@ -100,11 +102,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(authorizeRequest -> authorizeRequest
                         .antMatchers(
-                                "/login"
-                                , "/join"
-                                , "/user/join"
-                                , "/test"
-                                , "/test/**"
+                            "/login"
+                            , "/join"
+                            , "/user/join"
+                            , "/test"
+                            , "/test/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
