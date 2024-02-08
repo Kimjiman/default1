@@ -201,7 +201,7 @@ const com = {
     },
     // 이메일 : 이메일형식
     isEmail(str) {
-        const regex = /[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,4}$/;
+        const regex = /[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,}$/;
         return regex.test(str);
     },
     // 휴대전화번호 : 숫자 10~11자

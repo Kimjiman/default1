@@ -1,5 +1,6 @@
 package com.example.default1.utils;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Pager {
     private Integer page;               // 현재 페이지
     private Integer limit = 10;         // 보여줄 글의 개수
