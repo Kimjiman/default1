@@ -13,8 +13,8 @@ public class CommonUtil {
     private static final MediaType jsonMimeType = MediaType.APPLICATION_JSON;
 
 
-    public static void responseSuccess(String message, HttpServletResponse response) throws IOException {
-        jsonConverter.write(Response.success(message), jsonMimeType, new ServletServerHttpResponse(response));
+    public static <T> void responseSuccess(T obj, HttpServletResponse response) throws IOException {
+        jsonConverter.write(Response.success(obj), jsonMimeType, new ServletServerHttpResponse(response));
     }
 
 
