@@ -16,12 +16,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException {
-
-        if (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")) {
-            CommonUtil.responseFail(3001, exception.getMessage(), response);
-        } else {
-            response.sendRedirect("/login?error=2");
-        }
+        CommonUtil.responseFail(3001, exception.getMessage(), response);
     }
 }
 
