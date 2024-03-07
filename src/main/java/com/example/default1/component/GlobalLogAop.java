@@ -13,11 +13,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Slf4j
 public class GlobalLogAop {
-    @Pointcut(
-            "execution(* com.example.default1.module..controller..*(..))"
-            + " || execution(* com.example.default1.base..controller..*(..))"
-//            + " || execution(* com.example.default1.module..mapper..*(..))"
-        )
+    @Pointcut("execution(* com.example.default1..controller..*(..))")
     private void pointCut() {
     }
 

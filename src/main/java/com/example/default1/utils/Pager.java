@@ -12,21 +12,24 @@ import java.util.List;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Pager {
-    private Integer page;               // 현재 페이지
-    private Integer limit = 10;         // 보여줄 글의 개수
-    private Integer offset;             // 시작페이지 (DB)
-    private Integer pageSize = 5;       // 페이지 개수
-    private Integer totalRow;           // 총 글의 개수
-    private Integer totalPage;          // 총 페이지의 개수
-    private Integer startPage;          // 시작페이지
-    private Integer lastPage;           // 마지막페이지
-    private Integer prevPage;           // 이전페이지
-    private Integer nextPage;           // 다음페이지
-    private boolean isStartPage = true; // 시작페이지 체크
-    private boolean isLastPage = true;  // 마지막페이지 체크
-    private boolean isPrevPage = true;  // 이전페이지 체크
-    private boolean isNextPage = true;  // 다음페이지 체크
-    private Integer rowNum;             // 페이지 번호
+    private final Integer INIT_LIMIT = 10;
+    private final Integer INIT_PAGE_SIZE = 5;
+
+    private Integer page;                           // 현재 페이지
+    private Integer limit = INIT_LIMIT;             // 보여줄 글의 개수
+    private Integer offset;                         // 시작페이지 (DB)
+    private Integer pageSize = INIT_PAGE_SIZE;      // 페이지 개수
+    private Integer totalRow;                       // 총 글의 개수
+    private Integer totalPage;                      // 총 페이지의 개수
+    private Integer startPage;                      // 시작페이지
+    private Integer lastPage;                       // 마지막페이지
+    private Integer prevPage;                       // 이전페이지
+    private Integer nextPage;                       // 다음페이지
+    private boolean isStartPage = true;             // 시작페이지 체크
+    private boolean isLastPage = true;              // 마지막페이지 체크
+    private boolean isPrevPage = true;              // 이전페이지 체크
+    private boolean isNextPage = true;              // 다음페이지 체크
+    private Integer rowNum;                         // 페이지 번호
 
 
     /**
@@ -36,7 +39,7 @@ public class Pager {
         this.totalRow = totalRow;
         this.totalPage = this.totalRow / this.limit;
         if (this.totalRow % this.limit > 0) {
-            this.totalPage = this.totalRow / this.limit + 1;
+            this.totalPage = totalPage + 1;
         }
 
         if(this.page == null || this.page < 1) {
@@ -114,6 +117,14 @@ public class Pager {
     public void rowNumberOver(Pager pager, List<? extends Pager> objectList) {
         for(int i = objectList.size() - 1; i >= 0; i--) {
             objectList.get(i).setRowNum(pager.getTotalRow() - ((pager.getPage() - 1) * pager.getLimit() + i));
+        }
+    }
+
+    public void assignRowNumbers(List<? extends Pager> objectList) {
+        int startRow = this.totalRow - ((this.page - 1) * this.limit);
+
+        for(int i = 0; i < objectList.size(); i++) {
+            objectList.get(i).setRowNum(startRow - i);
         }
     }
 }
