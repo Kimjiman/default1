@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StringUtil {
+public class StringUtils {
     public static boolean isNullOrEmpty(String str) {
         return str == null || str.isEmpty();
     }
