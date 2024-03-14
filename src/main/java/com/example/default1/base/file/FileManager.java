@@ -93,8 +93,9 @@ public class FileManager {
      * @throws IOException
      */
     public List<FileInfo> upload(List<MultipartFile> mfs) {
-        if (mfs == null || mfs.size() == 0)
+        if (mfs == null || mfs.isEmpty()) {
             throw new NullPointerException("fileList is null");
+        }
 
         Calendar time = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
@@ -103,7 +104,7 @@ public class FileManager {
 
         List<FileInfo> fileInfoList = new ArrayList<>();
 
-        if (null != mfs && mfs.size() > 0) {
+        if (!mfs.isEmpty()) {
             // 1. 지정된 폴더 경로가 없다면, 새로 폴더 생성하기
             File dir = new File(storePath);
             if (!dir.exists()) {
@@ -191,7 +192,7 @@ public class FileManager {
                 byte[] b = new byte[(int) file.length()];
                 int leng = 0;
 
-                // 파일의 크기 만큼 outputStream에 파일을 작성한다.
+                // 파일의 바이트 크기 만큼 outputStream에 파일을 읽는다
                 while ((leng = is.read(b)) > 0) {
                     os.write(b, 0, leng);
                 }
