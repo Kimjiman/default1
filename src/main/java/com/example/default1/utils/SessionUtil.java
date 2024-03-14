@@ -32,11 +32,9 @@ public class SessionUtil {
     public static LoginUserDetails getUser() {
         Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (obj.equals("anonymousUser")) {
+        if (obj.equals("anonymous")) {
             return null;
         } else {
-            //암호화 전 패스워드
-            //((AuthInfo)obj).getUser().setPassword(SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
             return ((LoginUserDetails) obj);
         }
     }

@@ -12,11 +12,9 @@ public class CommonUtil {
     private static final MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
     private static final MediaType jsonMimeType = MediaType.APPLICATION_JSON;
 
-
     public static <T> void responseSuccess(T obj, HttpServletResponse response) throws IOException {
         jsonConverter.write(Response.success(obj), jsonMimeType, new ServletServerHttpResponse(response));
     }
-
 
     public static void responseFail(Integer status, String message, HttpServletResponse response) throws IOException {
         jsonConverter.write(Response.fail(status, message), jsonMimeType, new ServletServerHttpResponse(response));

@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.example.default1.exception.CustomException;
-import com.example.default1.utils.AddressUtil;
+import com.example.default1.utils.NetworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -183,7 +183,7 @@ public class FileManager {
             if (isFile) {
                 // 다운로드 할 파일의 이름 인코딩(한글처리용), 브라우저에 따른 공백처리
                 // 실제 다운로드 시작 부분
-                this.setDisposition(fileInfo.getOriName(), AddressUtil.getBrowser(request), response);
+                this.setDisposition(fileInfo.getOriName(), NetworkUtils.getBrowser(request), response);
 
                 os = response.getOutputStream();
 

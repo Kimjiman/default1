@@ -1,7 +1,6 @@
 package com.example.default1.utils;
 
 import java.util.Collection;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,57 +29,45 @@ public class StringUtils {
         return isBlank(val) ? replacedVal : val;
     }
 
-    public static String removeWhitespace(String val) {
-        if (isEmpty(val)) return val;
-        return val.replaceAll("\\s", "");
+    public static String removeWhiteSpace(String val) {
+        return isEmpty(val) ? val : val.replaceAll("\\s", "");
     }
 
+    /**
+     * 문자(\p{L}), 숫자(p{N}), 빈칸(\s)을 제외한 모든 특수문자를 제거한다.
+     * @param val 입력 문자열
+     * @return 문자, 숫자, 빈칸
+     */
     public static String removeSpecialCharacters(String val) {
         if (isEmpty(val)) return val;
-
-        String blackList = "!@#$%^&*()_+{}[]|;:'\",.<>?/";
-        for (char blackChar : blackList.toCharArray()) {
-            val = val.replace(String.valueOf(blackChar), "");
-        }
-
-        return val;
+        return val.replaceAll("[^\\p{L}\\p{N}\\s]", "");
     }
 
-    public static String removeChar(String val, char charVal) {
+    public static String removeSpecificCharacter(String val, char charVal) {
         if (isEmpty(val)) return val;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < val.length(); i++) {
-            if (val.charAt(i) == charVal) {
-                continue;
+            if (val.charAt(i) != charVal) {
+                sb.append(val.charAt(i));
             }
-            sb.append(val.charAt(i));
         }
         return sb.toString();
     }
 
-    public static <T extends Collection<String>> String joinStrings(T val, String delimiter) {
-        if (val.isEmpty()) return "";
-        return String.join(delimiter, val);
+    public static String upperCaseFirstCharacter(String val) {
+        return isEmpty(val) ? val : Character.toUpperCase(val.charAt(0)) + val.substring(1);
     }
 
-    public static String capitalizeFirstLetter(String val) {
+    public static String matchingRegex(String val, String regex) {
         if (isEmpty(val)) return val;
-        return Character.toUpperCase(val.charAt(0)) + val.substring(1);
-    }
 
-    public static String matchingRegexFromString(String val, String regex) {
-        if (isEmpty(val)) return val;
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(val);
 
-        if (matcher.find()) {
-            return matcher.group();
-        }
-
-        return "";
+        return matcher.find() ?  matcher.group() : val;
     }
 
-    public static boolean isStringMatchingRegex(String val, String regex) {
+    public static boolean isRegex(String val, String regex) {
         if (isEmpty(val)) return false;
 
         Pattern pattern = Pattern.compile(regex);
@@ -89,16 +76,37 @@ public class StringUtils {
         return matcher.matches();
     }
 
-    public static String maksingFromString(String val, int count, Character maskingChar) {
-        if (isEmpty(val) || count <= 0) return val;
+    public static boolean isNumber(String val) {
+        if (isEmpty(val)) return false;
+        return isRegex(val, "\\d+");
+    }
 
-        int length = Math.min(count, val.length());
+    public static boolean equalsIgnoreCase(String str1, String str2) {
+        return (str1 == null && str2 == null) || (str1 != null && str1.equalsIgnoreCase(str2));
+    }
+
+    public static int indexOf(String val, char target) {
+        return isEmpty(val) ? -1 : val.indexOf(target);
+    }
+
+    public static String reverse(String val) {
+        return isEmpty(val) ? val : new StringBuilder(val).reverse().toString();
+    }
+
+    public static String maskingFromString(String val, int length, Character maskingCharacter) {
+        if (isEmpty(val) || length <= 0) return val;
+
         StringBuilder masked = new StringBuilder(val);
-
-        for (int i = 0; i < length; i++) {
-            masked.setCharAt(i, maskingChar);
+        int maxLength = Math.min(length, val.length());
+        for (int i = 0; i < maxLength; i++) {
+            masked.setCharAt(i, maskingCharacter);
         }
 
         return masked.toString();
+    }
+
+
+    public static String joinStrings(Collection<String> val, String delimiter) {
+        return val == null ? "" : String.join(delimiter, val);
     }
 }

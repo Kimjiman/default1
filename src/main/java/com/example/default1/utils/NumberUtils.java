@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class NumberUtils {
+    private static final int DECIMAL_LENGTH = 1;
+
     /**
      * 부동소수점 계산
      * @param val 소수점 데이터
@@ -22,5 +24,39 @@ public class NumberUtils {
         BigDecimal multipVal = originVal.multiply(new BigDecimal(multiplier.toString()));
         BigDecimal ret = multipVal.setScale(length, RoundingMode.HALF_UP);
         return ret.toString();
+    }
+
+    public static <T extends Number> String multiplyAndRound(T val, T multiplierVal) {
+        return multiplyAndRound(val, multiplierVal, DECIMAL_LENGTH);
+    }
+
+    public static <T extends Number & Comparable<T>> T max(T ...vals) {
+        if (vals == null || vals.length == 0) {
+            throw new IllegalArgumentException("Input array must not be empty");
+        }
+
+        T maxVal = vals[0];
+        for (int i = 1; i < vals.length; i++) {
+            if (vals[i].compareTo(maxVal) > 0) {
+                maxVal = vals[i];
+            }
+        }
+
+        return maxVal;
+    }
+
+    public static <T extends Number & Comparable<T>> T min(T ...vals) {
+        if (vals == null || vals.length == 0) {
+            throw new IllegalArgumentException("Input array must not be empty");
+        }
+
+        T minVal = vals[0];
+        for (int i = 1; i < vals.length; i++) {
+            if (vals[i].compareTo(minVal) > 0) {
+                minVal = vals[i];
+            }
+        }
+
+        return minVal;
     }
 }
