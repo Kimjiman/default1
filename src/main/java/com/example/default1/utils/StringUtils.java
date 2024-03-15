@@ -14,7 +14,7 @@ public class StringUtils {
     }
 
     public static String ifEmpty(String val, String replacedVal) {
-        return isEmpty(val) ? replacedVal : val;
+        return isEmpty(val) ? val : replacedVal;
     }
 
     public static boolean isBlank(String val) {
@@ -26,7 +26,7 @@ public class StringUtils {
     }
 
     public static String ifBlank(String val, String replacedVal) {
-        return isBlank(val) ? replacedVal : val;
+        return isBlank(val) ? val : replacedVal;
     }
 
     public static String removeWhiteSpace(String val) {
@@ -39,12 +39,11 @@ public class StringUtils {
      * @return 문자, 숫자, 빈칸
      */
     public static String removeSpecialCharacters(String val) {
-        if (isEmpty(val)) return val;
-        return val.replaceAll("[^\\p{L}\\p{N}\\s]", "");
+        return isEmpty(val) ? val : val.replaceAll("[^\\p{L}\\p{N}\\s]", "");
     }
 
-    public static String removeSpecificCharacter(String val, char charVal) {
-        if (isEmpty(val)) return val;
+    public static String remove(String val, Character charVal) {
+        if (isEmpty(val) || charVal == null) return val;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < val.length(); i++) {
             if (val.charAt(i) != charVal) {
@@ -59,7 +58,7 @@ public class StringUtils {
     }
 
     public static String matchingRegex(String val, String regex) {
-        if (isEmpty(val)) return val;
+        if (isEmpty(val) || isEmpty(regex)) return val;
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(val);
@@ -68,7 +67,7 @@ public class StringUtils {
     }
 
     public static boolean isRegex(String val, String regex) {
-        if (isEmpty(val)) return false;
+        if (isEmpty(val) || isEmpty(regex)) return false;
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(val);
@@ -78,7 +77,7 @@ public class StringUtils {
 
     public static boolean isNumber(String val) {
         if (isEmpty(val)) return false;
-        return isRegex(val, "\\d+");
+        return !isEmpty(val) && isRegex(val, "\\d+");
     }
 
     public static boolean equalsIgnoreCase(String str1, String str2) {
@@ -93,12 +92,12 @@ public class StringUtils {
         return isEmpty(val) ? val : new StringBuilder(val).reverse().toString();
     }
 
-    public static String maskingFromString(String val, int length, Character maskingCharacter) {
+    public static String masking(String val, int start, int length, Character maskingCharacter) {
         if (isEmpty(val) || length <= 0) return val;
 
         StringBuilder masked = new StringBuilder(val);
         int maxLength = Math.min(length, val.length());
-        for (int i = 0; i < maxLength; i++) {
+        for (int i = start; i < maxLength; i++) {
             masked.setCharAt(i, maskingCharacter);
         }
 
