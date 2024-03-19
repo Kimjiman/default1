@@ -118,7 +118,7 @@ public class FileManager {
                     ext = "txt";
                 }
 
-                String newName = UUID.randomUUID().toString() + "." + ext; // 파일 변경이름
+                String newName = UUID.randomUUID() + "." + ext; // 파일 변경이름
                 Long size = mf.getSize(); // 파일 크기
                 String type = mf.getContentType(); // 파일 타입
 

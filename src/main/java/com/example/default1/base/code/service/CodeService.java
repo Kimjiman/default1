@@ -5,6 +5,7 @@ import com.example.default1.base.code.model.Code;
 import com.example.default1.base.code.model.CodeGroup;
 import com.example.default1.exception.CustomException;
 import com.example.default1.utils.SessionUtil;
+import com.example.default1.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +38,7 @@ public class CodeService {
     }
 
     public void createCodeGroup(CodeGroup codeGroup) {
-        if(codeGroup.getName() == null) {
+        if(StringUtils.isBlank(codeGroup.getName())) {
             throw new CustomException(2800, "codeGroup.name이 입력되지 않았습니다.");
         }
         codeGroup.setCreateId(SessionUtil.getUserId());
@@ -54,7 +55,7 @@ public class CodeService {
         if(codeGroup == null) {
             throw new CustomException(2800, "code.code_group_id에 해당하는 그룹이 없습니다.");
         }
-        if(codeGroup.getName() == null) {
+        if(StringUtils.isBlank(codeGroup.getName())) {
             throw new CustomException(2800, "code.name이 입력되지 않았습니다.");
         }
         code.setCreateId(SessionUtil.getUserId());

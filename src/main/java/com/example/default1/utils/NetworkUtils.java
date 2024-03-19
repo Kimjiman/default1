@@ -88,7 +88,7 @@ public class NetworkUtils {
             } else if (userAgent.contains("android")) {
                 os = "Android";
             } else if (userAgent.contains("iphone") || userAgent.contains("ipad") || userAgent.contains("ipod")) {
-                os = "iOS";
+                os = "IOS";
             }
         }
         return os;

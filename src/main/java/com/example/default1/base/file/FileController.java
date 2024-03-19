@@ -33,8 +33,9 @@ public class FileController {
 
     @PostMapping(value = "/upload/{refPath}/{refId}")
     @ResponseBody
-    public List<FileInfo> fileUpload(List<MultipartFile> files
-            , @PathVariable String refPath, @PathVariable Long refId) {
+    public List<FileInfo> fileUpload(List<MultipartFile> files,
+                                     @PathVariable String refPath,
+                                     @PathVariable Long refId) {
         List<FileInfo> fileInfoList = new ArrayList<>();
         if(files == null) throw new NullPointerException("파일이 없습니다.");
         files.forEach(file -> fileInfoList.add(fileService.upload(file, refPath, refId)));
