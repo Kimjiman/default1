@@ -29,7 +29,7 @@ public class NumberUtils {
     public static <T extends Number> String multiplyAndRound(T val, T multiplierVal) {
         return multiplyAndRound(val, multiplierVal, DECIMAL_LENGTH);
     }
-
+    @SafeVarargs
     public static <T extends Number & Comparable<T>> T max(T ...vals) {
         if (vals == null || vals.length == 0) {
             throw new IllegalArgumentException("Input array must not be empty");
@@ -44,7 +44,7 @@ public class NumberUtils {
 
         return maxVal;
     }
-
+    @SafeVarargs
     public static <T extends Number & Comparable<T>> T min(T ...vals) {
         if (vals == null || vals.length == 0) {
             throw new IllegalArgumentException("Input array must not be empty");

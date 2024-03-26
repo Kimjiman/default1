@@ -19,13 +19,25 @@ public class CollectionUtils {
         return new HashSet<>(list);
     }
 
+    @SafeVarargs
+    public static <T> Collection<T> merge(Collection<T>... collections) {
+        Collection<T> mergedCollection = new ArrayList<>();
+        for (Collection<T> collection : collections) {
+            mergedCollection.addAll(collection);
+        }
+        return mergedCollection;
+    }
+
+    public static <T> Collection<T> splice(Collection<T> collection, int start, int end) {
+        List<T> ret = new ArrayList<>();
+        for(int i = start; i < end; i++) {
+            ret.add(((List<T>) collection).get(i));
+        }
+        return ret;
+    }
 
     /**
      *  Integer[] array = listToArray(list, size -> new Integer[size]);
-     * @param list
-     * @param generator
-     * @param <T>
-     * @return
      */
     public static <T> T[] listToArray(List<T> list, IntFunction<T[]> generator) {
         return list.toArray(generator.apply(list.size()));

@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,6 +14,16 @@ import java.util.List;
 @Slf4j
 @Component
 public class SessionUtil {
+
+   /* public static MemberVO getMember() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        return session.getAttribute("memberVO") == null ? null : (MemberVO)session.getAttribute("memberVO") ;
+    }
+
+    public static String getUserId() {
+        return getMember() == null ? null : getMember().getUserId();
+    }*/
 
     public static String getPrincipal() {
         if (SecurityContextHolder.getContext().getAuthentication() == null) {

@@ -18,17 +18,30 @@
 <th:block layout:fragment="script">
     <script>
         const login = async() => {
-            com.ajax({
-                type: "post",
-                url: "/loginProc",
-                params: $("#frm").serializeObject()
-            }, function(res) {
+            try {
+                let res = await ajax.post(
+                    "/loginProc",
+                    $("#frm").serializeObject(),
+                    {'Content-type': 'x-www-form-urlencoded'}
+                );
                 if(res.status === 0) {
                     window.location.href = "/";
-                } else {
-                    alert("로그인아이디와 비밀번호를 확인해주세요.");
                 }
-            })
+            } catch (ex) {
+                alert("로그인아이디와 비밀번호를 확인해주세요.");
+                console.error(ex);
+            }
+            // com.ajax({
+            //     type: "post",
+            //     url: "/loginProc",
+            //     params: $("#frm").serializeObject()
+            // }, function(res) {
+            //     if(res.status === 0) {
+            //         window.location.href = "/";
+            //     } else {
+            //         alert("로그인아이디와 비밀번호를 확인해주세요.");
+            //     }
+            // })
         }
     </script>
 </th:block>

@@ -20,15 +20,24 @@
 
 <th:block layout:fragment="script">
     <script>
-        const join = () => {
-            com.ajax({
-                type: "post",
-                url: "/user/join",
-                params: $("#frm").serializeObject()
-            }, function(res) {
+        const join = async () => {
+            try {
+                let res = await ajax.post("/user/join", $("#frm").serializeObject());
                 console.log(res);
-            })
+            } catch (ex) {
+                console.error(ex);
+            }
         }
+
+        // const join = () => {
+        //     com.ajax({
+        //         type: "post",
+        //         url: "/user/join",
+        //         params: $("#frm").serializeObject()
+        //     }, function(res) {
+        //         console.log(res);
+        //     })
+        // }
     </script>
 </th:block>
 </html>

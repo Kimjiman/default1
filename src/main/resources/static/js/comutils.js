@@ -64,7 +64,6 @@ const com = {
                 }
             }
         });
-
     },
 
     isNumber(str) {
@@ -90,18 +89,6 @@ const com = {
         }
         return clone;
     },
-    /**
-     * 숫자 콤마
-     * @param {숫자} num
-     * @returns
-     */
-    addComma(num) {
-        if (!num) {
-            return "";
-        }
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    },
-
     /**
      * 날짜 변환
      * yyyy-MM-dd, yyyy-MM-dd HH:mm:ss, yyyy-MM-dd a/p hh:mm:ss, yyyy-MM-dd E
@@ -200,97 +187,97 @@ const com = {
         }
         return ret;
     },
+}
 
-    // -- 정규식 --
-    // 아이디: 영문소문자,-,_,.숫자
-    isLoginId(str) {
-        const regex = /^[a-z\-_.0-9]{6,16}$/;
-        return regex.test(str);
-    },
-    // 비밀번호 : 숫자,문자,특수문자 혼용 8~16자
-    isPassword(str) {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
-        return regex.test(str);
-    },
-    // 이름 : 영문대소문자,한글완성형,특수문자허용 3~8자
-    isName(str) {
-        const regex = /^[a-zA-Z가-힣?=.*\[~!@#$%^&()\-_+\]]{3,8}$/;
-        return regex.test(str);
-    },
-    // 이메일 : 이메일형식
-    isEmail(str) {
-        const regex = /[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,}$/;
-        return regex.test(str);
-    },
-    // 휴대전화번호 : 숫자 10~11자
-    isMobile(str) {
-        const regex = /^[0-9]{10,11}$/;
-        return regex.test(str);
-    },
+// -- 정규식 --
+// 아이디: 영문소문자,-,_,.숫자
+const isLoginId = (str) => {
+    const regex = /^[a-z\-_.0-9]{6,16}$/;
+    return regex.test(str);
+}
+// 비밀번호 : 숫자,문자,특수문자 혼용 8~20자
+const isPassword = (str) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
+    return regex.test(str);
+}
+// 이름 : 영문대소문자,한글완성형,특수문자허용 3~8자
+const isName = (str) => {
+    const regex = /^[a-zA-Z가-힣?=.*\[~!@#$%^&()\-_+\]]{3,8}$/;
+    return regex.test(str);
+}
+// 이메일 : 이메일형식
+const isEmail = (str) => {
+    const regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,}$/i;
+    return regex.test(str);
+}
+// 휴대전화번호 : 숫자 10~11자
+const isMobile = (str) => {
+    const regex = /^[0-9]{10,11}$/;
+    return regex.test(str);
+}
 
-    /**
-     * 쿠키 생성
-     * @param key 쿠키 key
-     * @param value 쿠키 value
-     * @param day 쿠키 만료일(일자)
-     * @param path 쿠키 저장 경로
-     * @param domain 쿠키 저장 도메인
-     * @param secure 보안 설정
-     */
-    setCookie(key, value, day = 365, path = window.location.pathname, domain = '', secure = false) {
-        let date = new Date();
-        date.setTime(date.getTime() + day * 24 * 60 * 60 * 1000);
-        let cookieString = `${key}=${encodeURIComponent(value)};expires=${date.toUTCString()};path=${path}`;
-        if (domain) cookieString += `;domain=${domain}`;
-        if (secure) cookieString += ';secure';
-        document.cookie = cookieString;
-    },
+/**
+ * 쿠키 생성
+ * @param key 쿠키 key
+ * @param value 쿠키 value
+ * @param day 쿠키 만료일(일자)
+ * @param path 쿠키 저장 경로
+ * @param domain 쿠키 저장 도메인
+ * @param secure 보안 설정
+ */
+const setCookie = (key, value, day = 365, path = '/', domain = '', secure = false) => {
+    let date = new Date();
+    date.setTime(date.getTime() + day * 24 * 60 * 60 * 1000);
+    let cookieString = `${key}=${encodeURIComponent(value)};expires=${date.toUTCString()};path=${path}`;
+    if (domain) cookieString += `;domain=${domain}`;
+    if (secure) cookieString += ';secure';
+    document.cookie = cookieString;
+}
 
-    /**
-     * 쿠키 값 가져오기
-     * @param key
-     * @returns {string|null}
-     */
-    getCookie(key) {
-        let value = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
-        return value ? decodeURIComponent(value[2]) : null;
-    },
+/**
+ * 쿠키 값 가져오기
+ * @param key
+ * @returns {string|null}
+ */
+const getCookie = (key) => {
+    let value = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+    return value ? decodeURIComponent(value[2]) : null;
+}
 
-    comma(str) {
-        str = String(str);
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    },
+const comma = (str) => {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
 
-    uncomma(str) {
-        str = String(str);
-        return str.replace(/\D+/g, '');
-    },
+const uncomma = (str) => {
+    str = String(str);
+    return str.replace(/\D+/g, '');
+}
 
-    inputNumberFormat(obj) {
-        obj.value = this.comma(this.uncomma(obj.value));
-    },
+const inputNumberFormat = (obj) => {
+    obj.value = obj.comma(uncomma(obj.value));
+}
 
-    inputNumberOnly(value) {
-        self.value = self.value.replace(/[^0-9.]/g, '');
-        self.value = self.value.replace(/(\..*)\./g, '$1');
-        self.value = self.value.replace(/^(\d+)\.(\D*)$/, '$1');
-    },
+const inputNumberOnly = (self) => {
+    self.value = self.value.replace(/[^0-9.]/g, '');
+    self.value = self.value.replace(/(\..*)\./g, '$1');
+    self.value = self.value.replace(/^(\d+)\.(\D*)$/, '$1');
+}
 
-    inputFormatMobile(mobile) {
-        if (!mobile || mobile.trim() === "") {
-            return "";
-        }
-        return mobile.replace(/^(\d{3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-    },
+const inputFormatMobile = (mobile) => {
+    if (!mobile || mobile.trim() === "") {
+        return "";
+    }
+    return mobile.replace(/^(\d{3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+}
 
-    isImage(file) {
-        let imageExt = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'];
-        let ext = file.type
-            .split('/')
-            .pop()
-            .toLowerCase();
-        return imageExt.find(i => i === ext);
-    },
+const isImage = (file) => {
+    let imageExt = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'];
+    let ext = file.type
+        .split('/')
+        .pop()
+        .toLowerCase();
+    return imageExt.find(i => i === ext);
 }
 
 const spin = {
@@ -302,8 +289,24 @@ const spin = {
     }
 }
 
+const jsonToQueryString = (json) => {
+    return new URLSearchParams(json);
+}
+
+const queryStringToJson = (queryString) => {
+    let json = {};
+    queryString.split('&').forEach(pair => {
+        let [key, value] = pair.split('=');
+        json[decodeURIComponent(key)] = decodeURIComponent(value || '');
+    });
+    return json;
+}
+
 const ajax = {
     requestCount: 0,
+    defaultHeaders: {
+        'Content-type': 'application/json; charset=UTF-8'
+    },
     spinShow: () => {
         if (ajax.requestCount === 0) {
             spin.show();
@@ -317,50 +320,56 @@ const ajax = {
         }
     },
     sendRequest: async (url, options) => {
-        try {
-            ajax.spinShow();
-            return await new Promise((resolve, reject) => {
-                $.ajax({
-                    ...options,
-                    url: url,
-                    success: resolve,
-                    error: reject
-                });
+        ajax.spinShow();
+        return await new Promise((resolve, reject) => {
+            $.ajax({
+                ...options,
+                url: url,
+                success: function (res) {
+                    resolve(res);
+                },
+                error: function(ex) {
+                    if (403 === parseInt(ex.status)) {
+                        document.location.href = "/login";
+                    } else {
+                        reject(ex);
+                    }
+                },
+                complete: function () {
+                    ajax.spinHide();
+                }
             });
-        } catch (ex) {
-            throw new Error(ex);
-        } finally {
-            ajax.spinHide();
-        }
+        });
     },
-    defaultContentType: 'application/json',
-    get: async (url, params) => {
+    get: async (url, params, headers = {}) => {
         const options = {
             type: "GET",
-            data: params
+            data: params,
+            headers: { ...headers },
         }
         return ajax.sendRequest(url, options);
     },
-    post: async (url, data, contentType = ajax.defaultContentType) => {
+    post: async (url, data, headers = ajax.defaultHeaders) => {
         const options = {
             type: "POST",
-            contentType: contentType,
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            headers: { ...headers },
         }
         return ajax.sendRequest(url, options);
     },
-    put: async (url, data, contentType = ajax.defaultContentType) => {
+    put: async (url, data, headers = ajax.defaultHeaders) => {
         const options = {
             type: "PUT",
-            contentType: contentType,
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            headers: { ...headers },
         }
         return ajax.sendRequest(url, options);
     },
-    delete: async (url, params) => {
+    delete: async (url, params, headers = {}) => {
         const options = {
             type: "DELETE",
-            data: params
+            data: params,
+            headers: { ...headers },
         }
         return ajax.sendRequest(url, options);
     },
@@ -378,66 +387,67 @@ const ajax = {
     }
 };
 
-const myFetch = {
+const apiReq = {
     requestCount: 0,
+    defaultHeaders: {
+        'Content-Type': 'application/json; charset=UTF-8'
+    },
     spinShow: () => {
-        if (myFetch.requestCount === 0) {
+        if (apiReq.requestCount === 0) {
             spin.show();
         }
-        myFetch.requestCount++;
+        apiReq.requestCount++;
     },
     spinHide: () => {
-        myFetch.requestCount--;
-        if (myFetch.requestCount === 0) {
+        apiReq.requestCount--;
+        if (apiReq.requestCount === 0) {
             spin.hide();
         }
     },
     sendRequest: async (url, options) => {
-        try {
-            myFetch.spinShow();
-            const res = await fetch(url, options);
-            if (!res.ok) {
-                throw new Error(`Fetch request failed: ${res.statusText}`);
+        apiReq.spinShow();
+        const res = await fetch(url, options);
+        apiReq.spinHide();
+        if (!res.ok) {
+            if (403 === res.status) {
+                document.location.href = "/login";
+            } else {
+                throw new Error(`Fetch request failed: ${res}`);
             }
-            return await res.json();
-        } catch (ex) {
-            throw new Error(ex);
-        } finally {
-            myFetch.spinHide();
         }
+        return await res.json();
     },
-    defaultHeaders: {
-        'Content-Type': 'application/json'
-    },
-    get: async (url, params) => {
-        const queryString = params ? `?${new URLSearchParams(params).toString()}` : '';
+    get: async (url, params = '', headers = {}) => {
+        const queryString = `?${new URLSearchParams(params).toString()}`;
         const options = {
-            method: "GET"
+            method: "GET",
+            headers: headers,
         };
-        return myFetch.sendRequest(`${url}?${queryString}`, options);
+        return apiReq.sendRequest(`${url}${queryString}`, options);
     },
-    post: async (url, data, headers = myFetch.defaultHeaders) => {
+    post: async (url, data, headers = apiReq.defaultHeaders) => {
         const options = {
             method: "POST",
             headers: headers,
             body: JSON.stringify(data)
         };
-        return myFetch.sendRequest(url, options);
+        return apiReq.sendRequest(url, options);
     },
-    put: async (url, data, headers = myFetch.defaultHeaders) => {
+    put: async (url, data, headers = apiReq.defaultHeaders) => {
         const options = {
             method: "PUT",
             headers: headers,
             body: JSON.stringify(data)
         };
-        return myFetch.sendRequest(url, options);
+        return apiReq.sendRequest(url, options);
     },
-    delete: async (url, params) => {
-        const queryString = params ? `?${new URLSearchParams(params).toString()}` : '';
+    delete: async (url, params = '', headers = {}) => {
+        const queryString = `?${new URLSearchParams(params).toString()}`;
         const options = {
-            method: "DELETE"
+            method: "DELETE",
+            headers: headers,
         };
-        return myFetch.sendRequest(`${url}?${queryString}`, options);
+        return apiReq.sendRequest(`${url}${queryString}`, options);
     },
     file: async (url, files) => {
         const formData = new FormData();
@@ -447,7 +457,7 @@ const myFetch = {
             method: "POST",
             body: formData
         };
-        return myFetch.sendRequest(url, options);
+        return apiReq.sendRequest(url, options);
     }
 };
 
