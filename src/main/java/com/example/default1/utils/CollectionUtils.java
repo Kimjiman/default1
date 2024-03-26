@@ -19,6 +19,14 @@ public class CollectionUtils {
         return new HashSet<>(list);
     }
 
+
+    /**
+     *  Integer[] array = listToArray(list, size -> new Integer[size]);
+     * @param list
+     * @param generator
+     * @param <T>
+     * @return
+     */
     public static <T> T[] listToArray(List<T> list, IntFunction<T[]> generator) {
         return list.toArray(generator.apply(list.size()));
     }
@@ -41,13 +49,5 @@ public class CollectionUtils {
         return list.stream()
                 .filter(predicate)
                 .collect(Collectors.toList());
-    }
-
-    public static <T, R> R find(List<T> list, Predicate<T> predicate, Function<T, R> func) {
-        return list.stream()
-                .filter(predicate)
-                .findFirst()
-                .map(func)
-                .orElse(null);
     }
 }

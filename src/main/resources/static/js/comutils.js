@@ -1,3 +1,21 @@
+jQuery.fn.serializeObject = function () {
+    let obj = null;
+    try {
+        if (this[0].tagName && this[0].tagName.toUpperCase() === "FORM") {
+            var arr = this.serializeArray();
+            if (arr) {
+                obj = {};
+                jQuery.each(arr, function () {
+                    obj[this.name] = this.value;
+                });
+            }
+        }
+    } catch (e) {
+        alert(e.message);
+    }
+    return obj;
+};
+
 const com = {
     ajax: function (obj, callbackFnc) {
         const options = {
@@ -191,7 +209,7 @@ const com = {
     },
     // 비밀번호 : 숫자,문자,특수문자 혼용 8~16자
     isPassword(str) {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
         return regex.test(str);
     },
     // 이름 : 영문대소문자,한글완성형,특수문자허용 3~8자
@@ -210,17 +228,32 @@ const com = {
         return regex.test(str);
     },
 
-    setCookie(key, value, expires) {
+    /**
+     * 쿠키 생성
+     * @param key 쿠키 key
+     * @param value 쿠키 value
+     * @param day 쿠키 만료일(일자)
+     * @param path 쿠키 저장 경로
+     * @param domain 쿠키 저장 도메인
+     * @param secure 보안 설정
+     */
+    setCookie(key, value, day = 365, path = window.location.pathname, domain = '', secure = false) {
         let date = new Date();
-        let path = window.location.pathname;    // 쿠키에 접근가능한 도메인경로 세팅
-        //console.log(date.toUTCString());      // 쿠키 생성시 시간
-        date.setTime(date.getTime() + expires * 24 * 60 * 60 * 1000);
-        //console.log(date.toUTCString());      // 쿠키 만료시 시간
-        document.cookie = key + '=' + value + ';expires=' + date.toUTCString() + ';path=' + path;
+        date.setTime(date.getTime() + day * 24 * 60 * 60 * 1000);
+        let cookieString = `${key}=${encodeURIComponent(value)};expires=${date.toUTCString()};path=${path}`;
+        if (domain) cookieString += `;domain=${domain}`;
+        if (secure) cookieString += ';secure';
+        document.cookie = cookieString;
     },
+
+    /**
+     * 쿠키 값 가져오기
+     * @param key
+     * @returns {string|null}
+     */
     getCookie(key) {
         let value = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
-        return value ? value[2] : null;
+        return value ? decodeURIComponent(value[2]) : null;
     },
 
     comma(str) {
@@ -238,7 +271,9 @@ const com = {
     },
 
     inputNumberOnly(value) {
-        return value.replace(/\D/g, '').replace(/(\..*)\./g, '$1');
+        self.value = self.value.replace(/[^0-9.]/g, '');
+        self.value = self.value.replace(/(\..*)\./g, '$1');
+        self.value = self.value.replace(/^(\d+)\.(\D*)$/, '$1');
     },
 
     inputFormatMobile(mobile) {
@@ -249,7 +284,7 @@ const com = {
     },
 
     isImage(file) {
-        let imageExt = ['jpg', 'jpeg', 'png'];
+        let imageExt = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'];
         let ext = file.type
             .split('/')
             .pop()
@@ -257,24 +292,6 @@ const com = {
         return imageExt.find(i => i === ext);
     },
 }
-
-jQuery.fn.serializeObject = function () {
-    let obj = null;
-    try {
-        if (this[0].tagName && this[0].tagName.toUpperCase() === "FORM") {
-            var arr = this.serializeArray();
-            if (arr) {
-                obj = {};
-                jQuery.each(arr, function () {
-                    obj[this.name] = this.value;
-                });
-            }
-        }
-    } catch (e) {
-        alert(e.message);
-    }
-    return obj;
-};
 
 const spin = {
     show() {
