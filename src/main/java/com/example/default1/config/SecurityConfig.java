@@ -53,7 +53,7 @@ public class SecurityConfig {
 
     /**
      * static 밑의 하위 경로 매핑을 위해 1번순서로 보안필터적용
-     * @param http 
+     * @param http
      * @return
      * @throws Exception
      */
@@ -71,7 +71,7 @@ public class SecurityConfig {
 
     /**
      * 매핑 url과 다른 세팅을 위한용도로 2번째 순서로 적용
-     * @param http 
+     * @param http
      * @return
      * @throws Exception
      */
@@ -102,11 +102,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(authorizeRequest -> authorizeRequest
                         .antMatchers(
-                            "/login"
-                            , "/join"
-                            , "/user/join"
-                            , "/test"
-                            , "/test/**"
+                                "/login"
+                                , "/join"
+                                , "/user/join"
+                                , "/test"
+                                , "/test/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -129,11 +129,11 @@ public class SecurityConfig {
                         .rememberMeServices(tokenBasedRememberMeServices())
                 )
                 //첫번째 로그인 사용자는 로그아웃, 두번째 사용자 로그인 session-registry-alias : 접속자 정보보기
-                /*.sessionManagement(sessionManagement -> sessionManagement
+                .sessionManagement(sessionManagement -> sessionManagement
                     .maximumSessions(1)
                     .expiredUrl("/expireSession")
                     .sessionRegistry(sessionRegistry())
-                )*/
+                )
                 .exceptionHandling(exception -> exception
                         .defaultAuthenticationEntryPointFor(unauthorizeEntryPoint(), preferredMatcher)
                 )
