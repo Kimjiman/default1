@@ -1,4 +1,4 @@
-<th:block th:fragment="spinner">
+<th:block th:fragment="spinner" xmlns:th="http://www.w3.org/1999/html">
     <div id="spinLoading">
         <div id="dots1">
             <span></span>
@@ -7,4 +7,14 @@
             <span></span>
         </div>
     </div>
+    <script>
+        const spin = {
+            show() {
+                $("#spinLoading").show();
+            },
+            hide() {
+                $("#spinLoading").hide();
+            }
+        }
+    </script>
 </th:block>

@@ -1,22 +1,22 @@
-const ajax = {
+const ajaxApi = {
     requestCount: 0,
     defaultHeaders: {
         'Content-type': 'application/json; charset=UTF-8'
     },
     spinShow: () => {
-        if (ajax.requestCount === 0) {
+        if (ajaxApi.requestCount === 0) {
             spin.show();
         }
-        ajax.requestCount++;
+        ajaxApi.requestCount++;
     },
     spinHide: () => {
-        ajax.requestCount--;
-        if (ajax.requestCount === 0) {
+        ajaxApi.requestCount--;
+        if (ajaxApi.requestCount === 0) {
             spin.hide();
         }
     },
     sendRequest: async (url, options) => {
-        ajax.spinShow();
+        ajaxApi.spinShow();
         return await new Promise((resolve, reject) => {
             $.ajax({
                 ...options,
@@ -32,42 +32,42 @@ const ajax = {
                     }
                 },
                 complete: function () {
-                    ajax.spinHide();
+                    ajaxApi.spinHide();
                 }
             });
         });
     },
-    get: async (url, params, headers = {}) => {
+    get: async (url, params = {}, headers = {}) => {
         const options = {
             type: "GET",
             data: params,
             headers: { ...headers },
         }
-        return ajax.sendRequest(url, options);
+        return ajaxApi.sendRequest(url, options);
     },
-    post: async (url, data, headers = ajax.defaultHeaders) => {
+    post: async (url, data = {}, headers = ajaxApi.defaultHeaders) => {
         const options = {
             type: "POST",
             data: JSON.stringify(data),
             headers: { ...headers },
         }
-        return ajax.sendRequest(url, options);
+        return ajaxApi.sendRequest(url, options);
     },
-    put: async (url, data, headers = ajax.defaultHeaders) => {
+    put: async (url, data = {}, headers = ajaxApi.defaultHeaders) => {
         const options = {
             type: "PUT",
             data: JSON.stringify(data),
             headers: { ...headers },
         }
-        return ajax.sendRequest(url, options);
+        return ajaxApi.sendRequest(url, options);
     },
-    delete: async (url, params, headers = {}) => {
+    delete: async (url, params = {}, headers = {}) => {
         const options = {
             type: "DELETE",
             data: params,
             headers: { ...headers },
         }
-        return ajax.sendRequest(url, options);
+        return ajaxApi.sendRequest(url, options);
     },
     file: async (url, files) => {
         const formData = new FormData();
@@ -79,36 +79,36 @@ const ajax = {
             contentType: false,
             data: formData
         }
-        return ajax.sendRequest(url, options);
+        return ajaxApi.sendRequest(url, options);
     }
 };
 
-const apiReq = {
+const fetchApi = {
     requestCount: 0,
     defaultHeaders: {
         'Content-Type': 'application/json; charset=UTF-8'
     },
     spinShow: () => {
-        if (apiReq.requestCount === 0) {
+        if (fetchApi.requestCount === 0) {
             spin.show();
         }
-        apiReq.requestCount++;
+        fetchApi.requestCount++;
     },
     spinHide: () => {
-        apiReq.requestCount--;
-        if (apiReq.requestCount === 0) {
+        fetchApi.requestCount--;
+        if (fetchApi.requestCount === 0) {
             spin.hide();
         }
     },
     sendRequest: async (url, options) => {
-        apiReq.spinShow();
+        fetchApi.spinShow();
         const res = await fetch(url, options);
-        apiReq.spinHide();
+        fetchApi.spinHide();
         if (!res.ok) {
             if (403 === res.status) {
                 document.location.href = "/login";
             } else {
-                throw new Error(`Fetch request failed: ${res}`);
+                throw new Error(`${res}`);
             }
         }
         return await res.json();
@@ -119,23 +119,23 @@ const apiReq = {
             method: "GET",
             headers: headers,
         };
-        return apiReq.sendRequest(`${url}${queryString}`, options);
+        return fetchApi.sendRequest(`${url}${queryString}`, options);
     },
-    post: async (url, data, headers = apiReq.defaultHeaders) => {
+    post: async (url, data = {}, headers = fetchApi.defaultHeaders) => {
         const options = {
             method: "POST",
             headers: headers,
             body: JSON.stringify(data)
         };
-        return apiReq.sendRequest(url, options);
+        return fetchApi.sendRequest(url, options);
     },
-    put: async (url, data, headers = apiReq.defaultHeaders) => {
+    put: async (url, data = {}, headers = fetchApi.defaultHeaders) => {
         const options = {
             method: "PUT",
             headers: headers,
             body: JSON.stringify(data)
         };
-        return apiReq.sendRequest(url, options);
+        return fetchApi.sendRequest(url, options);
     },
     delete: async (url, params = '', headers = {}) => {
         const queryString = `?${new URLSearchParams(params).toString()}`;
@@ -143,7 +143,7 @@ const apiReq = {
             method: "DELETE",
             headers: headers,
         };
-        return apiReq.sendRequest(`${url}${queryString}`, options);
+        return fetchApi.sendRequest(`${url}${queryString}`, options);
     },
     file: async (url, files) => {
         const formData = new FormData();
@@ -153,6 +153,6 @@ const apiReq = {
             method: "POST",
             body: formData
         };
-        return apiReq.sendRequest(url, options);
+        return fetchApi.sendRequest(url, options);
     }
 };

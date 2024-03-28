@@ -4,11 +4,15 @@
  * @returns {boolean}
  */
 const isEmpty = (val) => {
-    if (typeof val === 'string') {
-        return !val || val === "";
-    } else {
-        return !val;
+    if (val === null || val === undefined || val === "") {
+        return true;
     }
+
+    if (Array.isArray(val) || typeof val === 'object') {
+        return Object.keys(val).length === 0;
+    }
+
+    return false;
 }
 
 /**
@@ -28,38 +32,6 @@ const isNotEmpty = (val) => {
  */
 const ifEmpty = (val, replaceVal) => {
     return isEmpty(val) ? replaceVal : val;
-}
-
-/**
- * val가 blank 일때
- * @param val
- * @returns {boolean}
- */
-const isBlank = (val) => {
-    if (typeof val === 'string') {
-        return !val || val.trim() === "";
-    } else {
-        return !val;
-    }
-}
-
-/**
- * val가 blank가 아닐때
- * @param val
- * @returns {boolean}
- */
-const isNotBlank = (val) => {
-    return !isBlank(val);
-}
-
-/**
- * val가 blank일때 replaceVal로 대체
- * @param val
- * @param replaceVal
- * @returns {*}
- */
-const ifBlank = (val, replaceVal) => {
-    return isBlank(val) ? replaceVal : val;
 }
 
 /**
@@ -92,7 +64,7 @@ const queryStringToJson = (queryString) => {
  * @returns {boolean}
  */
 const isRegex = (val, regex) => {
-    if(isBlank(val)) return false;
+    if(isEmpty(val) || isEmpty(regex)) return false;
     return regex.test(val);
 }
 

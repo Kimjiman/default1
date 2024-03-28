@@ -11,6 +11,7 @@
         <p>
             <input type="button" value="로그인" onclick="login()" />
             <input type="button" value="회원가입" onclick="window.location.href = '/join'" />
+            <input type="button" value="URL복사" onclick="clipUrl('URL이 복사되었습니다.')">
         </p>
     </form>
 </th:block>
@@ -19,14 +20,12 @@
     <script>
         const login = async() => {
             try {
-                let res = await ajax.post(
+                let res = await ajaxApi.post(
                     "/loginProc",
                     $("#frm").serializeObject(),
                     {'Content-type': 'x-www-form-urlencoded'}
                 );
-                if(res.status === 0) {
-                    window.location.href = "/";
-                }
+                window.location.href = "/";
             } catch (ex) {
                 alert("로그인아이디와 비밀번호를 확인해주세요.");
                 console.error(ex);

@@ -1,7 +1,8 @@
 const fileApi = {
+    baseUrl: '/file',
     async uploadFile(files, refPath, refId) {
         try {
-            await ajax.file(`/file/${refPath}/${refId}`, files);
+            await ajaxApi.file(`${fileApi.baseUrl}/${refPath}/${refId}`, files);
         } catch(ex) {
             console.error(ex);
         }
@@ -9,7 +10,7 @@ const fileApi = {
 
     async deleteFile(fileId) {
         try {
-            await ajax.delete(`/file/${fileId}`, "DELETE");
+            await ajaxApi.delete(`${fileApi.baseUrl}/${fileId}`);
         } catch(ex) {
             console.error(ex);
         }
@@ -17,7 +18,7 @@ const fileApi = {
 
     async deleteFiles(refPath, refId) {
         try {
-            await ajax.delete(`/file/ref/${refPath}/${refId}`, "DELETE");
+            await ajaxApi.delete(`${fileApi.baseUrl}/ref/${refPath}/${refId}`);
         } catch(ex) {
             console.error(ex);
         }

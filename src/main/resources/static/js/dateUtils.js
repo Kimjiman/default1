@@ -40,7 +40,6 @@ const getDate = (format, date) => {
                 return weekName[d.getDay()];
             case "HH":
                 return d.getHours().zf(2);
-            // case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2);
             case "hh":
                 return ((h = d.getHours() % 12) ? h : 12);
             case "mm":

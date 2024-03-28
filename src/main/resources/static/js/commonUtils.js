@@ -2,7 +2,6 @@ $(document).ready(function () {
 
 })
 
-
 /**
  * form안에 name을 기반으로 json 데이터를 생성한다.
  * @returns {null}
@@ -11,7 +10,7 @@ jQuery.fn.serializeObject = function () {
     let obj = null;
     try {
         if (this[0].tagName && this[0].tagName.toUpperCase() === "FORM") {
-            var arr = this.serializeArray();
+            let arr = this.serializeArray();
             if (arr) {
                 obj = {};
                 jQuery.each(arr, function () {
@@ -35,7 +34,7 @@ jQuery.fn.serializeObject = function () {
  * @param secure 보안 설정
  */
 const setCookie = (key, value, day = 365, path = '/', domain = '', secure = false) => {
-    let date = new Date();
+    const date = new Date();
     date.setTime(date.getTime() + day * 24 * 60 * 60 * 1000);
     let cookieString = `${key}=${encodeURIComponent(value)};expires=${date.toUTCString()};path=${path}`;
     if (domain) cookieString += `;domain=${domain}`;
@@ -49,8 +48,16 @@ const setCookie = (key, value, day = 365, path = '/', domain = '', secure = fals
  * @returns {string|null}
  */
 const getCookie = (key) => {
-    let value = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+    const value = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
     return value ? decodeURIComponent(value[2]) : null;
+}
+
+/**
+ * 쿠키를 삭제한다.
+ * @param key
+ */
+const deleteCookie = (key) => {
+    setCookie(key, null, 0);
 }
 
 /**
@@ -92,7 +99,7 @@ const inputNumberOnly = (self) => {
  * @param val
  * @returns {*|string}
  */
-const inputFormatMobile = (val) => {
+const inputMobileFormat = (val) => {
     if (isEmpty(val)) {
         return "";
     }
@@ -105,7 +112,7 @@ const inputFormatMobile = (val) => {
  * @returns {string}
  */
 const isImage = (file) => {
-    let imageExt = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'];
+    const imageExt = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'];
     let ext = file.type
         .split('/')
         .pop()
@@ -113,11 +120,48 @@ const isImage = (file) => {
     return imageExt.find(i => i === ext);
 }
 
-const spin = {
-    show() {
-        $("#spinLoading").show();
-    },
-    hide() {
-        $("#spinLoading").hide();
+/**
+ * 초를 시간형식으로 변경한다.
+ * @param second
+ * @returns {string}
+ */
+const secondToTime = (second) => {
+    let date = new Date(0);
+    date.setSeconds(second);
+    return date.toISOString().substring(14, 19);
+}
+
+/**
+ * 현재 페이지의 url을 카피한다.
+ * @param msg
+ * @returns {Promise<void>}
+ */
+const clipUrl = async (msg = null) => {
+    let url = window.document.location.href;
+    await navigator.clipboard.writeText(url);
+    if (msg) alert(msg);
+};
+
+/**
+ * 스크롤링을 위한 확인 변수
+ * @type {boolean}
+ */
+let isAtTheBottom = false;
+/**
+ * 스크롤링을 위한 함수
+ * @param func 콜백함수
+ * @param scrollRange 스크롤 감지 범위
+ * @returns {Promise<void>}
+ */
+const scrollEndPoint = async (func, scrollRange = 0.8) => {
+    let scroll = document.documentElement;
+    const { scrollHeight, scrollTop, clientHeight } = scroll;
+    if ((scrollHeight - clientHeight) * scrollRange <= scrollTop) {
+        if (!isAtTheBottom) {
+            isAtTheBottom = true;
+            await func();
+        }
+    } else if (isAtTheBottom) {
+        isAtTheBottom = false;
     }
 }
