@@ -14,7 +14,7 @@ public class StringUtils {
     }
 
     public static String ifEmpty(String val, String replacedVal) {
-        return isEmpty(val) ? val : replacedVal;
+        return isEmpty(val) ? replacedVal : val;
     }
 
     public static boolean isBlank(String val) {
@@ -26,7 +26,7 @@ public class StringUtils {
     }
 
     public static String ifBlank(String val, String replacedVal) {
-        return isBlank(val) ? val : replacedVal;
+        return isBlank(val) ? replacedVal : val;
     }
 
     public static String removeWhiteSpace(String val) {
