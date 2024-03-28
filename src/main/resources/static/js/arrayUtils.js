@@ -1,10 +1,11 @@
 const arrSpliceByVal = (arr, val) => {
     if(isEmpty(arr) || isEmpty(val)) return arr;
-    const index = arr.indexOf(val);
+    const newArr = Object.assign([], arr);
+    const index = newArr.indexOf(val);
     if (index !== -1) {
-        arr.splice(index, 1);
+        newArr.splice(index, 1);
     }
-    return arr;
+    return newArr;
 };
 
 const arrMerge = (...arr) => {
