@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 
 public class NumberUtils {
     private static final int DECIMAL_LENGTH = 1;
+    private static final RoundingMode DEFAULT_ROUNDING_MODE = RoundingMode.HALF_UP;
 
     /**
      * 부동소수점 계산
@@ -19,11 +20,15 @@ public class NumberUtils {
      * FLOOR: 음의 무한대 방향으로 내림.
      * HALF_EVEN: "짝수" 방식의 반올림. 소수 부분이 0.5일 경우, 짝수 자릿수에서 가장 가까운 짝수로 반올림.
      */
-    public static <T extends Number> String multiplyAndRound(T val, T multiplier, int length) {
+    public static <T extends Number> String multiplyAndRound(T val, T multiplier, int length, RoundingMode roundingMode) {
         BigDecimal originVal = new BigDecimal(val.toString());
         BigDecimal multipVal = originVal.multiply(new BigDecimal(multiplier.toString()));
-        BigDecimal ret = multipVal.setScale(length, RoundingMode.HALF_UP);
+        BigDecimal ret = multipVal.setScale(length, roundingMode);
         return ret.toString();
+    }
+
+    public static <T extends Number> String multiplyAndRound(T val, T multiplier, int length) {
+        return multiplyAndRound(val, multiplier, length, DEFAULT_ROUNDING_MODE);
     }
 
     public static <T extends Number> String multiplyAndRound(T val, T multiplierVal) {
@@ -52,7 +57,7 @@ public class NumberUtils {
 
         T minVal = vals[0];
         for (int i = 1; i < vals.length; i++) {
-            if (vals[i].compareTo(minVal) > 0) {
+            if (vals[i].compareTo(minVal) < 0) {
                 minVal = vals[i];
             }
         }
