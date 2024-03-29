@@ -153,7 +153,10 @@ let isAtTheBottom = false;
  * @param scrollRange 스크롤 감지 범위
  * @returns {Promise<void>}
  */
-const scrollEndPoint = async (func, scrollRange = 0.8) => {
+const scrollEndPoint = async (scrollRange = 0.8, func) => {
+    if(typeof func !== 'function') {
+        throw new Error("'func' type is not callback Function.")
+    }
     let scroll = document.documentElement;
     const { scrollHeight, scrollTop, clientHeight } = scroll;
     if ((scrollHeight - clientHeight) * scrollRange <= scrollTop) {
