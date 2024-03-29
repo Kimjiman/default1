@@ -1,17 +1,11 @@
 package com.example.default1.base.code.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@Builder
-@ToString
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Code {
     private Long id;

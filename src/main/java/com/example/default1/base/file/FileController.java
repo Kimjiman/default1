@@ -37,7 +37,7 @@ public class FileController {
                                      @PathVariable String refPath,
                                      @PathVariable Long refId) {
         List<FileInfo> fileInfoList = new ArrayList<>();
-        if(files == null) throw new NullPointerException("파일이 없습니다.");
+        if(files == null) return new ArrayList<>();
         files.forEach(file -> fileInfoList.add(fileService.upload(file, refPath, refId)));
         return fileInfoList;
     }
@@ -45,16 +45,18 @@ public class FileController {
     @GetMapping(value="/download/{id}")
     public void download(@PathVariable("id") String strId, HttpServletRequest request, HttpServletResponse response) {
         try {
-            fileService.download(request, response, Long.valueOf(strId));
+            FileInfo fileInfo = fileService.download(request, response, Long.valueOf(strId));
+            log.info("download fileInfo: {}", fileInfo);
         } catch (Exception e) {
             log.error("파일 아이디 오류: {}", strId);
         }
     }
 
     @GetMapping(value="/{id}")
-    public void get(@PathVariable("id") String strId, HttpServletResponse response) {
+    public void readFile(@PathVariable("id") String strId, HttpServletResponse response) {
         try {
-            fileService.readFile(response, Long.valueOf(strId));
+            FileInfo fileInfo = fileService.readFile(response, Long.valueOf(strId));
+            log.info("readFile fileInfo: {}", fileInfo);
         } catch (Exception e) {
             log.error("파일 아이디 오류: {}", strId);
         }
@@ -74,10 +76,9 @@ public class FileController {
     @ResponseBody
     public void deleteByRef(@PathVariable("refPath") String refPath, @PathVariable("refId") Long refId) {
         try {
-            FileInfo fileInfo = FileInfo.builder()
-                                    .refPath(refPath)
-                                    .refId(refId)
-                                    .build();
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.setRefPath(refPath);
+            fileInfo.setRefId(refId);
             fileService.deleteByRef(fileInfo);
         } catch (Exception e) {
             log.error("ref error: refPath:{}, refId:{}", refPath, refId);

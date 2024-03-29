@@ -3,10 +3,17 @@ package com.example.default1.utils;
 import com.example.default1.config.auth.LoginUser;
 import com.example.default1.config.auth.LoginUserDetails;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +21,9 @@ import java.util.List;
 @Slf4j
 @Component
 public class SessionUtil {
+
+    @Autowired
+    private SessionRegistry sessionRegistry;
 
    /* public static MemberVO getMember() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -72,5 +82,31 @@ public class SessionUtil {
             authorities.forEach(it -> roleList.add(it.getAuthority()));
         }
         return roleList;
+    }
+
+    /**
+     * 중복 로그인이라면 기존 유저의 세션을 만료시키고, 새 유저의 정보를 세션레지스트리에 등록한다.
+     * @param principal 인증객체
+     */
+    public void destroyDuplicateSession(Object principal) {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true);
+
+        List<SessionInformation> sessionInfoList = new ArrayList<>();
+        for (Object obj : sessionRegistry.getAllPrincipals()) {
+            sessionInfoList.addAll(sessionRegistry.getAllSessions(obj, false));
+        }
+
+        for (SessionInformation sessionInformation : sessionInfoList) {
+            LoginUser newUser = (LoginUser)principal;
+            LoginUser originUser = (LoginUser)sessionInformation.getPrincipal();
+            if(originUser.getLoginId().equals(newUser.getLoginId())) {
+                log.info("registerNewSession userId: {}", newUser.getLoginId());
+                log.info("destroyDuplicationSession userId: {}", originUser.getLoginId());
+                sessionInformation.expireNow();
+            }
+        }
+        log.info("registerNewSession start sessionId : {}", session.getId());
+        sessionRegistry.registerNewSession(session.getId(), principal);
     }
 }

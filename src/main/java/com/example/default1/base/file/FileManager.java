@@ -76,15 +76,15 @@ public class FileManager {
             throw new CustomException(2999, e.getMessage());
         }
 
-        return FileInfo
-                .builder()
-                .oriName(oriName)
-                .newName(newName)
-                .ext(ext)
-                .savePath(savePath)
-                .size(size)
-                .type(type)
-                .build();
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setOriName(oriName);
+        fileInfo.setNewName(newName);
+        fileInfo.setExt(ext);
+        fileInfo.setSavePath(savePath);
+        fileInfo.setSize(size);
+        fileInfo.setType(type);
+
+        return fileInfo;
     }
 
     /**
@@ -133,15 +133,13 @@ public class FileManager {
                     throw new CustomException(2999, e.getMessage());
                 }
 
-                FileInfo fileInfo = FileInfo
-                        .builder()
-                        .oriName(oriName)
-                        .newName(newName)
-                        .ext(ext)
-                        .savePath(savePath)
-                        .size(size)
-                        .type(type)
-                        .build();
+                FileInfo fileInfo = new FileInfo();
+                fileInfo.setOriName(oriName);
+                fileInfo.setNewName(newName);
+                fileInfo.setExt(ext);
+                fileInfo.setSavePath(savePath);
+                fileInfo.setSize(size);
+                fileInfo.setType(type);
 
                 fileInfoList.add(fileInfo);
             }
@@ -229,7 +227,7 @@ public class FileManager {
     public FileInfo readFile(HttpServletResponse response, FileInfo fileInfo) {
         if (fileInfo == null) return null;
 
-        String storePath = this.storePath +  File.separator + fileInfo.getSavePath();
+        String storePath = this.storePath + File.separator + fileInfo.getSavePath();
         File file = new File(storePath + File.separator + fileInfo.getNewName());
 
         response.setContentType(fileInfo.getType());
@@ -242,12 +240,8 @@ public class FileManager {
             os = response.getOutputStream();
             FileCopyUtils.copy(is, os);
 
-            if (is != null) {
-                is.close();
-            }
-            if (os != null) {
-                os.close();
-            }
+            is.close();
+            os.close();
         } catch (IOException e) {
             log.error("read file error: {}", e.getMessage());
             throw new CustomException(2999, e.getMessage());

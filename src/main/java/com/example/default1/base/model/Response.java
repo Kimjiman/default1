@@ -2,13 +2,9 @@ package com.example.default1.base.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+@Data
 @JsonInclude(Include.NON_NULL)
 public class Response<T> {
 	private int status = 0;

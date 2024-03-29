@@ -19,13 +19,21 @@ public class CodeService {
 
     public List<CodeGroup> selectCodeGroupList(CodeGroup codeGroup) {
         List<CodeGroup> codeGroupList = codeMapper.selectCodeGroupList(codeGroup);
-        codeGroupList.forEach(it -> it.setCodeList(codeMapper.selectCodeList(Code.builder().codeGroupId(it.getId()).build())));
+        codeGroupList.forEach(it -> {
+            Code code = new Code();
+            code.setCodeGroupId(it.getId());
+            it.setCodeList(codeMapper.selectCodeList(code));
+        });
         return codeGroupList;
     }
 
     public CodeGroup selectCodeGroupById(Long id) {
         CodeGroup codeGroup = codeMapper.selectCodeGroupById(id);
-        if(codeGroup != null) codeGroup.setCodeList(codeMapper.selectCodeList(Code.builder().codeGroupId(id).build()));
+        if(codeGroup != null) {
+            Code code = new Code();
+            code.setCodeGroupId(id);
+            codeGroup.setCodeList(codeMapper.selectCodeList(code));
+        }
         return codeGroup;
     }
 
