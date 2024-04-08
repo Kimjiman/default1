@@ -1,6 +1,7 @@
 package com.example.default1.utils;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
@@ -9,6 +10,10 @@ import java.util.stream.Collectors;
 public class CollectionUtils {
     public static boolean isEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
+    }
+
+    public static <T> void ifEmpty(Collection<T> collection, Consumer<Collection<T>> action) {
+        if(isEmpty(collection)) action.accept(collection);
     }
 
     public static <T> List<T> setToList(Set<T> set) {
@@ -21,6 +26,9 @@ public class CollectionUtils {
 
     @SafeVarargs
     public static <T> Collection<T> merge(Collection<T>... collections) {
+        if(collections == null) {
+            throw new RuntimeException("Collections cannot be Null.");
+        }
         Collection<T> mergedCollection = new ArrayList<>();
         for (Collection<T> collection : collections) {
             mergedCollection.addAll(collection);
@@ -32,6 +40,20 @@ public class CollectionUtils {
         List<T> ret = new ArrayList<>();
         for(int i = start; i < end; i++) {
             ret.add(((List<T>) collection).get(i));
+        }
+        return ret;
+    }
+
+    public static <T> List<List<T>> separationList(Collection<T> collection, int size) {
+        if(isEmpty(collection)) return null;
+        List<List<T>> ret = new ArrayList<>();
+        Iterator<T> iterator = collection.iterator();
+        while (iterator.hasNext()) {
+            List<T> subList = new ArrayList<>();
+            for (int i = 0; i < size && iterator.hasNext(); i++) {
+                subList.add(iterator.next());
+            }
+            ret.add(subList);
         }
         return ret;
     }

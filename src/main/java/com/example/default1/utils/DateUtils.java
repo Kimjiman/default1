@@ -1,5 +1,7 @@
 package com.example.default1.utils;
 
+import com.example.default1.constants.DayOfWeeks;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -90,27 +92,24 @@ public class DateUtils {
         return dayOfWeek.getValue();
     }
 
-    public static String getDayOfWeekString(LocalDateTime date) {
+    public static String getDayOfWeekKor(LocalDateTime date) {
         if(date == null) return NULL_STRING;
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
-        switch (dayOfWeek) {
-            case MONDAY:
-                return "월";
-            case TUESDAY:
-                return "화";
-            case WEDNESDAY:
-                return "수";
-            case THURSDAY:
-                return "목";
-            case FRIDAY:
-                return "금";
-            case SATURDAY:
-                return "토";
-            case SUNDAY:
-                return "일";
-            default:
-                return NULL_STRING;
-        }
+        return DayOfWeeks.getKor(getDayOfWeekNumber(date));
+    }
+
+    public static String getDayOfWeekKorShort(LocalDateTime date) {
+        if(date == null) return NULL_STRING;
+        return DayOfWeeks.getKorShort(getDayOfWeekNumber(date));
+    }
+
+    public static String getDayOfWeekEng(LocalDateTime date) {
+        if(date == null) return NULL_STRING;
+        return DayOfWeeks.getEng(getDayOfWeekNumber(date));
+    }
+
+    public static String getDayOfWeekEngShort(LocalDateTime date) {
+        if(date == null) return NULL_STRING;
+        return DayOfWeeks.getEngShort(getDayOfWeekNumber(date));
     }
 
     public static LocalDateTime millisToLocalDateTime(long milliseconds) {
@@ -163,10 +162,28 @@ public class DateUtils {
         return getDayOfWeekNumber(date2);
     }
 
-    public static String getDayOfWeekString(Date date) {
+    public static String getDayOfWeekKor(Date date) {
         if(date == null) return NULL_STRING;
         LocalDateTime date2 = dateToLocalDateTime(date);
-        return getDayOfWeekString(date2);
+        return getDayOfWeekKor(date2);
+    }
+
+    public static String getDayOfWeekKorShort(Date date) {
+        if(date == null) return NULL_STRING;
+        LocalDateTime date2 = dateToLocalDateTime(date);
+        return getDayOfWeekKorShort(date2);
+    }
+
+    public static String getDayOfWeekEng(Date date) {
+        if(date == null) return NULL_STRING;
+        LocalDateTime date2 = dateToLocalDateTime(date);
+        return getDayOfWeekEng(date2);
+    }
+
+    public static String getDayOfWeekEngShort(Date date) {
+        if(date == null) return NULL_STRING;
+        LocalDateTime date2 = dateToLocalDateTime(date);
+        return getDayOfWeekEngShort(date2);
     }
 
     public static int compareTo(Date date, Date date2) {

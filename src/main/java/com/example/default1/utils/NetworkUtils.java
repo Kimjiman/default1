@@ -28,7 +28,7 @@ public class NetworkUtils {
             } else if (userAgent.contains("Trident/7.0")) { // Internet Explorer 11
                 browser = "Internet Explorer";
             } else if (userAgent.contains("MSIE")) { // Internet Explorer 10 이하
-                browser = "Internet Explorer";
+                browser = "Internet Explorer Old";
             }
         }
         return browser.toLowerCase();

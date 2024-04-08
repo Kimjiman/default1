@@ -1,32 +1,61 @@
 package com.example.default1.utils;
 
+import java.text.DecimalFormat;
 import java.util.Collection;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtils {
-    public static boolean isEmpty(String val) {
-        return val == null || val.isEmpty();
+    public static boolean isEmpty(CharSequence val) {
+        return val == null || val.length() == 0;
     }
 
-    public static boolean isNotEmpty(String val) {
+    public static boolean isNotEmpty(CharSequence val) {
         return !isEmpty(val);
     }
 
-    public static String ifEmpty(String val, String replacedVal) {
+    public static CharSequence ifEmpty(CharSequence val, CharSequence replacedVal) {
         return isEmpty(val) ? replacedVal : val;
     }
 
-    public static boolean isBlank(String val) {
-        return val == null || val.trim().isEmpty();
+    public static <T> void ifEmpty(CharSequence val, Consumer<CharSequence> action) {
+        if(isEmpty(val)) action.accept(val);
     }
 
-    public static boolean isNotBlank(String val) {
+    public static <T> void ifNotEmpty(CharSequence val, Consumer<CharSequence> action) {
+        if(isNotEmpty(val)) action.accept(val);
+    }
+
+    public static boolean isBlank(CharSequence val) {
+        if(val == null) {
+            return true;
+        } else {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < val.length(); i++) {
+                if (!Character.isWhitespace(val.charAt(i))) {
+                    builder.append(val.charAt(i));
+                }
+            }
+            val = builder.toString();
+            return val.length() == 0;
+        }
+    }
+
+    public static boolean isNotBlank(CharSequence val) {
         return !isBlank(val);
     }
 
-    public static String ifBlank(String val, String replacedVal) {
+    public static CharSequence ifBlank(CharSequence val, CharSequence replacedVal) {
         return isBlank(val) ? replacedVal : val;
+    }
+
+    public static <T> void ifBlank(CharSequence val, Consumer<CharSequence> action) {
+        if(isBlank(val)) action.accept(val);
+    }
+
+    public static <T> void ifNotBlank(CharSequence val, Consumer<CharSequence> action) {
+        if(isNotBlank(val)) action.accept(val);
     }
 
     public static String removeWhiteSpace(String val) {
@@ -59,29 +88,18 @@ public class StringUtils {
 
     public static String matchingRegex(String val, String regex) {
         if (isEmpty(val) || isEmpty(regex)) return val;
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(val);
-
+        Matcher matcher = Pattern.compile(regex).matcher(val);
         return matcher.find() ?  matcher.group() : val;
     }
 
     public static boolean isRegex(String val, String regex) {
         if (isEmpty(val) || isEmpty(regex)) return false;
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(val);
-
-        return matcher.matches();
+        return Pattern.compile(regex).matcher(val).matches();
     }
 
     public static boolean isNumber(String val) {
         if (isEmpty(val)) return false;
         return !isEmpty(val) && isRegex(val, "\\d+");
-    }
-
-    public static boolean equalsIgnoreCase(String str1, String str2) {
-        return (str1 == null && str2 == null) || (str1 != null && str1.equalsIgnoreCase(str2));
     }
 
     public static int indexOf(String val, char target) {
@@ -94,18 +112,16 @@ public class StringUtils {
 
     public static String masking(String val, int start, int length, Character maskingCharacter) {
         if (isEmpty(val) || length <= 0) return val;
-
         StringBuilder masked = new StringBuilder(val);
-        int maxLength = Math.min(length, val.length());
-        for (int i = start; i < maxLength; i++) {
+        for (int i = start; i < Math.min(length, val.length()); i++) {
             masked.setCharAt(i, maskingCharacter);
         }
-
         return masked.toString();
     }
 
     public static String masking(String val, int start, int length) {
-        return masking(val, start, length, '*');
+        Character maskingCharacter = '*';
+        return masking(val, start, length, maskingCharacter);
     }
 
 
@@ -115,16 +131,24 @@ public class StringUtils {
 
     public static String lpad(String val, int count, String repeatVal) {
         StringBuilder sb = new StringBuilder();
-        count -= val.length();
-        sb.append(repeatVal.repeat(Math.max(0, count)));
+        for (int i = 0; i < Math.max(0, count - val.length()); i++) {
+            sb.append(repeatVal);
+        }
         sb.append(val);
         return sb.toString();
     }
 
     public static String rpad(String val, int count, String repeatVal) {
         StringBuilder sb = new StringBuilder(val);
-        count -= val.length();
-        sb.append(repeatVal.repeat(Math.max(0, count)));
+        for (int i = 0; i < Math.max(0, count - val.length()); i++) {
+            sb.append(repeatVal);
+        }
         return sb.toString();
+    }
+
+    public static String formatCurrency(String val) {
+        double amount = Double.parseDouble(val);
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return formatter.format(amount);
     }
 }
