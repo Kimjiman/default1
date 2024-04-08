@@ -104,8 +104,27 @@ public class StringUtils {
         return masked.toString();
     }
 
+    public static String masking(String val, int start, int length) {
+        return masking(val, start, length, '*');
+    }
+
 
     public static String joinStrings(Collection<String> val, String delimiter) {
         return val == null ? "" : String.join(delimiter, val);
+    }
+
+    public static String lpad(String val, int count, String repeatVal) {
+        StringBuilder sb = new StringBuilder();
+        count -= val.length();
+        sb.append(repeatVal.repeat(Math.max(0, count)));
+        sb.append(val);
+        return sb.toString();
+    }
+
+    public static String rpad(String val, int count, String repeatVal) {
+        StringBuilder sb = new StringBuilder(val);
+        count -= val.length();
+        sb.append(repeatVal.repeat(Math.max(0, count)));
+        return sb.toString();
     }
 }

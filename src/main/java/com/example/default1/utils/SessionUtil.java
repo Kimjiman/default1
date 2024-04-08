@@ -76,9 +76,7 @@ public class SessionUtil {
     public static List<String> getUserRoleList() {
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         List<String> roleList = new ArrayList<>();
-        if(authorities.isEmpty()) {
-            roleList.add("ANONYMOUS");
-        } else {
+        if(!CollectionUtils.isEmpty(authorities)) {
             authorities.forEach(it -> roleList.add(it.getAuthority()));
         }
         return roleList;

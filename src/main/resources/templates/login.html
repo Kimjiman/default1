@@ -19,10 +19,11 @@
 <th:block layout:fragment="script">
     <script>
         const login = async() => {
+            return;
             try {
                 let res = await ajaxApi.post(
                     "/loginProc",
-                    $("#frm").serializeObject(),
+                    serializeObject("#frm"),
                     {'Content-type': 'x-www-form-urlencoded'}
                 );
                 window.location.href = "/";
