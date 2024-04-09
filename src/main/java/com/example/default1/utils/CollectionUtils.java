@@ -59,6 +59,20 @@ public class CollectionUtils {
         return ret;
     }
 
+    public static <T> List<List<T>> separationList(Collection<T> collection, Predicate<T> predicate) {
+        if(isEmpty(collection)) return null;
+        List<T> trueList = new ArrayList<>();
+        List<T> falseList = new ArrayList<>();
+        for (T item : collection) {
+            if (predicate.test(item)) {
+                trueList.add(item);
+            } else {
+                falseList.add(item);
+            }
+        }
+        return Arrays.asList(trueList, falseList);
+    }
+
     /**
      *  Integer[] array = listToArray(list, size -> new Integer[size]);
      */

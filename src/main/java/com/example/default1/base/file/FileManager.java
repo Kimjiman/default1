@@ -1,24 +1,20 @@
 package com.example.default1.base.file;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.example.default1.exception.CustomException;
+import com.example.default1.utils.CollectionUtils;
 import com.example.default1.utils.NetworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,51 +34,31 @@ public class FileManager {
      * @throws IOException
      */
     public FileInfo upload(MultipartFile mf) {
-        if (mf == null) {
-            throw new NullPointerException("파일이 존재하지 않습니다.");
+        if (mf == null || mf.isEmpty()) {
+            throw new IllegalArgumentException("파일이 존재하지 않습니다.");
         }
 
-        Calendar time = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-        String savePath = sdf.format(time.getTime()); // 파일 저장경로
-        String storePath = this.storePath + File.separator + savePath; // 파일 실제 저장경로
-        String oriName = mf.getOriginalFilename(); // 파일 기존이름
-        if (oriName.contains("..")) {
-            throw new RuntimeException("파일 이름 에러 '..' 사용 불가");
-        }
-        String ext = oriName.substring(oriName.lastIndexOf(".") + 1).toLowerCase(); // 파일 확장자
-        if ("jsp".equals(ext)) {
-            ext = "txt";
-        }
-
-        String newName = UUID.randomUUID() + "." + ext; // 파일 변경이름
-        String type = mf.getContentType();
-        Long size = mf.getSize(); // 파일 크기
-
-        // 1. 지정된 폴더 경로가 없다면, 새로 폴더 생성하기
-        File dir = new File(storePath);
+        String savePath = generateDynamicPath();
+        File dir = new File(storePath + File.separator + savePath);
         if (!dir.exists()) {
             dir.mkdirs();
         }
 
-        // 2. 재조합한 newName으로 파일 객체를 생성하고 파일저장을 한다.
-        File file = new File(dir, newName);
-        byte[] bytes;
-        try {
-            bytes = mf.getBytes();
-            FileCopyUtils.copy(bytes, file);
-        } catch (IOException e) {
-            log.error("upload IOException: {}", e.getMessage());
-            throw new CustomException(2999, e.getMessage());
-        }
+        String oriName = mf.getOriginalFilename();
+        String extension = extractSafeExtension(Objects.requireNonNull(oriName));
+        String newName = UUID.randomUUID() + "." + extension;
 
         FileInfo fileInfo = new FileInfo();
-        fileInfo.setOriName(oriName);
-        fileInfo.setNewName(newName);
-        fileInfo.setExt(ext);
-        fileInfo.setSavePath(savePath);
-        fileInfo.setSize(size);
-        fileInfo.setType(type);
+        try {
+            FileCopyUtils.copy(mf.getInputStream(), new FileOutputStream(new File(dir, newName)));
+            fileInfo.setOriName(oriName);
+            fileInfo.setNewName(newName);
+            fileInfo.setSavePath(savePath);
+            fileInfo.setSize(mf.getSize());
+            fileInfo.setType(mf.getContentType());
+        } catch (IOException e) {
+            throw new RuntimeException("파일 저장에 실패하였습니다.");
+        }
 
         return fileInfo;
     }
@@ -92,60 +68,13 @@ public class FileManager {
      * @return
      * @throws IOException
      */
-    public List<FileInfo> upload(List<MultipartFile> mfs) {
-        if (mfs == null || mfs.isEmpty()) {
-            throw new NullPointerException("fileList is null");
+    public List<FileInfo> uploadList(List<MultipartFile> mfs) throws IOException {
+        if (CollectionUtils.isEmpty(mfs)) {
+            throw new IllegalArgumentException("파일 리스트가 비어있습니다.");
         }
-
-        Calendar time = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-        String savePath = sdf.format(time.getTime()); // 파일 저장경로
-        String storePath = this.storePath + File.separator + savePath; // 파일 실제 저장경로
-
-        List<FileInfo> fileInfoList = new ArrayList<>();
-
-        if (!mfs.isEmpty()) {
-            // 1. 지정된 폴더 경로가 없다면, 새로 폴더 생성하기
-            File dir = new File(storePath);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            for (MultipartFile mf : mfs) {
-                String oriName = mf.getOriginalFilename(); // 파일 기존이름
-                String ext = oriName.substring(oriName.lastIndexOf(".") + 1);  // 파일 확장자
-                if ("jsp".equals(ext)) {
-                    ext = "txt";
-                }
-
-                String newName = UUID.randomUUID() + "." + ext; // 파일 변경이름
-                Long size = mf.getSize(); // 파일 크기
-                String type = mf.getContentType(); // 파일 타입
-
-                // 2. 재조합한 newName으로 파일 객체를 생성하고 파일저장을 한다.
-                File file = new File(dir, newName);
-                byte[] bytes;
-                try {
-                    bytes = mf.getBytes();
-                    FileCopyUtils.copy(bytes, file);
-                } catch (IOException e) {
-                    log.info("upload IOException: {}", e.getMessage());
-                    throw new CustomException(2999, e.getMessage());
-                }
-
-                FileInfo fileInfo = new FileInfo();
-                fileInfo.setOriName(oriName);
-                fileInfo.setNewName(newName);
-                fileInfo.setExt(ext);
-                fileInfo.setSavePath(savePath);
-                fileInfo.setSize(size);
-                fileInfo.setType(type);
-
-                fileInfoList.add(fileInfo);
-            }
-
-        }
-        return fileInfoList;
+        return mfs.stream()
+                .map(this::upload)
+                .collect(Collectors.toList());
     }
 
 
@@ -155,64 +84,29 @@ public class FileManager {
      * @param fileInfo
      */
     public void download(HttpServletRequest request, HttpServletResponse response, FileInfo fileInfo) {
-        // fileDown - ContentType 지정
-        response.setContentType("application/x-msdownload");
+        if (fileInfo == null) {
+            throw new IllegalArgumentException("다운로드할 파일 정보가 없습니다.");
+        }
 
-        InputStream is = null; // 주어진 File 객체가 가리키는 파일을 바이트 단위로 읽는 스트림객체를 생성한다.
-        OutputStream os = null; // 지정한 파일에 대한 출력스트림을 생성한다.
-        PrintWriter out = null; // 자동 Flush기능이 없는 PrintWriter객체 생성
+        String filePath = storePath + File.separator + fileInfo.getSavePath();
+        File file = new File(filePath, fileInfo.getNewName());
 
-        try {
-            if (fileInfo == null) {
-                throw new NullPointerException("삭제된 파일 입니다.");
-            }
+        if (!file.exists()) {
+            throw new IllegalArgumentException("파일이 존재하지 않습니다.");
+        }
 
-            String storePath = this.storePath + File.separator + fileInfo.getSavePath();
-            File file = new File(storePath + File.separator + fileInfo.getNewName());
+        try (InputStream is = new FileInputStream(file); OutputStream os = response.getOutputStream()) {
 
-            // 파일 유무 체크
-            boolean isFile = true;
-            try {
-                is = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                isFile = false;
-            }
+            response.setContentType(fileInfo.getType());
+            response.setContentLength((int) file.length());
 
-            // 파일이있다면
-            if (isFile) {
-                // 다운로드 할 파일의 이름 인코딩(한글처리용), 브라우저에 따른 공백처리
-                // 실제 다운로드 시작 부분
-                this.setDisposition(fileInfo.getOriName(), NetworkUtils.getBrowser(request), response);
+            this.setDisposition(fileInfo.getOriName(), NetworkUtils.getBrowser(request), response);
 
-                os = response.getOutputStream();
+            FileCopyUtils.copy(is, os);
 
-                // 파일의 크기만큼 바이트 배열 생성
-                byte[] b = new byte[(int) file.length()];
-                int leng = 0;
-
-                // 파일의 바이트 크기 만큼 outputStream에 파일을 읽는다
-                while ((leng = is.read(b)) > 0) {
-                    os.write(b, 0, leng);
-                }
-            } else {
-                throw new NullPointerException("삭제된 파일 입니다.");
-                //response.setContentType("text/html;charset=UTF-8");
-                //out = response.getWriter();
-                //out.println("<script language='javascript'>alert('삭제된 파일입니다.');history.back();</script>");
-            }
-            if (is != null) {
-                is.close();
-            }
-            if (os != null) {
-                os.close();
-            }
-            if (out != null) {
-                out.flush();
-                out.close();
-            }
-        } catch (Exception e) {
-            log.error("Exception: {}", e.getMessage());
-            throw new CustomException(2999, e.getMessage());
+        } catch (IOException e) {
+            log.error("파일 다운로드 중 오류가 발생했습니다.", e);
+            throw new CustomException(2999, "파일 다운로드 중 오류가 발생했습니다.");
         }
     }
 
@@ -225,26 +119,27 @@ public class FileManager {
      * @return
      */
     public FileInfo readFile(HttpServletResponse response, FileInfo fileInfo) {
-        if (fileInfo == null) return null;
+        if (fileInfo == null) {
+            throw new IllegalArgumentException("읽을 파일 정보가 없습니다.");
+        }
 
-        String storePath = this.storePath + File.separator + fileInfo.getSavePath();
-        File file = new File(storePath + File.separator + fileInfo.getNewName());
+        String filePath = storePath + File.separator + fileInfo.getSavePath();
+        File file = new File(filePath, fileInfo.getNewName());
 
-        response.setContentType(fileInfo.getType());
-        response.setContentLength((int) file.length());
+        if (!file.exists()) {
+            throw new IllegalArgumentException("파일이 존재하지 않습니다.");
+        }
 
-        InputStream is;
-        OutputStream os;
-        try {
-            is = new FileInputStream(file);
-            os = response.getOutputStream();
+        try (InputStream is = new FileInputStream(file); OutputStream os = response.getOutputStream()) {
+
+            response.setContentType(fileInfo.getType());
+            response.setContentLength((int) file.length());
+
             FileCopyUtils.copy(is, os);
 
-            is.close();
-            os.close();
         } catch (IOException e) {
-            log.error("read file error: {}", e.getMessage());
-            throw new CustomException(2999, e.getMessage());
+            log.error("파일 읽기 중 오류가 발생했습니다.", e);
+            throw new CustomException(2999, "파일 읽기 중 오류가 발생했습니다.");
         }
 
         return fileInfo;
@@ -255,51 +150,51 @@ public class FileManager {
      */
     public void delete(FileInfo fileInfo) {
         if (fileInfo == null) {
-            throw new NullPointerException("이미 삭제된 파일입니다.");
+            throw new IllegalArgumentException("삭제할 파일 정보가 없습니다.");
         }
-        String storePath = this.storePath + "/" + fileInfo.getSavePath();
-        File file = new File(storePath + "/" + fileInfo.getNewName());
-        if (file.exists()) {
-            file.delete();
+
+        String filePath = storePath + File.separator + fileInfo.getSavePath();
+        File file = new File(filePath, fileInfo.getNewName());
+
+        if (file.exists() && file.delete()) {
+            log.info("파일을 삭제했습니다: {}", file.getAbsolutePath());
+        } else {
+            log.warn("파일을 삭제할 수 없습니다: {}", file.getAbsolutePath());
         }
     }
 
-    // 브라우저에 따른 공백처리, 한글 처리용 인코딩
-    // TODO: 2023-12-07 업데이트 필요
-    public void setDisposition(String fileName, String browser, HttpServletResponse response) {
+    private void setDisposition(String fileName, String browser, HttpServletResponse response) {
         String dispositionPrefix = "attachment; filename=";
-        String encodedFilename = null;
+        String encodedFilename;
 
         try {
-            // IE
-            if (browser.equalsIgnoreCase("MSIE") // IE 10 이하
-                    || browser.equalsIgnoreCase("Trident") // IE 11
-                    || browser.equalsIgnoreCase("Edge")) // IE Edge
-            {
+            if (browser != null && (browser.equalsIgnoreCase("MSIE")
+                    || browser.equalsIgnoreCase("Trident")
+                    || browser.equalsIgnoreCase("Edge"))) {
                 encodedFilename = URLEncoder.encode(fileName, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
-            }
-            // Filefox, Opera, OPR, Chrome, Safari
-            else if (browser.equalsIgnoreCase("Firefox") // Firefox
-                    || browser.equalsIgnoreCase("Opera") // Opera 구버전
-                    || browser.equalsIgnoreCase("OPR") // OPR(Opera 신버전)
-                    || browser.equalsIgnoreCase("Chrome") // Chrome
-                    || browser.equalsIgnoreCase("Safari")) // Safari
-            {
-                encodedFilename = new String(fileName.getBytes(StandardCharsets.UTF_8), "ISO_8859_1");
-                // Opera
-                if (browser.equalsIgnoreCase("Opera") || browser.equalsIgnoreCase("OPR")) {
-                    response.setContentType("application/octet-stream;charset=UTF-8");
-                }
             } else {
                 encodedFilename = new String(fileName.getBytes(StandardCharsets.UTF_8), "ISO_8859_1");
             }
-            encodedFilename = encodedFilename.replaceAll(",", "");
-            response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);
-        } catch (Exception e) {
-            log.error("setDisposition Exception: {}", e.getMessage());
-            throw new CustomException(2999, e.getMessage());
-        }
 
+            response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);
+        } catch (UnsupportedEncodingException e) {
+            log.error("파일명 인코딩에 실패했습니다: {}", fileName, e);
+            throw new CustomException(2999, "파일명 인코딩에 실패했습니다.");
+        }
+    }
+
+
+    // 동적 파일 경로 생성
+    private String generateDynamicPath() {
+        Calendar time = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
+        return sdf.format(time.getTime());
+    }
+
+    // 파일 이름에서 안전한 확장자 추출
+    private String extractSafeExtension(String originalFilename) {
+        String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
+        return "jsp".equals(extension) ? "txt" : extension;
     }
 }
 

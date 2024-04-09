@@ -9,7 +9,7 @@ public class RandomUtils {
 
     static {
         StringBuilder sb = new StringBuilder();
-        // 0 - 9
+        // 0 ~ 9
         for (char c = 48; c <= 57; c++) {
             sb.append(c);
         }

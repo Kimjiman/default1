@@ -20,15 +20,15 @@ public class StringUtils {
     }
 
     public static <T> void ifEmpty(CharSequence val, Consumer<CharSequence> action) {
-        if(isEmpty(val)) action.accept(val);
+        if (isEmpty(val)) action.accept(val);
     }
 
     public static <T> void ifNotEmpty(CharSequence val, Consumer<CharSequence> action) {
-        if(isNotEmpty(val)) action.accept(val);
+        if (isNotEmpty(val)) action.accept(val);
     }
 
     public static boolean isBlank(CharSequence val) {
-        if(val == null) {
+        if (val == null) {
             return true;
         } else {
             StringBuilder builder = new StringBuilder();
@@ -51,11 +51,11 @@ public class StringUtils {
     }
 
     public static <T> void ifBlank(CharSequence val, Consumer<CharSequence> action) {
-        if(isBlank(val)) action.accept(val);
+        if (isBlank(val)) action.accept(val);
     }
 
     public static <T> void ifNotBlank(CharSequence val, Consumer<CharSequence> action) {
-        if(isNotBlank(val)) action.accept(val);
+        if (isNotBlank(val)) action.accept(val);
     }
 
     public static String removeWhiteSpace(String val) {
@@ -64,6 +64,7 @@ public class StringUtils {
 
     /**
      * 문자(\p{L}), 숫자(p{N}), 빈칸(\s)을 제외한 모든 특수문자를 제거한다.
+     *
      * @param val 입력 문자열
      * @return 문자, 숫자, 빈칸
      */
@@ -73,10 +74,11 @@ public class StringUtils {
 
     public static String remove(String val, Character charVal) {
         if (isEmpty(val) || charVal == null) return val;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(val.length());
         for (int i = 0; i < val.length(); i++) {
+            char currentChar = val.charAt(i);
             if (val.charAt(i) != charVal) {
-                sb.append(val.charAt(i));
+                sb.append(currentChar);
             }
         }
         return sb.toString();
@@ -89,7 +91,7 @@ public class StringUtils {
     public static String matchingRegex(String val, String regex) {
         if (isEmpty(val) || isEmpty(regex)) return val;
         Matcher matcher = Pattern.compile(regex).matcher(val);
-        return matcher.find() ?  matcher.group() : val;
+        return matcher.find() ? matcher.group() : val;
     }
 
     public static boolean isRegex(String val, String regex) {
@@ -112,11 +114,12 @@ public class StringUtils {
 
     public static String masking(String val, int start, int length, Character maskingCharacter) {
         if (isEmpty(val) || length <= 0) return val;
-        StringBuilder masked = new StringBuilder(val);
-        for (int i = start; i < Math.min(length, val.length()); i++) {
-            masked.setCharAt(i, maskingCharacter);
+        StringBuilder sb = new StringBuilder(val.length());
+        int min = Math.min(start + length, val.length());
+        for (int i = start; i < min; i++) {
+            sb.append(maskingCharacter);
         }
-        return masked.toString();
+        return sb.insert(start, val, start, min).toString();
     }
 
     public static String masking(String val, int start, int length) {
@@ -130,8 +133,9 @@ public class StringUtils {
     }
 
     public static String lpad(String val, int count, String repeatVal) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < Math.max(0, count - val.length()); i++) {
+        int repeatCount = Math.max(0, count - val.length());
+        StringBuilder sb = new StringBuilder(val.length() + repeatCount * repeatVal.length());
+        for (int i = 0; i < repeatCount; i++) {
             sb.append(repeatVal);
         }
         sb.append(val);
@@ -139,8 +143,10 @@ public class StringUtils {
     }
 
     public static String rpad(String val, int count, String repeatVal) {
-        StringBuilder sb = new StringBuilder(val);
-        for (int i = 0; i < Math.max(0, count - val.length()); i++) {
+        int repeatCount = Math.max(0, count - val.length());
+        StringBuilder sb = new StringBuilder(val.length() + repeatCount * repeatVal.length());
+        sb.append(val);
+        for (int i = 0; i < repeatCount; i++) {
             sb.append(repeatVal);
         }
         return sb.toString();
