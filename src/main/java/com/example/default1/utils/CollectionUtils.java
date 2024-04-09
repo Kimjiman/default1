@@ -37,6 +37,7 @@ public class CollectionUtils {
     }
 
     public static <T> Collection<T> splice(Collection<T> collection, int start, int end) {
+        if(isEmpty(collection)) return collection;
         List<T> ret = new ArrayList<>();
         for(int i = start; i < end; i++) {
             ret.add(((List<T>) collection).get(i));
@@ -70,6 +71,7 @@ public class CollectionUtils {
     }
 
     public static <T> List<T> removeDuplicates(List<T> list) {
+        if(isEmpty(list)) return list;
         return new ArrayList<>(new LinkedHashSet<>(list));
     }
 
@@ -80,6 +82,7 @@ public class CollectionUtils {
     }
 
     public static <T> List<T> filter(List<T> list, Predicate<T> predicate) {
+        if(isEmpty(list)) return list;
         return list.stream()
                 .filter(predicate)
                 .collect(Collectors.toList());

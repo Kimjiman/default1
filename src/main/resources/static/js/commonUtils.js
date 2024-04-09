@@ -644,33 +644,6 @@ const arrayUtils = {
         return newArr;
     },
 
-    removeDuplicates: (arr) => {
-        if (stringUtils.isEmpty(arr)) return arr;
-
-        const type = typeof arr[0];
-        const distinctArr = [];
-        const set = new Set();
-
-        if (type === 'object') {
-            arr.forEach(it => {
-                const stringifiedItem = JSON.stringify(it);
-                if (!set.has(stringifiedItem)) {
-                    set.add(stringifiedItem);
-                    distinctArr.push(JSON.parse(stringifiedItem));
-                }
-            });
-        } else {
-            arr.forEach(it => {
-                if (!set.has(it)) {
-                    set.add(it);
-                    distinctArr.push(it);
-                }
-            });
-        }
-
-        return distinctArr;
-    },
-
     mergeArrays: (...arrs) => {
         const mergedArr = [];
         for (let i = 0; i < arrs.length; i++) {

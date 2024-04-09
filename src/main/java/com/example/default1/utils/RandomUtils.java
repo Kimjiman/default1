@@ -9,23 +9,23 @@ public class RandomUtils {
 
     static {
         StringBuilder sb = new StringBuilder();
-        // a ~ z
-        for (char c = 97; c <= 122; c++) {
+        // 0 - 9
+        for (char c = 48; c <= 57; c++) {
             sb.append(c);
         }
         // A ~ Z
         for (char c = 65; c <= 90; c++) {
             sb.append(c);
         }
-        // 0 - 9
-        for (char c = 48; c <= 57; c++) {
+        // a ~ z
+        /*for (char c = 97; c <= 122; c++) {
             sb.append(c);
-        }
+        }*/
         ALLOWED_CHARACTERS = sb.toString();
     }
 
     public static String generateRandomString(int length) {
-        if (length < 0) length = DEFAULT_LENGTH;
+        if (length <= 0) length = DEFAULT_LENGTH;
 
         Supplier<Character> randomCharSupplier = () -> {
             SecureRandom secureRandom = new SecureRandom();
