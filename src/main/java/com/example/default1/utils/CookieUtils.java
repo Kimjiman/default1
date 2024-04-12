@@ -1,6 +1,5 @@
 package com.example.default1.utils;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -11,10 +10,9 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-@Component
 public class CookieUtils {
     public static void setCookie(HttpServletResponse response, String key, String value, int day, String path) {
-        if(StringUtils.isBlank(value)) value = "";
+        if(null == value) value = "";
         Cookie cookie = new Cookie(key, URLEncoder.encode(value, StandardCharsets.UTF_8));
         cookie.setMaxAge(day * 24 * 60 * 60);
         cookie.setPath(path);

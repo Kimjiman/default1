@@ -184,14 +184,12 @@ public class FileManager {
     }
 
 
-    // 동적 파일 경로 생성
     private String generateDynamicPath() {
         Calendar time = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         return sdf.format(time.getTime());
     }
 
-    // 파일 이름에서 안전한 확장자 추출
     private String extractSafeExtension(String originalFilename) {
         String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
         return "jsp".equals(extension) ? "txt" : extension;
