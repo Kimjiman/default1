@@ -1,4 +1,4 @@
-package com.example.default1.base.code.model;
+package com.example.default1.base.code;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

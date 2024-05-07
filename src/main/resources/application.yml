@@ -54,6 +54,10 @@ springdoc:
     cache:
         disabled: true
     packages-to-scan: com.example.default1
+cron:
+    cache:
+        refresh-cache: '55 54 23 * * *'
+
 ---
 spring:
     config:

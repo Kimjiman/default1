@@ -3,6 +3,27 @@ $(document).ready(function () {
 })
 
 /**
+ * 깊은 복사
+ * @param obj
+ * @returns {{}}
+ */
+const deepCopy = (obj) => {
+    if (obj === null || typeof obj !== 'object') {
+        return obj;
+    }
+
+    const result = Array.isArray(obj) ? [] : {};
+
+    for (let prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+            result[prop] = deepCopy(obj[prop]);
+        }
+    }
+
+    return result;
+};
+
+/**
  * 쿠키 생성
  * @param key 쿠키 key
  * @param value 쿠키 value

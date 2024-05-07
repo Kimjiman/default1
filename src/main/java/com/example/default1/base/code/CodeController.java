@@ -1,8 +1,5 @@
-package com.example.default1.base.code.controller;
+package com.example.default1.base.code;
 
-import com.example.default1.base.code.model.Code;
-import com.example.default1.base.code.model.CodeGroup;
-import com.example.default1.base.code.service.CodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,5 @@
-package com.example.default1.base.code.mapper;
+package com.example.default1.base.code;
 
-import com.example.default1.base.code.model.Code;
-import com.example.default1.base.code.model.CodeGroup;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

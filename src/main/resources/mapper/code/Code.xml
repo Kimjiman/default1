@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.default1.base.code.mapper.CodeMapper">
+<mapper namespace="com.example.default1.base.code.CodeMapper">
     <sql id="selectCodeGroupQuery">
         SELECT
             `id`
@@ -61,23 +61,23 @@
         </where>
     </sql>
 
-    <select id="selectCodeGroupList" resultType="com.example.default1.base.code.model.CodeGroup">
+    <select id="selectCodeGroupList" resultType="com.example.default1.base.code.CodeGroup">
         <include refid="selectCodeGroupQuery" />
         ORDER BY id
     </select>
 
-    <select id="selectCodeGroupById" resultType="com.example.default1.base.code.model.CodeGroup">
+    <select id="selectCodeGroupById" resultType="com.example.default1.base.code.CodeGroup">
         <include refid="selectCodeGroupQuery" />
         WHERE id = #{id}
     </select>
 
-    <select id="selectCodeList" resultType="com.example.default1.base.code.model.Code">
+    <select id="selectCodeList" resultType="com.example.default1.base.code.Code">
         <include refid="selectCodeQuery" />
         <include refid="searchCodeCondtion" />
         ORDER BY `code_group_id`, `order`
     </select>
 
-    <select id="selectCodeById" resultType="com.example.default1.base.code.model.Code">
+    <select id="selectCodeById" resultType="com.example.default1.base.code.Code">
         <include refid="selectCodeQuery" />
         WHERE t1.id = #{id}
    </select>

@@ -20,10 +20,9 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
-                .info(
-                        new Info().title("API")
-                                .description("API 명세서.")
-                                .version("v0.0.1")
+                .info(new Info().title("API")
+                    .description("API 명세서.")
+                    .version("v0.0.1")
                 );
     }
 }

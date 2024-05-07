@@ -1,8 +1,5 @@
-package com.example.default1.base.code.service;
+package com.example.default1.base.code;
 
-import com.example.default1.base.code.mapper.CodeMapper;
-import com.example.default1.base.code.model.Code;
-import com.example.default1.base.code.model.CodeGroup;
 import com.example.default1.exception.CustomException;
 import com.example.default1.utils.SessionUtil;
 import com.example.default1.utils.StringUtils;
@@ -28,6 +25,7 @@ public class CodeService {
     }
 
     public CodeGroup selectCodeGroupById(Long id) {
+        if(id == null) return null;
         CodeGroup codeGroup = codeMapper.selectCodeGroupById(id);
         if(codeGroup != null) {
             Code code = new Code();
@@ -42,6 +40,7 @@ public class CodeService {
     }
 
     public Code selectCodeById(Long id) {
+        if(id == null) return null;
         return codeMapper.selectCodeById(id);
     }
 

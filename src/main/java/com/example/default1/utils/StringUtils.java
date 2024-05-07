@@ -153,7 +153,13 @@ public class StringUtils {
     }
 
     public static String formatCurrency(String val) {
-        double amount = Double.parseDouble(val);
+        Double amount;
+        try {
+            amount = Double.parseDouble(val);
+        } catch (Exception e) {
+            return val;
+        }
+
         DecimalFormat formatter = new DecimalFormat("#,###");
         return formatter.format(amount);
     }
