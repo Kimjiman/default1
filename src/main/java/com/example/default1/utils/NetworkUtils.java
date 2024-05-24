@@ -132,4 +132,17 @@ public class NetworkUtils {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attr.getRequest().getServerPort();
     }
+
+    public static String getDomain() {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpServletRequest request = attr.getRequest();
+        return request.getRequestURL().toString().replaceAll(request.getRequestURI(), "");
+    }
+
+    public static String getReferer() {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpServletRequest request = attr.getRequest();
+        String refererHeader = request.getHeader("Referer");
+        return refererHeader != null ? refererHeader.split("\\?")[0] : null;
+    }
 }
