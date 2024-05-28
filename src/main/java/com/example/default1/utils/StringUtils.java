@@ -123,8 +123,7 @@ public class StringUtils {
     }
 
     public static String masking(String val, int start, int length) {
-        Character maskingCharacter = '*';
-        return masking(val, start, length, maskingCharacter);
+        return masking(val, start, length, '*');
     }
 
 

@@ -1,39 +1,29 @@
 package com.example.default1.utils;
 
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class CookieUtils {
     public static void setCookie(HttpServletResponse response, String key, String value, int day, String path) {
         if(null == value) value = "";
-        Cookie cookie = new Cookie(key, URLEncoder.encode(value, StandardCharsets.UTF_8));
+        Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(day * 24 * 60 * 60);
         cookie.setPath(path);
         response.addCookie(cookie);
     }
 
     public static void setCookie(HttpServletResponse response, String key, String value) {
-        int day = 365;
-        String path = "/";
-        setCookie(response, key, value, day, path);
+        setCookie(response, key, value, 365, "/");
     }
 
     public static void deleteCookie(HttpServletResponse response, String key) {
-        int day = 0;
-        String path = "/";
-        setCookie(response, key, null, day, path);
+        setCookie(response, key, null, 0, "/");
     }
 
-    public static Cookie getCookie(String key) {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        Cookie[] cookies = attr.getRequest().getCookies();
+    public static Cookie getCookie(HttpServletRequest request, String key) {
+        Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             return Arrays.stream(cookies)
                     .filter(cookie -> cookie.getName().equals(key))
@@ -43,11 +33,11 @@ public class CookieUtils {
         return null;
     }
 
-    public static String getCookieValue(String key) {
-        Cookie cookie = getCookie(key);
+    public static String getCookieValue(HttpServletRequest request, String key) {
+        Cookie cookie = getCookie(request, key);
         if (cookie == null || cookie.getValue() == null) {
             return null;
         }
-        return URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8);
+        return cookie.getValue();
     }
 }

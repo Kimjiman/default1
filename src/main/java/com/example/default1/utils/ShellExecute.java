@@ -1,7 +1,10 @@
 package com.example.default1.utils;
 
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 import java.io.InputStreamReader;
+
 @Component
 public class ShellExecute {
     private final Runtime runtime = Runtime.getRuntime();
@@ -12,15 +15,24 @@ public class ShellExecute {
         this.exec[1] = "-c";
     }
 
-    public int shellCmd(String command) throws Exception {
+    public int shellCmd(String command) {
         this.exec[2] = command;
-        Process process = runtime.exec(command);
-        InputStreamReader in = new InputStreamReader(process.getInputStream(), "MS949");
-        int c = 0;
-        while ((c = in.read()) != -1) {
-            System.out.println((char) c);
+        Process process;
+        try {
+            process = runtime.exec(command);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        in.close();
+
+        try (InputStreamReader in = new InputStreamReader(process.getInputStream(), "MS949")) {
+            int c;
+            while ((c = in.read()) != -1) {
+                System.out.print((char) c);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return 0;
     }
 }
