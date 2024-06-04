@@ -101,7 +101,7 @@ public class StringUtils {
 
     public static boolean isNumber(String val) {
         if (isEmpty(val)) return false;
-        return !isEmpty(val) && isRegex(val, "\\d+");
+        return isNotEmpty(val) && isRegex(val, "\\d+");
     }
 
     public static int indexOf(String val, char target) {
@@ -112,7 +112,7 @@ public class StringUtils {
         return isEmpty(val) ? val : new StringBuilder(val).reverse().toString();
     }
 
-    public static String masking(String val, int start, int length, Character maskingCharacter) {
+    public static String masking(String val, int start, int length, CharSequence maskingCharacter) {
         if (isEmpty(val) || length <= 0) return val;
         StringBuilder sb = new StringBuilder(val.length());
         int min = Math.min(start + length, val.length());
@@ -123,15 +123,15 @@ public class StringUtils {
     }
 
     public static String masking(String val, int start, int length) {
-        return masking(val, start, length, '*');
+        return masking(val, start, length, "*");
     }
 
 
-    public static String joinStrings(Collection<String> val, String delimiter) {
+    public static String joinStrings(Collection<CharSequence> val, CharSequence delimiter) {
         return val == null ? "" : String.join(delimiter, val);
     }
 
-    public static String lpad(String val, int count, String repeatVal) {
+    public static String lpad(CharSequence val, int count, CharSequence repeatVal) {
         int repeatCount = Math.max(0, count - val.length());
         StringBuilder sb = new StringBuilder(val.length() + repeatCount * repeatVal.length());
         for (int i = 0; i < repeatCount; i++) {
@@ -141,7 +141,7 @@ public class StringUtils {
         return sb.toString();
     }
 
-    public static String rpad(String val, int count, String repeatVal) {
+    public static String rpad(CharSequence val, int count, CharSequence repeatVal) {
         int repeatCount = Math.max(0, count - val.length());
         StringBuilder sb = new StringBuilder(val.length() + repeatCount * repeatVal.length());
         sb.append(val);

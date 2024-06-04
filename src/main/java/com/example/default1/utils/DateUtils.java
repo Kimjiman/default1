@@ -35,6 +35,11 @@ public class DateUtils {
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
+    public static LocalDate dateToLocalDate(Date date) {
+        if (date == null) return null;
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
     public static LocalDateTime stringToLocalDateTime(String dateString, String pattern) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         return LocalDateTime.parse(dateString, formatter);
@@ -45,9 +50,13 @@ public class DateUtils {
         return LocalDate.parse(dateString, formatter);
     }
 
-    public static Date stringToDate(String dateString, String pattern) throws ParseException {
+    public static Date stringToDate(String dateString, String pattern) {
         SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-        return formatter.parse(dateString);
+        try {
+            return formatter.parse(dateString);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static String localDateTimeToString(LocalDateTime date, String pattern) {
@@ -63,10 +72,14 @@ public class DateUtils {
         return simpleDateFormat.format(date);
     }
 
-    public static String convertToPattern(String dateString, String pattern) {
-        if(!isValidDateFormat(dateString, pattern)) return dateString;
+    public static String convertToPattern(String dateString, String pattern, String convertPattern) {
+        if (!isValidDateFormat(dateString, pattern)) return dateString;
         LocalDateTime localDateTime = stringToLocalDateTime(dateString, pattern);
-        return localDateTimeToString(localDateTime, pattern);
+        return localDateTimeToString(localDateTime, convertPattern);
+    }
+
+    public static String convertToPattern(String dateString, String pattern) {
+        return convertToPattern(dateString, pattern, DATETIME_PATTERN);
     }
 
     public static String getDateTimeString(LocalDateTime date) {
