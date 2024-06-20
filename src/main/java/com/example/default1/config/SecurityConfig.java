@@ -2,12 +2,16 @@ package com.example.default1.config;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.default1.base.jwt.JwtAuthenticationEntryPoint;
+import com.example.default1.base.jwt.JwtAuthenticationFilter;
+import com.example.default1.base.jwt.JwtTokenProvider;
 import com.example.default1.config.auth.LoginFailureHandler;
 import com.example.default1.config.auth.LoginSuccessHandler;
 import com.example.default1.config.auth.LoginUserService;
 import com.example.default1.utils.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +22,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
@@ -39,7 +45,8 @@ import org.springframework.web.accept.HeaderContentNegotiationStrategy;
 @Slf4j
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final LoginUserService loginUserService;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -95,38 +102,39 @@ public class SecurityConfig {
         return http
                 .cors()
                 .and()
+                .httpBasic().disable()
                 .headers(header -> header
                         //X-Frame-Options 셋팅 , 크로스 사이트 스크립트 방지 해재 default 'DENY'
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
                 )
                 .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authorizeRequests(authorizeRequest -> authorizeRequest
                         .antMatchers(
                                 "/login"
                                 , "/join"
                                 , "/user/join"
+                                , "/user/login"
                                 , "/test"
                                 , "/test/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/loginProc")
-                        .usernameParameter("loginId")
-                        .passwordParameter("password")
-                        .successHandler(loginSuccessHandler())
-                        .failureHandler(loginFailureHandler())
-                )
+//                .formLogin(form -> form
+//                        .loginPage("/login")
+//                        .loginProcessingUrl("/user/login")
+//                        .usernameParameter("loginId")
+//                        .passwordParameter("password")
+//                        .successHandler(loginSuccessHandler())
+//                        .failureHandler(loginFailureHandler())
+//                )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .deleteCookies("JSESSIONID")
                         .deleteCookies("REMEMBER_ME_COOKIE")
                         .invalidateHttpSession(true)
-                )
-                .rememberMe(rememberMe -> rememberMe
-                        .key("REMEMBER_ME_KEY")
-                        .rememberMeServices(tokenBasedRememberMeServices())
                 )
                 //첫번째 로그인 사용자는 로그아웃, 두번째 사용자 로그인 session-registry-alias : 접속자 정보보기
                 .sessionManagement(sessionManagement -> sessionManagement
@@ -136,17 +144,10 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(exception -> exception
                         .defaultAuthenticationEntryPointFor(unauthorizeEntryPoint(), preferredMatcher)
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
-    }
-
-    @Bean
-    public RememberMeServices tokenBasedRememberMeServices() {
-        TokenBasedRememberMeServices tokenBasedRememberMeServices = new TokenBasedRememberMeServices("REMEMBER_ME_KEY", loginUserService);
-        tokenBasedRememberMeServices.setAlwaysRemember(true);    // 체크박스 클릭안해도 무조건 유지
-        tokenBasedRememberMeServices.setTokenValiditySeconds(60 * 60 * 24 * 30);    // 30일
-        tokenBasedRememberMeServices.setCookieName("REMEMBER_ME_COOKIE");
-        return tokenBasedRememberMeServices;
     }
 
     @Bean

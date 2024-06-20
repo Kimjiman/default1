@@ -4,6 +4,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
 
 public class NetworkUtils {
     public static String getUserAgent(HttpServletRequest request) {
@@ -133,16 +135,21 @@ public class NetworkUtils {
         return attr.getRequest().getServerPort();
     }
 
-    public static String getDomain() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpServletRequest request = attr.getRequest();
+    public static String getDomain(HttpServletRequest request) {
         return request.getRequestURL().toString().replaceAll(request.getRequestURI(), "");
     }
 
-    public static String getReferer() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpServletRequest request = attr.getRequest();
+    public static String getReferer(HttpServletRequest request) {
         String refererHeader = request.getHeader("Referer");
         return refererHeader != null ? refererHeader.split("\\?")[0] : null;
+    }
+
+    public static boolean passReferer(HttpServletRequest request, String... refererArr) {
+        if(request == null || refererArr == null) return false;
+        List<String> accessUrlList = Arrays.asList(refererArr);
+        String referer = getReferer(request);
+        String domain = getDomain(request);
+        return accessUrlList.stream()
+                .anyMatch(accessUrl -> referer != null && referer.equals(domain + accessUrl));
     }
 }
