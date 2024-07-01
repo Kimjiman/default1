@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function() {
 
 })
 
@@ -79,10 +79,6 @@ const uncomma = (str) => {
     return str.replace(/\D+/g, '');
 }
 
-const inputNumberFormat = (obj) => {
-    obj.value = obj.comma(uncomma(obj.value));
-}
-
 /**
  * input 칸을 숫자만 가능하게 변경한다.
  * @param self
@@ -143,27 +139,61 @@ const clipUrl = async (msg = null) => {
 };
 
 /**
+ * 이벤트 핸들러가 너무 자주 호출되지 않도록 방지
+ * @param func
+ * @param delay
+ * @returns {(function(): void)|*}
+ */
+const debounce = (func, delay) => {
+    let inDebounce;
+    return function () {
+        const context = this;
+        const args = arguments;
+        clearTimeout(inDebounce);
+        inDebounce = setTimeout(() => func.apply(context, args), delay);
+    };
+};
+
+/**
  * 스크롤링을 위한 함수
  * @param func 콜백함수
  * @param scrollRange 스크롤 감지 비율
  * @returns {Promise<void>}
  */
 let isAtTheBottom = false;
-const scrollEndPoint = async (func, scrollRange = 0.8) => {
+const scrollEndPoint = async (func, scrollRange = 0.8, scroll = document.documentElement) => {
     if(typeof func !== 'function') {
         throw new Error("Type 'func' must require a function.")
     }
-    let scroll = document.documentElement;
+
     const { scrollHeight, scrollTop, clientHeight } = scroll;
     if ((scrollHeight - clientHeight) * scrollRange <= scrollTop) {
         if (!isAtTheBottom) {
-            isAtTheBottom = true;
-            await func();
+            try {
+                isAtTheBottom = true;
+                await func();
+            } catch (ex) {
+                console.error(ex);
+            }
         }
     } else if (isAtTheBottom) {
         isAtTheBottom = false;
     }
 }
+
+/**
+ * debounce가 적용된 무한스크롤
+ * @param func
+ * @param scrollRange
+ * @param scroll
+ */
+const initInfiniteScroll = (func, scrollRange = 0.8, scroll = document.documentElement) => {
+    const debouncedScrollHandler = debounce(() =>
+            scrollEndPoint(func, scrollRange, scroll),
+        100
+    );
+    window.addEventListener('scroll', debouncedScrollHandler);
+};
 
 /**
  * form을 submit한다.
@@ -310,7 +340,8 @@ const ajaxApi = {
 const fetchApi = {
     requestCount: 0,
     defaultHeaders: {
-        'Content-Type': 'application/json; charset=UTF-8'
+        'Content-Type': 'application/json; charset=UTF-8',
+        'x-requested-with': 'XMLHttpRequest'
     },
     spinShow: () => {
         if (fetchApi.requestCount === 0) {
@@ -561,6 +592,7 @@ const dateUtils = {
         let newDate = new Date(date);
         return newDate.getDay();
     },
+
     getDayOfWeekString: (date) => {
         const dayOfWeek = {
             0: "월",

@@ -10,10 +10,10 @@
     <script>
         const spin = {
             show() {
-                $("#spinLoading").show();
+                document.querySelector("#spinLoading").css.display = "block";
             },
             hide() {
-                $("#spinLoading").hide();
+                document.querySelector("#spinLoading").css.display = "none";
             }
         }
     </script>

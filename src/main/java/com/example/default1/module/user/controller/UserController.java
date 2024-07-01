@@ -28,11 +28,11 @@ public class UserController {
         return userService.login(loginId, password);
     }
 
-    @PostMapping("/accessToken")
-    public TokenInfo accessToken(@RequestBody RedisObject refreshToken) {
+    @PostMapping("/accessToken/{refreshToken}")
+    public TokenInfo accessToken(@PathVariable String refreshToken) {
         return TokenInfo.builder()
                 .grantType("Bearer")
-                .accessToken(userService.generateAccessToken(refreshToken.getValue()))
+                .accessToken(userService.generateAccessToken(refreshToken))
                 .build();
     }
 }

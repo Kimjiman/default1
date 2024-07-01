@@ -7,11 +7,9 @@ import com.example.default1.base.jwt.JwtAuthenticationFilter;
 import com.example.default1.base.jwt.JwtTokenProvider;
 import com.example.default1.config.auth.LoginFailureHandler;
 import com.example.default1.config.auth.LoginSuccessHandler;
-import com.example.default1.config.auth.LoginUserService;
 import com.example.default1.utils.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +27,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -119,31 +115,17 @@ public class SecurityConfig {
                                 , "/user/login"
                                 , "/test"
                                 , "/test/**"
+                                , "/user/accessToken/"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .loginProcessingUrl("/user/login")
-//                        .usernameParameter("loginId")
-//                        .passwordParameter("password")
-//                        .successHandler(loginSuccessHandler())
-//                        .failureHandler(loginFailureHandler())
-//                )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .deleteCookies("JSESSIONID")
                         .deleteCookies("REMEMBER_ME_COOKIE")
                         .invalidateHttpSession(true)
                 )
-                //첫번째 로그인 사용자는 로그아웃, 두번째 사용자 로그인 session-registry-alias : 접속자 정보보기
-                .sessionManagement(sessionManagement -> sessionManagement
-                    .maximumSessions(1)
-                    .expiredUrl("/expireSession")
-                    .sessionRegistry(sessionRegistry())
-                )
                 .exceptionHandling(exception -> exception
-                        .defaultAuthenticationEntryPointFor(unauthorizeEntryPoint(), preferredMatcher)
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

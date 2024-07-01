@@ -2,6 +2,7 @@ package com.example.default1.base.jwt;
 
 import com.example.default1.base.redis.RedisObject;
 import com.example.default1.base.redis.RedisRepository;
+import com.example.default1.exception.CustomException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -106,16 +107,17 @@ public class JwtTokenProvider {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
-            throw new RuntimeException("유효하지 않은 JWT 토큰입니다.");
+            throw new CustomException(2999, "유효하지 않은 JWT 토큰입니다.");
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
-            throw new RuntimeException("Expired JWT Token");
+            throw new CustomException(2999, "Expired JWT Token");
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
+            throw new CustomException(2999, "Unsupported JWT Token");
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
+            throw new CustomException(2999, "JWT claims string is empty.");
         }
-        return false;
     }
 
     /**
