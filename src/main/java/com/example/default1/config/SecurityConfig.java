@@ -115,7 +115,7 @@ public class SecurityConfig {
                                 , "/user/login"
                                 , "/test"
                                 , "/test/**"
-                                , "/user/accessToken/"
+                                , "/user/accessToken"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

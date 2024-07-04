@@ -6,7 +6,7 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
-@RedisHash(value = "refreshToken", timeToLive = 60 * 60 * 24 * 3)
+@RedisHash(value = "value", timeToLive = 60 * 60 * 24 * 3)
 @ToString
 @Getter
 @Setter

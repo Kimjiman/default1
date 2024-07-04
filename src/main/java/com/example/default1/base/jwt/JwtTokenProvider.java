@@ -6,6 +6,7 @@ import com.example.default1.exception.CustomException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SecurityException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,11 +80,11 @@ public class JwtTokenProvider {
         Claims claims = parseClaims(token);
 
         if (claims.get("auth") == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+            throw new CustomException(2999, "권한 정보가 없는 토큰입니다.");
         }
 
         if (parseSubject(token).equals("refreshToken") && claims.get("loginId") == null) {
-            throw new RuntimeException("로그인 아이디가 없는 refresh토큰입니다.");
+            throw new CustomException(2998, "로그인 아이디가 없는 refresh토큰입니다.");
         }
 
         // String으로 변환한 Role정보를 컬렉션으로 변환하여 Role세팅
@@ -105,17 +106,17 @@ public class JwtTokenProvider {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
+        } catch (SecurityException | MalformedJwtException e) {
+            log.error("Invalid JWT Token", e);
             throw new CustomException(2999, "유효하지 않은 JWT 토큰입니다.");
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
+            log.error("Expired JWT Token", e);
             throw new CustomException(2999, "Expired JWT Token");
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
+            log.error("Unsupported JWT Token", e);
             throw new CustomException(2999, "Unsupported JWT Token");
         } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
+            log.error("JWT claims string is empty.", e);
             throw new CustomException(2999, "JWT claims string is empty.");
         }
     }
@@ -157,12 +158,12 @@ public class JwtTokenProvider {
 
         // 만료됬을때
         if(now.after(expiredDate)) {
-            throw new RuntimeException("refresh 토큰이 만료되었습니다. 재로그인 해주세요.");
+            throw new CustomException(2997, "refresh 토큰이 만료되었습니다. 재로그인 해주세요.");
         }
 
         // redis에서 token 정보를 찾을수가 없을때
         redisRepository.findValueByKey(loginId)
-                .orElseThrow(() -> new RuntimeException("refresh 토큰이 만료되었습니다. 재로그인 해주세요."));
+                .orElseThrow(() -> new CustomException(2996, "refresh 토큰이 만료되었습니다. 재로그인 해주세요."));
 
          /*
             claim 을 설정할수 있는 방법은 2가지
@@ -205,7 +206,7 @@ public class JwtTokenProvider {
         try {
             return parseClaims(token).getSubject();
         } catch (final JwtException e) {
-            throw new RuntimeException("parseSubject error. 관리자에게 문의해주세요.");
+            throw new CustomException(2995, "parseSubject error. 관리자에게 문의해주세요.");
         }
     }
 }
