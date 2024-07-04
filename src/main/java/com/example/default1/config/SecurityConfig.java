@@ -30,7 +30,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 import org.springframework.web.accept.HeaderContentNegotiationStrategy;
@@ -109,21 +108,10 @@ public class SecurityConfig {
                 )
                 .authorizeRequests(authorizeRequest -> authorizeRequest
                         .antMatchers(
-                                "/login"
-                                , "/join"
-                                , "/user/join"
-                                , "/user/login"
-                                , "/test"
-                                , "/test/**"
-                                , "/user/accessToken"
+                                "/auth/login"
+                                ,"/auth/token"
                         ).permitAll()
                         .anyRequest().authenticated()
-                )
-                .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .deleteCookies("JSESSIONID")
-                        .deleteCookies("REMEMBER_ME_COOKIE")
-                        .invalidateHttpSession(true)
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -138,7 +126,6 @@ public class SecurityConfig {
             log.error("unauthorized: session[{}] uri[{}] message[{}]", req.getSession().getId(), req.getRequestURI(), ex.getMessage());
             String msg = ex.getMessage();
             CommonUtil.responseFail(HttpServletResponse.SC_UNAUTHORIZED, msg, res);
-//            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
         };
     }
 

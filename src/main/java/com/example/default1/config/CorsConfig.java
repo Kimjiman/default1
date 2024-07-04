@@ -15,7 +15,6 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:5173"); // 클라이언트의 출처
         config.addAllowedOrigin("*");
         config.addAllowedHeader("Origin");
         config.addAllowedHeader("X-Requested-With");
@@ -26,6 +25,7 @@ public class CorsConfig {
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("DELETE");
         source.registerCorsConfiguration("/**", config);
+        config.setAllowCredentials(true);
         return new CorsFilter(source);
     }
 }

@@ -2,11 +2,15 @@ package com.example.default1.module.user.model;
 
 import com.example.default1.utils.Pager;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User extends Pager {
     private Long id;

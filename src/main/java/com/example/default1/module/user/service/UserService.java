@@ -1,7 +1,7 @@
 package com.example.default1.module.user.service;
 
 import com.example.default1.base.jwt.JwtTokenProvider;
-import com.example.default1.base.jwt.TokenInfo;
+import com.example.default1.base.jwt.JwtTokenInfo;
 import com.example.default1.exception.CustomException;
 import com.example.default1.module.user.mapper.UserMapper;
 import com.example.default1.module.user.model.User;
@@ -23,25 +23,10 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public TokenInfo login(String loginId, String password) {
-        // Authentication 객체 생성
+    public JwtTokenInfo login(String loginId, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password);
-        // authenticate 매서드가 실행될 때 UserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
-        TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
-        log.info("tokenInfo: {}", tokenInfo);
-        return tokenInfo;
-    }
-
-    /**
-     * refreshToken을 이용하여 accessToken 생성
-     *
-     * @param refreshToken
-     * @return
-     */
-    public String generateAccessToken(String refreshToken) {
-        return jwtTokenProvider.generateAccessToken(refreshToken);
+        return jwtTokenProvider.createJwtTokenInfo(authentication);
     }
 
     public User selectUser(Long id) {

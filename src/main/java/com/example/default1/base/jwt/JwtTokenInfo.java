@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TokenInfo {
+public class JwtTokenInfo {
     private String grantType;
     private String accessToken;
     private String refreshToken;
