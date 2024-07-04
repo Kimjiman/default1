@@ -24,7 +24,7 @@ public class RedisRepository {
     public void save(final RedisObject redisObject) {
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         valueOperations.set(redisObject.getKey(), redisObject.getValue());
-        redisTemplate.expire(redisObject.getKey(), redisObject.getExpiration(), TimeUnit.DAYS);
+        redisTemplate.expire(redisObject.getKey(), redisObject.getExpirationDay(), TimeUnit.DAYS);
     }
 
     /**

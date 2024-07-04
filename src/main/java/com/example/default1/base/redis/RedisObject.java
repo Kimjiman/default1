@@ -14,16 +14,16 @@ public class RedisObject {
     @Id
     private String key;
     private String value;
-    private Long expiration;
+    private Long expirationDay;
 
     public RedisObject(final String key, final String value) {
         this.key = key;
         this.value = value;
     }
 
-    public RedisObject(final String key, final String value, final Long expiration) {
+    public RedisObject(final String key, final String value, final Long expirationDay) {
         this.key = key;
         this.value = value;
-        this.expiration = expiration;
+        this.expirationDay = expirationDay;
     }
 }

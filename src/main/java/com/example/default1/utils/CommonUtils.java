@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import java.util.Base64;
 import java.util.Map;
 
-public class CommonUtil {
+public class CommonUtils {
     private static final MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
     private static final MediaType jsonMimeType = MediaType.APPLICATION_JSON;
 

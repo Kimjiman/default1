@@ -7,16 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class LoginUserDetails implements UserDetails {
-    private final LoginUser loginUser;
-
-    public LoginUserDetails(LoginUser loginUser) {
-        this.loginUser = loginUser;
-    }
-
-    public LoginUser getLoginUser() {
-        return loginUser;
-    }
+public record LoginUserDetails(LoginUser loginUser) implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

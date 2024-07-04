@@ -20,7 +20,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class SessionUtil {
+public class SessionUtils {
 
     @Autowired
     private SessionRegistry sessionRegistry;
@@ -60,12 +60,12 @@ public class SessionUtil {
 
     public static LoginUser getLoginUser() {
         LoginUserDetails loginUserDetails = getUser();
-        return loginUserDetails != null ? loginUserDetails.getLoginUser() : null;
+        return loginUserDetails != null ? loginUserDetails.loginUser() : null;
     }
 
     public static Long getUserId() {
         LoginUserDetails loginUserDetails = getUser();
-        return loginUserDetails != null ? loginUserDetails.getLoginUser().getId() : null;
+        return loginUserDetails != null ? loginUserDetails.loginUser().getId() : null;
     }
 
     public static String getUserLoginId() {

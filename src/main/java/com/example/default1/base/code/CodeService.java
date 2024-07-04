@@ -1,7 +1,7 @@
 package com.example.default1.base.code;
 
 import com.example.default1.exception.CustomException;
-import com.example.default1.utils.SessionUtil;
+import com.example.default1.utils.SessionUtils;
 import com.example.default1.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,8 +48,8 @@ public class CodeService {
         if(StringUtils.isBlank(codeGroup.getName())) {
             throw new CustomException(2800, "codeGroup.name이 입력되지 않았습니다.");
         }
-        codeGroup.setCreateId(SessionUtil.getUserId());
-        codeGroup.setUpdateId(SessionUtil.getUserId());
+        codeGroup.setCreateId(SessionUtils.getUserId());
+        codeGroup.setUpdateId(SessionUtils.getUserId());
         codeMapper.insertCodeGroup(codeGroup);
     }
 
@@ -65,20 +65,20 @@ public class CodeService {
         if(StringUtils.isBlank(codeGroup.getName())) {
             throw new CustomException(2800, "code.name이 입력되지 않았습니다.");
         }
-        code.setCreateId(SessionUtil.getUserId());
-        code.setUpdateId(SessionUtil.getUserId());
+        code.setCreateId(SessionUtils.getUserId());
+        code.setUpdateId(SessionUtils.getUserId());
         codeMapper.insertCode(code);
     }
 
     public void updateCodeGroup(CodeGroup codeGroup) {
         if(codeGroup.getId() == null) return;
-        codeGroup.setUpdateId(SessionUtil.getUserId());
+        codeGroup.setUpdateId(SessionUtils.getUserId());
         codeMapper.updateCodeGroup(codeGroup);
     }
 
     public void updateCode(Code code) {
         if(code.getId() == null) return;
-        code.setUpdateId(SessionUtil.getUserId());
+        code.setUpdateId(SessionUtils.getUserId());
         codeMapper.updateCode(code);
     }
 

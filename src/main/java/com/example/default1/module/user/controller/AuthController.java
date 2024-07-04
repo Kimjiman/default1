@@ -7,6 +7,7 @@ import com.example.default1.module.user.model.User;
 import com.example.default1.module.user.service.UserService;
 import com.example.default1.utils.JwtUtils;
 import com.example.default1.utils.StringUtils;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/auth")
+@Tag(name= "Auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;

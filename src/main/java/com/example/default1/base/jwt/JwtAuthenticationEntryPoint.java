@@ -1,6 +1,6 @@
 package com.example.default1.base.jwt;
 
-import com.example.default1.utils.CommonUtil;
+import com.example.default1.utils.CommonUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -18,6 +18,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          HttpServletResponse response,
                          AuthenticationException e) throws IOException, ServletException {
 
-        CommonUtil.responseFail(401, e.getMessage(), response);
+        CommonUtils.responseFail(401, e.getMessage(), response);
     }
 }

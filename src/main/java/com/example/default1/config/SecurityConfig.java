@@ -7,7 +7,7 @@ import com.example.default1.base.jwt.JwtAuthenticationFilter;
 import com.example.default1.base.jwt.JwtTokenProvider;
 import com.example.default1.config.auth.LoginFailureHandler;
 import com.example.default1.config.auth.LoginSuccessHandler;
-import com.example.default1.utils.CommonUtil;
+import com.example.default1.utils.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -55,6 +55,7 @@ public class SecurityConfig {
 
     /**
      * static 밑의 하위 경로 매핑을 위해 1번순서로 보안필터적용
+     *
      * @param http
      * @return
      * @throws Exception
@@ -63,7 +64,15 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain exceptionSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .requestMatchers((matchers) -> matchers.antMatchers("/static/**"))
+                .requestMatchers((matchers) -> matchers.antMatchers(
+                        "/static/**"
+                        , "/swagger-ui/**"
+                        , "/swagger-ui.html"
+                        , "/swagger-resources/**"
+                        , "/v3/api-docs/**"
+                        , "/api-docs/**"
+                        )
+                )
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
                 .requestCache().disable()
                 .securityContext().disable()
@@ -73,6 +82,7 @@ public class SecurityConfig {
 
     /**
      * 매핑 url과 다른 세팅을 위한용도로 2번째 순서로 적용
+     *
      * @param http
      * @return
      * @throws Exception
@@ -109,7 +119,7 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequest -> authorizeRequest
                         .antMatchers(
                                 "/auth/login"
-                                ,"/auth/token"
+                                , "/auth/token"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -125,7 +135,7 @@ public class SecurityConfig {
         return (req, res, ex) -> {
             log.error("unauthorized: session[{}] uri[{}] message[{}]", req.getSession().getId(), req.getRequestURI(), ex.getMessage());
             String msg = ex.getMessage();
-            CommonUtil.responseFail(HttpServletResponse.SC_UNAUTHORIZED, msg, res);
+            CommonUtils.responseFail(HttpServletResponse.SC_UNAUTHORIZED, msg, res);
         };
     }
 

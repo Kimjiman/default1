@@ -41,19 +41,6 @@ spring:
         suffix: .html
     profiles:
         active: local
-springdoc:
-    default-consumes-media-type: application/json;charset=UTF-8
-    default-produces-media-type: application/json;charset=UTF-8
-    swagger-ui:
-        disable-swagger-default-url: true
-        version: v1.0.0
-        enabled: true
-    api-docs:
-        path: /api-docs
-    model-and-view-allowed: true
-    cache:
-        disabled: true
-    packages-to-scan: com.example.default1
 cron:
     cache:
         refresh-cache: '55 54 23 * * *'
@@ -62,6 +49,14 @@ jwt:
 redis:
     host: localhost
     port: 6379
+springdoc:
+    swagger-ui:
+        config-url: /v3/api-docs/swagger-config
+        path: /swagger-ui.html
+        url: ${springdoc.api-docs.path}
+        disable-swagger-default-url: true
+    api-docs:
+        path: /v3/api-docs
 ---
 spring:
     config:

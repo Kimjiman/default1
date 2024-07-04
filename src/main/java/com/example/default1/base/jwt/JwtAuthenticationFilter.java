@@ -1,7 +1,7 @@
 package com.example.default1.base.jwt;
 
 import com.example.default1.exception.CustomException;
-import com.example.default1.utils.CommonUtil;
+import com.example.default1.utils.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
             chain.doFilter(request, response);
         } catch (CustomException ex) {
-            CommonUtil.responseFail(ex.getStatus(), ex.getMessage(), (HttpServletResponse) response);
+            CommonUtils.responseFail(ex.getStatus(), ex.getMessage(), (HttpServletResponse) response);
         }
     }
 

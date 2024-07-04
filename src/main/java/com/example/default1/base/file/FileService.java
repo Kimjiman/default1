@@ -4,7 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.default1.utils.SessionUtil;
+import com.example.default1.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +30,7 @@ public class FileService {
         FileInfo fileInfo = fileManager.upload(mf);
         fileInfo.setRefPath(refPath);
         fileInfo.setRefId(refId);
-        fileInfo.setCreateId(SessionUtil.getUserId());
+        fileInfo.setCreateId(SessionUtils.getUserId());
         fileMapper.insert(fileInfo);
         return fileInfo;
     }
