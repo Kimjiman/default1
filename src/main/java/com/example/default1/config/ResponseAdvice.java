@@ -27,6 +27,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
                                   MediaType selectedContentType,
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
+
         if(ObjectUtils.isNotEmpty(body)) {
             String returnTypeName = Objects.requireNonNull(returnType.getMethod()).getName();
             if(returnTypeName.equals("openapiJson")) {

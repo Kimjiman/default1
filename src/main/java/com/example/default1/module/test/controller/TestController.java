@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
+@RequestMapping("/test")
 @RequiredArgsConstructor
 public class TestController {
     private final TestMapper testMapper;
