@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.default1.base.menu.MenuMapper">
+    <sql id="selectQuery">
+        SELECT
+            id
+            , parent_id
+            , uri
+            , node_path
+            , `name`
+            , `order`
+            , icon_path
+            , use_yn
+            , roles
+            , description
+            , create_time
+            , create_id
+            , update_time
+            , update_id
+        FROM menu
+    </sql>
+
+    <sql id="searchCondtion">
+        <where>
+
+        </where>
+    </sql>
+    
+    <select id="selectMenuListBy" resultType="com.example.default1.base.menu.Menu">
+        <include refid="selectQuery" />
+    </select>
+
+    <select id="selectMenuById" resultType="com.example.default1.base.menu.Menu">
+        <include refid="selectQuery"/>
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insertMenu">
+        INSERT INTO menu (
+            parent_id
+            , uri
+            , node_path
+            , `name`
+            , `order`
+            , icon_path
+            , use_yn
+            , roles
+            , description
+            , create_id
+            , update_id
+        ) VALUES (
+            #{parentId}
+            , #{uri}
+            , #{nodePath}
+            , #{name}
+            , (SELECT COALESCE (MAX (`order`) + 1, 1) FROM menu WHERE parent_id = #{parentId})
+            , #{iconPath}
+            , #{useYn}
+            , #{roles}
+            , #{description}
+            , #{createId}
+            , #{updateId}
+        )
+    </insert>
+
+    <update id="updateMenu">
+        UPDATE menu
+        <set>
+            <if test="parentId != null and parentId != ''">
+                parent_id = #{parentId}
+            </if>
+            <if test="uri != null and uri != ''">
+                , uri = #{uri}
+            </if>
+            <if test="nodePath != null and nodePath != ''">
+                , node_path = #{nodePath}
+            </if>
+            <if test="name != null and name != ''">
+                , `name` = #{name}
+            </if>
+            <if test="order != null and order != ''">
+                , `order` = #{order}
+            </if>
+            <if test="iconPath != null and iconPath != ''">
+                , icon_path = #{iconPath}
+            </if>
+            <if test="useYn != null and useYn != ''">
+                , use_yn = #{useYn}
+            </if>
+            , roles = #{roles}
+            , description = #{description}
+            , update_id = #{updateId}
+            , update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteMenu">
+        DELETE FROM `menu`
+        WHERE id IN
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>
