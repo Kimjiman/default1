@@ -2,9 +2,14 @@ package com.example.default1.module.test.model;
 
 import com.example.default1.constants.YN;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+
+@Getter
+@Setter
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TestModel {
     private Integer id;

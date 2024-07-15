@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class JwtTokenProvider {
-    private static final Supplier<Date> refreshTokenExpiresInSupplier = () -> new Date((new Date()).getTime() + 60 * 60 * 24 * 3 * 1000); // 3일
-    private static final Supplier<Date> accessTokenExpiresInSupplier = () -> new Date(System.currentTimeMillis() + 60 * 15 * 1000); // 15분
+    private static final long REFRESH_TOKEN_EXP = 60 * 60 * 24 * 3 * 1000; // 3일
+    private static final long ACCESS_TOKEN_EXP = 60 * 15 * 1000; // 15분
 
     private final RedisRepository redisRepository;
     private final Key key;
@@ -45,20 +45,32 @@ public class JwtTokenProvider {
     }
 
     /**
-     * SecretKey 생성 메서드
+     * SecretKey 생성 메서드(256)
      *
      * @return Base64로 인코딩된 SecretKey
      * @throws NoSuchAlgorithmException
      */
     public static String createSecretKey() throws NoSuchAlgorithmException {
+        return createSecretKey(256);
+    }
+
+    /**
+     * SecretKey 생성 메서드
+     *
+     * @param keySize keytGenerator 키사이즈
+     * @return Base64로 인코딩된 SecretKey
+     * @throws NoSuchAlgorithmException
+     */
+    public static String createSecretKey(int keySize) throws NoSuchAlgorithmException {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
-        keyGenerator.init(256);
+        keyGenerator.init(keySize);
         SecretKey secretKey = keyGenerator.generateKey();
         return Base64.getEncoder().encodeToString(secretKey.getEncoded());
     }
 
     /**
      * 유저 정보를 가지고 RefreshToken, AccessToken 생성하는 메서드
+     *
      * @param authentication
      * @return
      */
@@ -80,12 +92,15 @@ public class JwtTokenProvider {
     }
 
     /**
-     *  loginId와 권한으로 refreshToken 생성
+     * loginId와 권한으로 refreshToken 생성
+     *
      * @param loginId
      * @param authorities
      * @return
      */
     public String createRefreshToken(String loginId, String authorities) {
+        Supplier<Date> refreshTokenExpiresInSupplier = () -> new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXP);
+
         return Jwts.builder()
                 .setSubject(loginId)
                 .claim("auth", authorities)
@@ -100,7 +115,7 @@ public class JwtTokenProvider {
     /**
      * 리프레쉬 토큰 삭제
      *
-     * @param refreshToken 
+     * @param refreshToken
      */
     public void removeRefreshToken(String refreshToken) {
         StringUtils.ifNotBlank(refreshToken, it -> redisRepository.deleteRawByKey(refreshToken));
@@ -108,10 +123,13 @@ public class JwtTokenProvider {
 
     /**
      * refreshToken을 이용해서 엑세스토큰 생성하기
+     *
      * @param refreshToken
      * @return
      */
     public String createAccessToken(String refreshToken) {
+        Supplier<Date> accessTokenExpiresInSupplier = () -> new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXP); // 15분
+
         Claims claims = this.parseClaimsByToken(refreshToken);
         String loginId = claims.getSubject();
         String auth = (String) claims.get("auth");
@@ -129,6 +147,7 @@ public class JwtTokenProvider {
 
     /**
      * accessToken 재발급
+     *
      * @param jwtTokenInfo
      * @return
      */
@@ -142,7 +161,7 @@ public class JwtTokenProvider {
                 throw new CustomException(2999, "토큰값이 존재하지 않습니다.");
             }
 
-            if(this.validateToken(refreshToken)) {
+            if (this.validateToken(refreshToken)) {
                 // 1. redis에서 token 정보를 찾을수가 없을때
                 RedisObject redisObject = redisRepository.findValueByKey(loginId);
                 String originRefreshToken = redisObject.getValue();

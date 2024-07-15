@@ -16,6 +16,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException {
+        
         CommonUtils.responseFail(3001, exception.getMessage(), response);
     }
 }

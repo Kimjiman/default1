@@ -2,6 +2,7 @@ package com.example.default1.utils;
 
 import com.example.default1.config.auth.LoginUser;
 import com.example.default1.config.auth.LoginUserDetails;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,10 +21,9 @@ import java.util.List;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class SessionUtils {
-
-    @Autowired
-    private SessionRegistry sessionRegistry;
+    private final SessionRegistry sessionRegistry;
 
    /* public static MemberVO getMember() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

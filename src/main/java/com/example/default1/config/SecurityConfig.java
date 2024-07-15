@@ -7,6 +7,7 @@ import com.example.default1.base.jwt.JwtAuthenticationFilter;
 import com.example.default1.base.jwt.JwtTokenProvider;
 import com.example.default1.config.auth.LoginFailureHandler;
 import com.example.default1.config.auth.LoginSuccessHandler;
+import com.example.default1.constants.UrlConstatns;
 import com.example.default1.utils.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,15 +65,7 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain exceptionSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .requestMatchers((matchers) -> matchers.antMatchers(
-                        "/static/**"
-                        , "/swagger-ui/**"
-                        , "/swagger-ui.html"
-                        , "/swagger-resources/**"
-                        , "/v3/api-docs/**"
-                        , "/api-docs/**"
-                        )
-                )
+                .requestMatchers((matchers) -> matchers.antMatchers(UrlConstatns.ALLOWED_URL()))
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
                 .requestCache().disable()
                 .securityContext().disable()

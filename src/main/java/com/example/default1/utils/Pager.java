@@ -1,14 +1,15 @@
 package com.example.default1.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Pager {
     private final Integer INIT_LIMIT = 10;
