@@ -24,7 +24,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public JwtTokenInfo login(@RequestBody User user) {
-        log.info("login start userInfo: {}", user);
         String loginId = user.getLoginId();
 
         if (StringUtils.isBlank(user.getLoginId())) {

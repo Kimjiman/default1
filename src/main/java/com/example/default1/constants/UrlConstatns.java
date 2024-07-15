@@ -12,20 +12,21 @@ package com.example.default1.constants;
  * 24. 7. 15.     KIM JIMAN      First Commit
  */
 public class UrlConstatns {
-    public static String[] ALLOWED_URL() {
-        return new String[]{
-                "/static/**"
-                , "/swagger-ui/**"
-                , "/swagger-ui.html"
-                , "/swagger-resources/**"
-                , "/v3/api-docs/**"
-                , "/api-docs/**"
-        };
-    }
+    public static String[] RESOURCE_URLS = {
+            "/static/**"
+            , "/swagger-ui/**"
+            , "/swagger-ui.html"
+            , "/swagger-resources/**"
+            , "/v3/api-docs/**"
+            , "/api-docs/**"
+    };
 
-    public static String[] NOT_ALLOWED_URL() {
-        return new String[]{
+    public static String[] ALLOWED_URLS = {
+            "/auth/login"
+            , "/auth/token"
+    };
 
-        };
-    }
+    public static String[] NOT_ALLOWED_URLS = {
+
+    };
 }

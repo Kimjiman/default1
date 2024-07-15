@@ -25,7 +25,7 @@ public class JwtUtils {
         return authentication.getName();
     }
 
-    public static List<GrantedAuthority> getRoleList() {
+    public static List<? extends GrantedAuthority> getRoleList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authoritieList = authentication.getAuthorities();
         return new ArrayList<>(authoritieList);

@@ -168,11 +168,11 @@ public class JwtTokenProvider {
 
                 // 2. refreshToken이 새로발급됬을때
                 if (!originRefreshToken.equals(refreshToken)) {
-                    throw new CustomException(2997, "중복로그인이 발생했습니다. 재로그인 해주세요.");
+                    throw new CustomException(2997, "중복로그인이 발생했습니다.");
                 }
             }
         } catch (Exception e) {
-            throw new CustomException(2997, "refresh 토큰이 만료되었습니다. 재로그인 해주세요.");
+            throw new CustomException(2997, "refresh 토큰이 만료되었습니다.");
         }
 
         return JwtTokenInfo.builder()
@@ -193,8 +193,6 @@ public class JwtTokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
-        log.info("parseClaimsByToken claims: {}", claims);
 
         try {
             return claims;

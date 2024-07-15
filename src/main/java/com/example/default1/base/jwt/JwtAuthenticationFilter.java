@@ -55,7 +55,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     }
 
     private boolean isAllowedUrl(String requestURI) {
-        List<String> allowedUrlList = CollectionUtils.arrayToList(UrlConstatns.ALLOWED_URL());
+        List<String> allowedUrlList = CollectionUtils.arrayToList(UrlConstatns.ALLOWED_URLS);
         return allowedUrlList.stream()
                 .anyMatch(it -> pathMatcher.match(it, requestURI));
     }

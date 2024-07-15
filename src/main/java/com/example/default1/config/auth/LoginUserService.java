@@ -21,7 +21,6 @@ public class LoginUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
-        log.info("loginId: {}", loginId);
 //        LoginUser loginUser = loginUserMapper.selectLoginUserByLoginId(loginId);
 //        if(loginUser != null) {
 //            /*

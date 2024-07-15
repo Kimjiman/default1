@@ -40,8 +40,8 @@ public class FileManager {
 
         String savePath = generateDynamicPath();
         File dir = new File(storePath + File.separator + savePath);
-        if (!dir.exists()) {
-            dir.mkdirs();
+        if (!dir.mkdirs()) {
+            throw new IllegalArgumentException("디렉터리가 생성되지 않았습니다.");
         }
 
         String oriName = mf.getOriginalFilename();
