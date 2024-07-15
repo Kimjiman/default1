@@ -80,9 +80,17 @@
             <if test="name != null and name != ''">
                 , `name` = #{name}
             </if>
-            <if test="order != null and order != ''">
-                , `order` = #{order}
-            </if>
+            <choose>
+                <when test="order != null">
+                    #{order}
+                </when>
+                <otherwise>
+                    , (SELECT `order` FROM
+                        (SELECT COALESCE(max(`order`) + 1, 1) `order` FROM `menu`
+                        WHERE parent_id = (SELECT parent_id FROM `menu` WHERE `id` = #{id})
+                    ) as `order`)
+                </otherwise>
+            </choose>
             <if test="iconPath != null and iconPath != ''">
                 , icon_path = #{iconPath}
             </if>
