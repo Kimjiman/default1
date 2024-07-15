@@ -19,7 +19,7 @@ import java.util.List;
  * -----------------------------------------------------------
  * 24. 7. 4.     KIM JIMAN      First Commit
  */
-public class JwtUtils {
+public class JwtSesstionUtils {
     public static String getLoginId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();

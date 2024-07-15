@@ -12,6 +12,10 @@ public class CollectionUtils {
         return collection == null || collection.isEmpty();
     }
 
+    public static boolean isNotEmpty(Collection<?> collection) {
+        return !isEmpty(collection);
+    }
+
     public static <T> void ifEmpty(Collection<T> collection, Consumer<Collection<T>> action) {
         if(isEmpty(collection)) action.accept(collection);
     }
@@ -26,7 +30,7 @@ public class CollectionUtils {
 
     @SafeVarargs
     public static <T> Collection<T> merge(Collection<T>... collections) {
-        if(collections == null) {
+        if(collections == null || collections.length == 0) {
             throw new RuntimeException("Collections cannot be Null.");
         }
         Collection<T> mergedCollection = new ArrayList<>();
