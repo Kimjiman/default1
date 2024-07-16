@@ -1,5 +1,6 @@
 package com.example.default1.base.menu;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,5 +15,8 @@ import org.springframework.stereotype.Service;
  * 24. 7. 11.     KIM JIMAN      First Commit
  */
 @Service
+@RequiredArgsConstructor
 public class MenuService {
+    private final MenuMapper menuMapper;
+
 }

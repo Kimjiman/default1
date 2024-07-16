@@ -3,8 +3,7 @@ package com.example.default1.base.file;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -15,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.example.default1.exception.CustomException;
 import com.example.default1.utils.CollectionUtils;
+import com.example.default1.utils.DateUtils;
 import com.example.default1.utils.NetworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,10 +38,11 @@ public class FileManager {
             throw new IllegalArgumentException("파일이 존재하지 않습니다.");
         }
 
-        String savePath = generateDynamicPath();
+        String savePath = DateUtils.localDateToString(LocalDate.now(), "yyyyMM");
         File dir = new File(storePath + File.separator + savePath);
+        
         if (!dir.mkdirs()) {
-            throw new IllegalArgumentException("디렉터리가 생성되지 않았습니다.");
+            throw new IllegalArgumentException("디렉터리가 생성에 실패하였습니다.");
         }
 
         String oriName = mf.getOriginalFilename();
@@ -68,7 +69,7 @@ public class FileManager {
      * @return
      * @throws IOException
      */
-    public List<FileInfo> uploadList(List<MultipartFile> mfs) throws IOException {
+    public List<FileInfo> upload(List<MultipartFile> mfs) {
         if (CollectionUtils.isEmpty(mfs)) {
             throw new IllegalArgumentException("파일 리스트가 비어있습니다.");
         }
@@ -105,7 +106,6 @@ public class FileManager {
             FileCopyUtils.copy(is, os);
 
         } catch (IOException e) {
-            log.error("파일 다운로드 중 오류가 발생했습니다.", e);
             throw new CustomException(2999, "파일 다운로드 중 오류가 발생했습니다.");
         }
     }
@@ -138,7 +138,6 @@ public class FileManager {
             FileCopyUtils.copy(is, os);
 
         } catch (IOException e) {
-            log.error("파일 읽기 중 오류가 발생했습니다.", e);
             throw new CustomException(2999, "파일 읽기 중 오류가 발생했습니다.");
         }
 
@@ -147,6 +146,7 @@ public class FileManager {
 
     /**
      * 파일삭제
+     * @param fileInfo
      */
     public void delete(FileInfo fileInfo) {
         if (fileInfo == null) {
@@ -178,21 +178,18 @@ public class FileManager {
 
             response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);
         } catch (UnsupportedEncodingException e) {
-            log.error("파일명 인코딩에 실패했습니다: {}", fileName, e);
             throw new CustomException(2999, "파일명 인코딩에 실패했습니다.");
         }
     }
 
-
-    private String generateDynamicPath() {
-        Calendar time = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-        return sdf.format(time.getTime());
-    }
-
     private String extractSafeExtension(String originalFilename) {
+        List<String> unsafeExtList = List.of("jsp", "php");
         String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
-        return "jsp".equals(extension) ? "txt" : extension;
+
+        return unsafeExtList.stream()
+                .filter(it -> it.equals(extension))
+                .findFirst()
+                .orElse("txt");
     }
 }
 
