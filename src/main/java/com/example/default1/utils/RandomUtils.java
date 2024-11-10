@@ -24,6 +24,10 @@ public class RandomUtils {
         ALLOWED_CHARACTERS = sb.toString();
     }
 
+    public static String generateRandomString() {
+        return generateRandomString(DEFAULT_LENGTH);
+    }
+
     public static String generateRandomString(int length) {
         if (length <= 0) length = DEFAULT_LENGTH;
 
@@ -38,9 +42,5 @@ public class RandomUtils {
         }
 
         return sb.toString();
-    }
-
-    public static String generateRandomString() {
-        return generateRandomString(DEFAULT_LENGTH);
     }
 }

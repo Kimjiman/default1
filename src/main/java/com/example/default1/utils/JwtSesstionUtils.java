@@ -19,13 +19,13 @@ import java.util.List;
  * -----------------------------------------------------------
  * 24. 7. 4.     KIM JIMAN      First Commit
  */
-public class JwtUtils {
+public class JwtSesstionUtils {
     public static String getLoginId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }
 
-    public static List<GrantedAuthority> getRoleList() {
+    public static List<? extends GrantedAuthority> getRoleList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authoritieList = authentication.getAuthorities();
         return new ArrayList<>(authoritieList);

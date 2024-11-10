@@ -5,7 +5,7 @@ import com.example.default1.base.jwt.JwtTokenProvider;
 import com.example.default1.exception.CustomException;
 import com.example.default1.module.user.model.User;
 import com.example.default1.module.user.service.UserService;
-import com.example.default1.utils.JwtUtils;
+import com.example.default1.utils.JwtSesstionUtils;
 import com.example.default1.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public JwtTokenInfo login(@RequestBody User user) {
-        log.info("login start userInfo: {}", user);
         String loginId = user.getLoginId();
 
         if (StringUtils.isBlank(user.getLoginId())) {
@@ -41,7 +40,7 @@ public class AuthController {
 
     @PostMapping("/logout")
     public void logout() {
-        jwtTokenProvider.removeRefreshToken(JwtUtils.getLoginId());
+        jwtTokenProvider.removeRefreshToken(JwtSesstionUtils.getLoginId());
     }
 
     @PostMapping("/token")
@@ -52,8 +51,8 @@ public class AuthController {
 
     @PostMapping("/test")
     public void test() {
-        log.info("loginId: {}", JwtUtils.getLoginId());
-        log.info("roleList: {}", JwtUtils.getRoleList());
+        log.info("loginId: {}", JwtSesstionUtils.getLoginId());
+        log.info("roleList: {}", JwtSesstionUtils.getRoleList());
     }
 }
 

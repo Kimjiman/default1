@@ -2,7 +2,7 @@ package com.example.default1.constants;
 
 public class RegexConstatns {
     // 아이디: 영문소문자,-,_,.숫자
-    public static final String LOGIN_ID = "^[a-z\\-_.0-9]{6,16}$";
+    public static final String ID = "^[a-z\\-_.0-9]{6,16}$";
     // 비밀번호 : 숫자,문자,특수문자 혼용 8~20자
     public static final String PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$";
     // 이름 : 영문대소문자,한글완성형,특수문자허용 2~10자

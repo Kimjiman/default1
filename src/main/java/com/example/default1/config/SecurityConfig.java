@@ -7,7 +7,7 @@ import com.example.default1.base.jwt.JwtAuthenticationFilter;
 import com.example.default1.base.jwt.JwtTokenProvider;
 import com.example.default1.config.auth.LoginFailureHandler;
 import com.example.default1.config.auth.LoginSuccessHandler;
-import com.example.default1.utils.CommonUtils;
+import com.example.default1.constants.UrlConstatns;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -25,7 +25,6 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
@@ -62,18 +61,14 @@ public class SecurityConfig {
      */
     @Bean
     @Order(1)
-    public SecurityFilterChain exceptionSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain resourceFilterChain(HttpSecurity http) throws Exception {
         return http
-                .requestMatchers((matchers) -> matchers.antMatchers(
-                        "/static/**"
-                        , "/swagger-ui/**"
-                        , "/swagger-ui.html"
-                        , "/swagger-resources/**"
-                        , "/v3/api-docs/**"
-                        , "/api-docs/**"
-                        )
+                .requestMatchers(matchers -> matchers
+                        .antMatchers(UrlConstatns.RESOURCE_URLS)
                 )
-                .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().permitAll()
+                )
                 .requestCache().disable()
                 .securityContext().disable()
                 .sessionManagement().disable()
@@ -89,7 +84,7 @@ public class SecurityConfig {
      */
     @Bean
     @Order(2)
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain endpointFilterChain(HttpSecurity http) throws Exception {
         ContentNegotiationStrategy contentNegotiationStrategy = http.getSharedObject(ContentNegotiationStrategy.class);
         if (contentNegotiationStrategy == null) {
             contentNegotiationStrategy = new HeaderContentNegotiationStrategy();
@@ -109,7 +104,6 @@ public class SecurityConfig {
                 .and()
                 .httpBasic().disable()
                 .headers(header -> header
-                        //X-Frame-Options 셋팅 , 크로스 사이트 스크립트 방지 해재 default 'DENY'
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
                 )
                 .csrf(AbstractHttpConfigurer::disable)
@@ -117,10 +111,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeRequests(authorizeRequest -> authorizeRequest
-                        .antMatchers(
-                                "/auth/login"
-                                , "/auth/token"
-                        ).permitAll()
+                        .antMatchers(UrlConstatns.ALLOWED_URLS).permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
@@ -128,15 +119,6 @@ public class SecurityConfig {
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
-    }
-
-    @Bean
-    protected AuthenticationEntryPoint unauthorizeEntryPoint() {
-        return (req, res, ex) -> {
-            log.error("unauthorized: session[{}] uri[{}] message[{}]", req.getSession().getId(), req.getRequestURI(), ex.getMessage());
-            String msg = ex.getMessage();
-            CommonUtils.responseFail(HttpServletResponse.SC_UNAUTHORIZED, msg, res);
-        };
     }
 
     @Bean

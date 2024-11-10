@@ -39,7 +39,7 @@ public class RedisRepository {
     }
 
     /**
-     * Key로 한행삭제
+     * Key로 한줄삭제
      * @param key 
      */
     public Boolean deleteRawByKey(String key) {

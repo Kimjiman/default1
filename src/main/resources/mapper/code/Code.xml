@@ -89,7 +89,7 @@
             , `create_id`
             , `update_id`
         ) VALUES (
-            (SELECT code_group FROM (SELECT IFNULL(max(code_group) + 1, 100) code_group FROM code_group)
+            (SELECT code_group FROM (SELECT COALESCE(max(code_group) + 1, 100) code_group FROM code_group)
              as code_group)
             , #{name}
             , #{createId}
@@ -110,7 +110,7 @@
             (SELECT code_group FROM code_group WHERE id = #{codeGroupId})
             , (SELECT code FROM (SELECT CONCAT(
                 (SELECT code_group FROM code_group WHERE id = #{codeGroupId})
-                , (SELECT IFNULL(LPAD(MAX(SUBSTR(code, 4)) + 1, 3, '0'), '001') FROM code WHERE code_group_id = #{codeGroupId})
+                , (SELECT COALESCE(LPAD(MAX(SUBSTR(code, 4)) + 1, 3, '0'), '001') FROM code WHERE code_group_id = #{codeGroupId})
                 ) as `code`) as `code`)
             , #{name}
             , <choose>
@@ -119,7 +119,7 @@
                 </when>
                 <otherwise>
                     (SELECT `order` FROM
-                        (SELECT IFNULL(max(`order`) + 1, 1) `order` FROM `code` WHERE code_group_id = #{codeGroupId})
+                        (SELECT COALESCE(max(`order`) + 1, 1) `order` FROM `code` WHERE code_group_id = #{codeGroupId})
                      as `order`)
                 </otherwise>
               </choose>
@@ -155,7 +155,7 @@
                 </when>
                 <otherwise>
                     (SELECT `order` FROM
-                        (SELECT IFNULL(max(`order`) + 1, 1) `order` FROM `code`
+                        (SELECT COALESCE(max(`order`) + 1, 1) `order` FROM `code`
                             WHERE code_group_id = (SELECT code_group_id FROM `code` WHERE `id` = #{id})
                     ) as `order`),
                 </otherwise>
