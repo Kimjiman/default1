@@ -1,79 +1,79 @@
 logging:
-    level:
-        jdbc:
-            audit: OFF
-            resultset: OFF
-            resultsettable: OFF
-            sqlonly: DEBUG
-            sqltiming: OFF
-            connection : OFF
-        root: INFO
-    pattern:
-        console: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([${LOG_LEVEL_PATTERN:%5p}]) %clr(%-36.36(%logger{0}.%method)){cyan} %4.4L %clr(:){faint} %m%n'
+  level:
+    jdbc:
+      audit: OFF
+      resultset: OFF
+      resultsettable: OFF
+      sqlonly: DEBUG
+      sqltiming: OFF
+      connection: OFF
+    root: INFO
+  pattern:
+    console: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([${LOG_LEVEL_PATTERN:%5p}]) %clr(%-36.36(%logger{0}.%method)){cyan} %4.4L %clr(:){faint} %m%n'
 mybatis:
-    configuration:
-        map-underscore-to-camel-case: true
-    mapper-locations: classpath*:mapper/**/*.xml
-    type-handlers-package: com.example.default1.config.enumTypeHandler
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-handlers-package: com.example.default1.config.enumTypeHandler
 server:
-    port: 8085
+  port: 8085
 spring:
-    datasource:
-        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Seoul
-        username: root
-        password: 1234
-        hikari:
-            maximum-pool-size: 10
-    devtools:
-        add-properties: true
-        livereload:
-            enabled: true
-    mvc:
-        static-path-pattern: /static/**
-        throw-exception-if-no-handler-found: true
-    sql:
-        init:
-            platform: mysql
-    thymeleaf:
-        cache: true
-        prefix: classpath:/templates/
-        suffix: .html
-    profiles:
-        active: local
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+    hikari:
+      maximum-pool-size: 10
+  devtools:
+    add-properties: true
+    livereload:
+      enabled: true
+  mvc:
+    static-path-pattern: /static/**
+    throw-exception-if-no-handler-found: true
+  sql:
+    init:
+      platform: mysql
+  thymeleaf:
+    cache: true
+    prefix: classpath:/templates/
+    suffix: .html
+  profiles:
+    active: local
 cron:
-    cache:
-        refresh-cache: '55 54 23 * * *'
+  cache:
+    refresh-cache: '55 54 23 * * *'
 jwt:
-    secret: /kO7/CZDZArXhIZBBw8tuVoUQP3/gcIKDKOMlSI5xdE=
+  secret: /kO7/CZDZArXhIZBBw8tuVoUQP3/gcIKDKOMlSI5xdE=
 redis:
-    host: localhost
-    port: 6379
+  host: localhost
+  port: 6379
 springdoc:
-    swagger-ui:
-        config-url: /v3/api-docs/swagger-config
-        path: /swagger-ui.html
-        url: ${springdoc.api-docs.path}
-        disable-swagger-default-url: true
-    api-docs:
-        path: /v3/api-docs
+  swagger-ui:
+    config-url: /v3/api-docs/swagger-config
+    path: /swagger-ui.html
+    url: ${springdoc.api-docs.path}
+    disable-swagger-default-url: true
+  api-docs:
+    path: /v3/api-docs
 ---
 spring:
-    config:
-        activate:
-            on-profile: local
+  config:
+    activate:
+      on-profile: local
 file:
-    store:
-        path: c:/tmp/default1
+  store:
+    path: c:/tmp/default1
 ---
 spring:
-    config:
-        activate:
-            on-profile: dev
+  config:
+    activate:
+      on-profile: dev
 file:
-    store:
-        path: /web/file
+  store:
+    path: /web/file
 logging:
-    file:
-        name: /web/jar/log/file.log
+  file:
+    name: /web/jar/log/file.log
 ---

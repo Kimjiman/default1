@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
  * date           : 2024-11-10(일) 일요일
  * description    :
  * ===========================================================
- * DATE           AUTHOR          NOTE
+ * date           author          note
  * -----------------------------------------------------------
  * 2024-11-10(일)     KIM JIMAN      First Commit
  */

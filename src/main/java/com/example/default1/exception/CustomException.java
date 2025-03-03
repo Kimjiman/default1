@@ -21,4 +21,9 @@ public class CustomException extends BaseException {
         this.status = status;
         this.message = message;
     }
+
+    public CustomException(String message) {
+        super(500, message);
+        this.message = message;
+    }
 }
