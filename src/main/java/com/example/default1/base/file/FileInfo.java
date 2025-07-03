@@ -1,5 +1,6 @@
 package com.example.default1.base.file;
 
+import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FileInfo {
+public class FileInfo extends BaseModel {
     private Long id;
     private String refPath;
     private Long refId;
@@ -21,6 +22,4 @@ public class FileInfo {
     private String ext;
     private String type;
     private Long size;
-    private LocalDateTime createTime;
-    private Long createId;
 }

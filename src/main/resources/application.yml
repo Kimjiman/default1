@@ -15,8 +15,6 @@ mybatis:
     map-underscore-to-camel-case: true
   mapper-locations: classpath*:mapper/**/*.xml
   type-handlers-package: com.example.default1.config.enumTypeHandler
-server:
-  port: 8085
 spring:
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
@@ -40,15 +38,12 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
   profiles:
-    active: local
+    default: local
 cron:
   cache:
     refresh-cache: '55 54 23 * * *'
 jwt:
   secret: /kO7/CZDZArXhIZBBw8tuVoUQP3/gcIKDKOMlSI5xdE=
-redis:
-  host: localhost
-  port: 6379
 springdoc:
   swagger-ui:
     config-url: /v3/api-docs/swagger-config
@@ -58,6 +53,9 @@ springdoc:
   api-docs:
     path: /v3/api-docs
 ---
+# local
+server:
+  port: 8085
 spring:
   config:
     activate:
@@ -65,7 +63,13 @@ spring:
 file:
   store:
     path: c:/tmp/default1
+redis:
+  host: localhost
+  port: 6379
 ---
+# dev
+server:
+  port: 8080
 spring:
   config:
     activate:
@@ -76,4 +80,23 @@ file:
 logging:
   file:
     name: /web/jar/log/file.log
+redis:
+  host: localhost
+  port: 6379
 ---
+# prod
+server:
+  port: 8080
+spring:
+  config:
+    activate:
+      on-profile: prod
+file:
+  store:
+    path: /web/file
+logging:
+  file:
+    name: /web/jar/log/file.log
+redis:
+  host: localhost
+  port: 6379

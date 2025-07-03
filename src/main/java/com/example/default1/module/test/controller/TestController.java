@@ -5,6 +5,7 @@ import com.example.default1.module.test.mapper.TestMapper;
 import com.example.default1.module.test.model.TestModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,5 +30,10 @@ public class TestController {
         log.info("testModel: {}", testModel);
         testMapper.testInsert(testModel);
         return ResponseEntity.ok(testMapper.testSql());
+    }
+
+    @PostMapping("/test2")
+    public ResponseEntity<?> test2() {
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }

@@ -6,6 +6,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -315,50 +316,34 @@ enum DayOfWeeks {
     }
 
     public static String getKor(int dayOfWeekNumber) {
-        String val = null;
-        for (DayOfWeeks dayOfweek : values()) {
-            if (dayOfweek.dayOfWeekNumber == dayOfWeekNumber) {
-                val = dayOfweek.getKor();
-                break;
-            }
-        }
-        if(val == null) throw new RuntimeException("getKor: Suggest dayOfWeekNumber is not exist in DayOfWeeks.");
-        return val;
+        return Arrays.stream(values())
+                .filter(dayOfweek -> dayOfweek.dayOfWeekNumber == dayOfWeekNumber)
+                .findFirst()
+                .map(DayOfWeeks::getKor)
+                .orElseThrow();
     }
 
     public static String getKorShort(int dayOfWeekNumber) {
-        String val = null;
-        for (DayOfWeeks dayOfweek : values()) {
-            if (dayOfweek.dayOfWeekNumber == dayOfWeekNumber) {
-                val = dayOfweek.getKorShort();
-                break;
-            }
-        }
-        if(val == null) throw new RuntimeException("getKorShort: Suggest dayOfWeekNumber is not exist in DayOfWeeks.");
-        return val;
+        return Arrays.stream(values())
+                .filter(dayOfweek -> dayOfweek.dayOfWeekNumber == dayOfWeekNumber)
+                .findFirst()
+                .map(DayOfWeeks::getKorShort)
+                .orElseThrow();
     }
 
     public static String getEng(int dayOfWeekNumber) {
-        String val = null;
-        for (DayOfWeeks dayOfweek : values()) {
-            if (dayOfweek.dayOfWeekNumber == dayOfWeekNumber) {
-                val = dayOfweek.getEng();
-                break;
-            }
-        }
-        if(val == null) throw new RuntimeException("getEng: Suggest dayOfWeekNumber is not exist in DayOfWeeks.");
-        return val;
+        return Arrays.stream(values())
+                .filter(dayOfweek -> dayOfweek.dayOfWeekNumber == dayOfWeekNumber)
+                .findFirst()
+                .map(DayOfWeeks::getEng)
+                .orElseThrow();
     }
 
     public static String getEngShort(int dayOfWeekNumber) {
-        String val = null;
-        for (DayOfWeeks dayOfweek : values()) {
-            if (dayOfweek.dayOfWeekNumber == dayOfWeekNumber) {
-                val = dayOfweek.getEngShort();
-                break;
-            }
-        }
-        if(val == null) throw new RuntimeException("getEngShort: Suggest dayOfWeekNumber is not exist in DayOfWeeks.");
-        return val;
+        return Arrays.stream(values())
+                .filter(dayOfweek -> dayOfweek.dayOfWeekNumber == dayOfWeekNumber)
+                .findFirst()
+                .map(DayOfWeeks::getEngShort)
+                .orElseThrow();
     }
 }

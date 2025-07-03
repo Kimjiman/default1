@@ -1,6 +1,6 @@
-$(function() {
+document.addEventListener("DOMContentLoaded", {
 
-})
+});
 
 /**
  * 깊은 복사
@@ -229,28 +229,6 @@ const serializeObject = (querySelector) => {
     });
     return obj;
 }
-
-/**
- * jquery선택자를 이용해서 form안에 name을 기반으로 json 데이터를 생성한다.
- * @returns {null}
- */
-jQuery.fn.serializeObject = function () {
-    let obj = null;
-    try {
-        if (this[0].tagName && this[0].tagName.toUpperCase() === "FORM") {
-            let arr = this.serializeArray();
-            if (arr) {
-                obj = {};
-                jQuery.each(arr, function () {
-                    obj[this.name] = this.value;
-                });
-            }
-        }
-    } catch (e) {
-        alert(e.message);
-    }
-    return obj;
-};
 
 const ajaxApi = {
     requestCount: 0,
@@ -485,7 +463,9 @@ const stringUtils = {
         if(stringUtils.isEmpty(val) || stringUtils.isEmpty(regex)) return false;
         return regex.test(val);
     },
+}
 
+const regexUtils = {
     /**
      * 영어소문자, 숫자, -_로 아이디 만들기
      * @param val

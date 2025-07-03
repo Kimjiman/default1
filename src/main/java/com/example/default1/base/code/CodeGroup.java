@@ -1,5 +1,6 @@
 package com.example.default1.base.code;
 
+import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,13 +13,9 @@ import java.util.List;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CodeGroup {
+public class CodeGroup extends BaseModel {
     private Long id;
     private String codeGroup;
     private String name;
-    private LocalDateTime createTime;
-    private Long createId;
-    private LocalDateTime updateTime;
-    private Long updateId;
     private List<Code> codeList;
 }

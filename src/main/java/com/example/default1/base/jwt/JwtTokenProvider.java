@@ -34,6 +34,8 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
     private static final long REFRESH_TOKEN_EXP = 60 * 60 * 24 * 3 * 1000; // 3일
     private static final long ACCESS_TOKEN_EXP = 60 * 15 * 1000; // 15분
+    private static final String GRANT_TYPE = "bearer";
+    private static final String CLAIM_NAME = "auth";
 
     private final RedisRepository redisRepository;
     private final Key key;
@@ -85,7 +87,7 @@ public class JwtTokenProvider {
         redisRepository.save(new RedisObject(authentication.getName(), refreshToken, 3L));
 
         return JwtTokenInfo.builder()
-                .grantType("Bearer")
+                .grantType(GRANT_TYPE)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -103,7 +105,7 @@ public class JwtTokenProvider {
 
         return Jwts.builder()
                 .setSubject(loginId)
-                .claim("auth", authorities)
+                .claim(CLAIM_NAME, authorities)
                 .setExpiration(refreshTokenExpiresInSupplier.get())
                 .setIssuer(loginId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -132,11 +134,11 @@ public class JwtTokenProvider {
 
         Claims claims = this.parseClaimsByToken(refreshToken);
         String loginId = claims.getSubject();
-        String auth = (String) claims.get("auth");
+        String auth = (String) claims.get(CLAIM_NAME);
 
         return Jwts.builder()
                 .setSubject(loginId)
-                .claim("auth", auth)
+                .claim(CLAIM_NAME, auth)
                 .setExpiration(accessTokenExpiresInSupplier.get())
                 .setIssuer(loginId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -212,7 +214,7 @@ public class JwtTokenProvider {
         Claims claims = parseClaimsByToken(token);
 
         Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get("auth").toString().split(","))
+                Arrays.stream(claims.get(CLAIM_NAME).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
