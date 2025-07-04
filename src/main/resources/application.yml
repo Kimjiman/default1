@@ -41,7 +41,7 @@ spring:
     default: local
 cron:
   cache:
-    refresh-cache: '55 54 23 * * *'
+    refresh-cache: '55 55 23 * * *'
 jwt:
   secret: /kO7/CZDZArXhIZBBw8tuVoUQP3/gcIKDKOMlSI5xdE=
 springdoc:

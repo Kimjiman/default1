@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BaseModel extends Base {
+public abstract class BaseModel extends Base {
     private LocalDateTime createTime;
     private Long createId;
     private LocalDateTime updateTime;
