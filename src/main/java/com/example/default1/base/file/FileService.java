@@ -30,7 +30,7 @@ public class FileService {
         FileInfo fileInfo = fileManager.upload(mf);
         fileInfo.setRefPath(refPath);
         fileInfo.setRefId(refId);
-        fileInfo.setCreateId(SessionUtils.getUserId());
+        fileInfo.setCurrentUserCreateId();
         fileMapper.insert(fileInfo);
         return fileInfo;
     }

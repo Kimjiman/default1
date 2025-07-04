@@ -1,17 +1,5 @@
 package com.example.default1.base.file;
 
-import java.io.*;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.example.default1.exception.CustomException;
 import com.example.default1.utils.CollectionUtils;
 import com.example.default1.utils.DateUtils;
@@ -21,6 +9,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -49,19 +48,18 @@ public class FileManager {
         String extension = extractSafeExtension(Objects.requireNonNull(oriName));
         String newName = UUID.randomUUID() + "." + extension;
 
-        FileInfo fileInfo = new FileInfo();
         try {
             FileCopyUtils.copy(mf.getInputStream(), new FileOutputStream(new File(dir, newName)));
-            fileInfo.setOriName(oriName);
-            fileInfo.setNewName(newName);
-            fileInfo.setSavePath(savePath);
-            fileInfo.setSize(mf.getSize());
-            fileInfo.setType(mf.getContentType());
+            return FileInfo.builder()
+                    .oriName(oriName)
+                    .newName(newName)
+                    .savePath(savePath)
+                    .size(mf.getSize())
+                    .type(mf.getContentType())
+                    .build();
         } catch (IOException e) {
             throw new RuntimeException("파일 저장에 실패하였습니다.");
         }
-
-        return fileInfo;
     }
 
     /**

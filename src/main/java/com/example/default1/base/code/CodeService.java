@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,21 +17,20 @@ public class CodeService {
 
     public List<CodeGroup> selectCodeGroupList(CodeGroup codeGroup) {
         List<CodeGroup> codeGroupList = codeMapper.selectCodeGroupList(codeGroup);
-        codeGroupList.forEach(it -> {
-            Code code = new Code();
-            code.setCodeGroupId(it.getId());
-            it.setCodeList(codeMapper.selectCodeList(code));
-        });
-        return codeGroupList;
+        return codeGroupList.stream()
+                .peek(it -> {
+                    it.setCodeList(codeMapper.selectCodeList(Code.builder()
+                            .codeGroupId(it.getId())
+                            .build()));
+                })
+                .collect(Collectors.toList());
     }
 
     public CodeGroup selectCodeGroupById(Long id) {
         if(id == null) return null;
         CodeGroup codeGroup = codeMapper.selectCodeGroupById(id);
         if(codeGroup != null) {
-            Code code = new Code();
-            code.setCodeGroupId(id);
-            codeGroup.setCodeList(codeMapper.selectCodeList(code));
+            codeGroup.setCodeList(codeMapper.selectCodeList(Code.builder().codeGroupId(id).build()));
         }
         return codeGroup;
     }
@@ -48,8 +48,8 @@ public class CodeService {
         if(StringUtils.isBlank(codeGroup.getName())) {
             throw new CustomException(2800, "codeGroup.name이 입력되지 않았습니다.");
         }
-        codeGroup.setCreateId(SessionUtils.getUserId());
-        codeGroup.setUpdateId(SessionUtils.getUserId());
+
+        codeGroup.setCurrentUser();
         codeMapper.insertCodeGroup(codeGroup);
     }
 
@@ -65,8 +65,8 @@ public class CodeService {
         if(StringUtils.isBlank(codeGroup.getName())) {
             throw new CustomException(2800, "code.name이 입력되지 않았습니다.");
         }
-        code.setCreateId(SessionUtils.getUserId());
-        code.setUpdateId(SessionUtils.getUserId());
+
+        codeGroup.setCurrentUser();
         codeMapper.insertCode(code);
     }
 

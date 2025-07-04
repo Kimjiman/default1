@@ -84,7 +84,13 @@ public class JwtTokenProvider {
 
         String refreshToken = this.createRefreshToken(loginId, authorities);
         String accessToken = this.createAccessToken(refreshToken);
-        redisRepository.save(new RedisObject(authentication.getName(), refreshToken, 3L));
+        redisRepository.save(
+                RedisObject.builder()
+                    .key(authentication.getName())
+                    .value(refreshToken)
+                    .expirationDay(3L)
+                    .build()
+        );
 
         return JwtTokenInfo.builder()
                 .grantType(GRANT_TYPE)

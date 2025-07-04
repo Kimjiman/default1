@@ -1,8 +1,6 @@
 package com.example.default1.base.redis;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -10,6 +8,8 @@ import org.springframework.data.redis.core.RedisHash;
 @ToString
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
 public class RedisObject {
     @Id
     private String key;

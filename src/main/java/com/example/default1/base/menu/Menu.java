@@ -1,11 +1,10 @@
 package com.example.default1.base.menu;
 
+import com.example.default1.base.model.BaseModel;
 import com.example.default1.utils.CollectionUtils;
 import com.example.default1.utils.StringUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,8 +23,11 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Menu {
+public class Menu extends BaseModel {
     private Long id;
     private Long parentId;
     private String uri;
@@ -37,15 +39,11 @@ public class Menu {
     private String roles;
     private String description;
     private Boolean isChild;
-    private LocalDateTime createTime;
-    private Long createId;
-    private LocalDateTime updateTime;
-    private Long updateId;
 
     private List<String> roleList;
 
     public List<String> getRoleList() {
         StringUtils.ifNotBlank(roles, it -> roleList = CollectionUtils.arrayToList(roles.split(",")));
-        return roleList;
+        return CollectionUtils.arrayToList(roles.split(","));
     }
 }

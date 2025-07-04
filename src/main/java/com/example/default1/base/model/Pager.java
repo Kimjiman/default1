@@ -1,4 +1,4 @@
-package com.example.default1.utils;
+package com.example.default1.base.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Pager {
+public class Pager extends BaseModel {
     private final Integer INIT_LIMIT = 10;
     private final Integer INIT_PAGE_SIZE = 5;
 
@@ -30,7 +30,6 @@ public class Pager {
     private boolean isPrevPage = true;              // 이전페이지 체크
     private boolean isNextPage = true;              // 다음페이지 체크
     private Integer rowNum;                         // 페이지 번호
-
 
     /**
      * @param totalRow 총 글의 개수

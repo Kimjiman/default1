@@ -1,6 +1,6 @@
 package com.example.default1.module.user.model;
 
-import com.example.default1.utils.Pager;
+import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User extends Pager {
+public class User extends BaseModel {
     private Long id;
     private String loginId;
     private String password;
