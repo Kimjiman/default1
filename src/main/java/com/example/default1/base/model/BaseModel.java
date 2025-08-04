@@ -2,21 +2,25 @@ package com.example.default1.base.model;
 
 import com.example.default1.utils.SessionUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class BaseModel extends Base {
     private LocalDateTime createTime;
-    private Long createId;
+    @Builder.Default
+    private Long createId = 0L;
     private LocalDateTime updateTime;
-    private Long updateId;
+    @Builder.Default
+    private Long updateId = 0L;
 
     public void setSystemUser() {
         this.setSystemUserCreateId();

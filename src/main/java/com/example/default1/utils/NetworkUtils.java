@@ -8,6 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class NetworkUtils {
+    public static HttpServletRequest getRequest() {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        return attr.getRequest();
+    }
+
     public static String getUserAgent(HttpServletRequest request) {
         return request.getHeader("User-Agent");
     }
@@ -121,18 +126,15 @@ public class NetworkUtils {
     }
 
     public static String getScheme() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        return attr.getRequest().getScheme();
+        return getRequest().getScheme();
     }
 
     public static String getServerName() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        return attr.getRequest().getServerName();
+        return getRequest().getServerName();
     }
 
     public static int getServerPort() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        return attr.getRequest().getServerPort();
+        return getRequest().getServerPort();
     }
 
     public static String getDomain(HttpServletRequest request) {
