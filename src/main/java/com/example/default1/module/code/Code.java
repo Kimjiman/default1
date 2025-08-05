@@ -1,4 +1,4 @@
-package com.example.default1.base.code;
+package com.example.default1.module.code;
 
 import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -27,8 +27,4 @@ public class Code extends BaseModel {
     private String name;
     private Integer order;
     private String info;
-    private LocalDateTime createTime;
-    private Long createId;
-    private LocalDateTime updateTime;
-    private Long updateId;
 }

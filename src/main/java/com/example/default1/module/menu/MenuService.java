@@ -1,10 +1,11 @@
-package com.example.default1.base.menu;
+package com.example.default1.module.menu;
 
-import org.apache.ibatis.annotations.Mapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * packageName    : com.example.default1.base.menu
- * fileName       : MenuMapper
+ * fileName       : MenuService
  * author         : KIM JIMAN
  * date           : 24. 7. 11. 목요일
  * description    :
@@ -13,6 +14,9 @@ import org.apache.ibatis.annotations.Mapper;
  * -----------------------------------------------------------
  * 24. 7. 11.     KIM JIMAN      First Commit
  */
-@Mapper
-public interface MenuMapper {
+@Service
+@RequiredArgsConstructor
+public class MenuService {
+    private final MenuMapper menuMapper;
+
 }

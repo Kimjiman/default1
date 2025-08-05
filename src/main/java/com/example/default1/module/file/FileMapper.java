@@ -1,4 +1,4 @@
-package com.example.default1.base.file;
+package com.example.default1.module.file;
 
 import org.apache.ibatis.annotations.Mapper;
 

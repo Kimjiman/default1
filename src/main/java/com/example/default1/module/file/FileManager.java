@@ -1,4 +1,4 @@
-package com.example.default1.base.file;
+package com.example.default1.module.file;
 
 import com.example.default1.exception.CustomException;
 import com.example.default1.utils.CollectionUtils;

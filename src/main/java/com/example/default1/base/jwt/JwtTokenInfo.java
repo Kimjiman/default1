@@ -1,6 +1,6 @@
 package com.example.default1.base.jwt;
 
-import com.example.default1.base.model.BaseModel;
+import com.example.default1.base.model.BaseObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class JwtTokenInfo extends BaseModel {
+public class JwtTokenInfo extends BaseObject {
     private String grantType;
     private String accessToken;
     private String refreshToken;

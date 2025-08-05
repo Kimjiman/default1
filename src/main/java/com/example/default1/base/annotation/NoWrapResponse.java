@@ -1,4 +1,4 @@
-package com.example.default1.base.model;
+package com.example.default1.base.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

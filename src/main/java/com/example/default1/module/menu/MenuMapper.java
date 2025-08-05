@@ -1,12 +1,10 @@
-package com.example.default1.base.menu;
+package com.example.default1.module.menu;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * packageName    : com.example.default1.base.menu
- * fileName       : MenuController
+ * fileName       : MenuMapper
  * author         : KIM JIMAN
  * date           : 24. 7. 11. 목요일
  * description    :
@@ -15,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
  * -----------------------------------------------------------
  * 24. 7. 11.     KIM JIMAN      First Commit
  */
-@RestController
-@RequiredArgsConstructor
-@Slf4j
-public class MenuController {
-    private final MenuService menuService;
+@Mapper
+public interface MenuMapper {
 }

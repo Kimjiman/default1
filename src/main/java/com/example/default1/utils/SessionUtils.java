@@ -25,16 +25,6 @@ import java.util.stream.Collectors;
 public class SessionUtils {
     private final SessionRegistry sessionRegistry;
 
-   /* public static MemberVO getMember() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession();
-        return session.getAttribute("memberVO") == null ? null : (MemberVO)session.getAttribute("memberVO") ;
-    }
-
-    public static String getUserId() {
-        return getMember() == null ? null : getMember().getUserId();
-    }*/
-
     public static String getPrincipal() {
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             return "GUS";

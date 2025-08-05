@@ -1,11 +1,12 @@
-package com.example.default1.base.menu;
+package com.example.default1.module.menu;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * packageName    : com.example.default1.base.menu
- * fileName       : MenuService
+ * fileName       : MenuController
  * author         : KIM JIMAN
  * date           : 24. 7. 11. 목요일
  * description    :
@@ -14,9 +15,9 @@ import org.springframework.stereotype.Service;
  * -----------------------------------------------------------
  * 24. 7. 11.     KIM JIMAN      First Commit
  */
-@Service
+@RestController
 @RequiredArgsConstructor
-public class MenuService {
-    private final MenuMapper menuMapper;
-
+@Slf4j
+public class MenuController {
+    private final MenuService menuService;
 }

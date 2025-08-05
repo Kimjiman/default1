@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class BaseModel extends BaseObject {
+    private Long id;
     private Long rowNum;
     private LocalDateTime createTime;
     @Builder.Default

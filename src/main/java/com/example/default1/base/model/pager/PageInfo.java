@@ -1,17 +1,16 @@
-package com.example.default1.base.model;
+package com.example.default1.base.model.pager;
 
+import com.example.default1.base.model.BaseObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Getter
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PageInfo extends BaseObject{
+public class PageInfo extends BaseObject {
     private static final int INIT_LIMIT = 10;
     private static final int INIT_PAGE_SIZE = 5;
 

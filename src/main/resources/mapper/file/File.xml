@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.default1.base.file.FileMapper">
+<mapper namespace="com.example.default1.module.file.FileMapper">
 	<sql id="selectQuery">
 		SELECT
 			`id`
@@ -30,12 +30,12 @@
 		</where>
 	</sql>
 
-	<select id="findById" resultType="com.example.default1.base.file.FileInfo">
+	<select id="findById" resultType="com.example.default1.module.file.FileInfo">
 		<include refid="selectQuery" />
 		WHERE id = #{id}
 	</select>
 
-	<select id="findAllIn" resultType="com.example.default1.base.file.FileInfo">
+	<select id="findAllIn" resultType="com.example.default1.module.file.FileInfo">
 		<include refid="selectQuery" />
 		WHERE id IN
 		<foreach collection="ids" item="item" separator="," open="(" close=")">
@@ -43,7 +43,7 @@
 		</foreach>
 	</select>
 
-	<select id="findBy" resultType="com.example.default1.base.file.FileInfo">
+	<select id="findBy" resultType="com.example.default1.module.file.FileInfo">
 		<include refid="selectQuery" />
 		<include refid="searchCondition" />
 	</select>

@@ -1,4 +1,4 @@
-package com.example.default1.utils;
+package com.example.default1.component;
 
 import com.example.default1.base.model.Response;
 import com.google.gson.Gson;

@@ -1,4 +1,4 @@
-package com.example.default1.base.code;
+package com.example.default1.module.code;
 
 import com.example.default1.exception.CustomException;
 import com.example.default1.utils.SessionUtils;

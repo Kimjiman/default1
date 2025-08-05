@@ -1,4 +1,4 @@
-package com.example.default1.base.menu;
+package com.example.default1.module.menu;
 
 import com.example.default1.base.model.BaseModel;
 import com.example.default1.utils.CollectionUtils;

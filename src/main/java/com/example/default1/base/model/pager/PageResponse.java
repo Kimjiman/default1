@@ -1,5 +1,6 @@
-package com.example.default1.base.model;
+package com.example.default1.base.model.pager;
 
+import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.example.default1;
 
-import com.example.default1.base.code.Code;
+import com.example.default1.module.code.Code;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
