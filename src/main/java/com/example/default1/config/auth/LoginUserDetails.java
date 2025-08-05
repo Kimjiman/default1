@@ -12,7 +12,7 @@ public record LoginUserDetails(LoginUser loginUser) implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return loginUser.getRoleList().stream()
-                .map(it -> new SimpleGrantedAuthority("ROLE_" + it))
+                .map(it -> new SimpleGrantedAuthority(String.format("ROLE_%s", it)))
                 .collect(Collectors.toList());
     }
 

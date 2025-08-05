@@ -2,7 +2,12 @@ package com.example.default1.base.model;
 
 import com.example.default1.utils.SessionUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
@@ -14,7 +19,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class BaseModel {
+public abstract class BaseModel extends BaseObject {
+    private Long rowNum;
     private LocalDateTime createTime;
     @Builder.Default
     private Long createId = 0L;

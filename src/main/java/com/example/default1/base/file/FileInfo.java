@@ -1,15 +1,17 @@
 package com.example.default1.base.file;
 
 import com.example.default1.base.model.BaseModel;
+import com.example.default1.base.model.BaseObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)

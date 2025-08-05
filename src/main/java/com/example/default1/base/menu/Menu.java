@@ -5,6 +5,7 @@ import com.example.default1.utils.CollectionUtils;
 import com.example.default1.utils.StringUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)

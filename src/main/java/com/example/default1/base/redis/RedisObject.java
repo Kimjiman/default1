@@ -1,6 +1,11 @@
 package com.example.default1.base.redis;
 
-import lombok.*;
+import com.example.default1.base.model.BaseObject;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -8,9 +13,9 @@ import org.springframework.data.redis.core.RedisHash;
 @ToString
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
-public class RedisObject {
+public class RedisObject extends BaseObject {
     @Id
     private String key;
     private String value;

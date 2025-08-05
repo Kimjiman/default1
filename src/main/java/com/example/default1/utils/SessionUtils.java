@@ -4,7 +4,6 @@ import com.example.default1.config.auth.LoginUser;
 import com.example.default1.config.auth.LoginUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
@@ -18,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -75,11 +75,7 @@ public class SessionUtils {
 
     public static List<String> getUserRoleList() {
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        List<String> roleList = new ArrayList<>();
-        if(!CollectionUtils.isEmpty(authorities)) {
-            authorities.forEach(it -> roleList.add(it.getAuthority()));
-        }
-        return roleList;
+        return authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
     }
 
     /**
