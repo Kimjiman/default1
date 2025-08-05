@@ -1,8 +1,12 @@
 package com.example.default1.base.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 /**
  * packageName    : com.example.default1.base.model
@@ -18,6 +22,9 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class BaseSearchParam {
     private String createTimeStart;
     private String createTimeLast;

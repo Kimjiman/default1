@@ -1,4 +1,4 @@
-package com.example.default1.module.code;
+package com.example.default1.module.code.dto;
 
 import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;

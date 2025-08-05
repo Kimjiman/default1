@@ -1,6 +1,7 @@
-package com.example.default1.base.model.pager;
+package com.example.default1.base.pager;
 
 import com.example.default1.base.model.BaseModel;
+import com.example.default1.base.model.BaseObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +24,7 @@ import java.util.List;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PageResponse<T extends BaseModel> {
+public class PageResponse<T extends BaseModel> extends BaseObject {
     private PageInfo pageInfo;
     private List<T> list;
 

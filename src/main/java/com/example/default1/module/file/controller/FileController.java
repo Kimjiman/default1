@@ -1,4 +1,4 @@
-package com.example.default1.module.file;
+package com.example.default1.module.file.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.default1.module.file.dto.FileInfo;
+import com.example.default1.module.file.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

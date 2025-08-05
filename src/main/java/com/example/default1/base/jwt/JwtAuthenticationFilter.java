@@ -10,12 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,27 +21,26 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
-public class JwtAuthenticationFilter extends GenericFilterBean {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
+    private final List<String> allowedUrls = CollectionUtils.arrayToList(UrlConstatns.ALLOWED_URLS);
+
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String requestURI = httpRequest.getRequestURI();
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        String requestURI = request.getRequestURI();
 
-        try {
-            if (!isAllowedUrl(requestURI)) {
-                String token = resolveToken(httpRequest);
+        if (!isAllowedUrl(requestURI)) {
+            String token = resolveToken(request);
+            if (StringUtils.isNotBlank(token)) {
                 if (jwtTokenProvider.validateToken(token)) {
                     Authentication authentication = jwtTokenProvider.getAuthenticationByToken(token);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
-            chain.doFilter(request, response);
-        } catch (CustomException ex) {
-            CommonUtils.responseFail(ex.getStatus(), ex.getMessage(), (HttpServletResponse) response);
         }
+        chain.doFilter(request, response);
     }
 
     private String resolveToken(HttpServletRequest request) {
@@ -55,8 +52,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     }
 
     private boolean isAllowedUrl(String requestURI) {
-        List<String> allowedUrlList = CollectionUtils.arrayToList(UrlConstatns.ALLOWED_URLS);
-        return allowedUrlList.stream()
+        return allowedUrls.stream()
                 .anyMatch(it -> pathMatcher.match(it, requestURI));
     }
 }

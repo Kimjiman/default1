@@ -1,6 +1,10 @@
-package com.example.default1.module.code;
+package com.example.default1.module.code.service;
 
 import com.example.default1.base.service.BaseService;
+import com.example.default1.module.code.dto.CodeGroup;
+import com.example.default1.module.code.dto.CodeGroupSearchParam;
+import com.example.default1.module.code.mapper.CodeGroupMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -17,41 +21,46 @@ import java.util.List;
  * -----------------------------------------------------------
  * 25. 8. 5.     KIM JIMAN      First Commit
  */
+@RequiredArgsConstructor
 @Service
 @Slf4j
 public class CodeGroupService implements BaseService<CodeGroup, CodeGroupSearchParam> {
+    private final CodeGroupMapper codeGroupMapper;
+
     @Override
     public boolean existsById(Long id) {
-        return false;
+        return this.findById(id) != null;
     }
 
     @Override
     public CodeGroup findById(Long id) {
-        return null;
+        return codeGroupMapper.findById(id);
     }
 
     @Override
     public Long countAllBy(CodeGroupSearchParam codeGroupSearchParam) {
-        return 0L;
+        return codeGroupMapper.countAllBy(codeGroupSearchParam);
     }
 
     @Override
     public List<CodeGroup> findAllBy(CodeGroupSearchParam codeGroupSearchParam) {
-        return List.of();
+        return codeGroupMapper.findAllBy(codeGroupSearchParam);
     }
 
     @Override
-    public CodeGroup create(CodeGroup codeGroup) {
-        return null;
+    public Long create(CodeGroup codeGroup) {
+        codeGroupMapper.create(codeGroup);
+        return codeGroup.getId();
     }
 
     @Override
-    public CodeGroup update(CodeGroup codeGroup) {
-        return null;
+    public Long update(CodeGroup codeGroup) {
+        codeGroupMapper.update(codeGroup);
+        return codeGroup.getId();
     }
 
     @Override
     public boolean removeById(Long id) {
-        return false;
+        return codeGroupMapper.removeById(id) > 0;
     }
 }

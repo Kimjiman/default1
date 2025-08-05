@@ -2,19 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.default1.module.code.CodeMapper">
-    <sql id="selectCodeGroupQuery">
-        SELECT
-            `id`
-            , `code_group`
-            , `name`
-            , `create_time`
-            , `create_id`
-            , `update_time`
-            , `update_id`
-        FROM `code_group`
-    </sql>
-
+<mapper namespace="com.example.default1.module.code.mapper.CodeMapper">
     <sql id="selectCodeQuery">
         SELECT
             t1.id
@@ -31,17 +19,6 @@
             , t1.update_id
         FROM `code` t1
         LEFT JOIN `code_group` t2 ON t1.code_group_id = t2.id
-    </sql>
-
-    <sql id="searchCodeGroupCondition">
-        <where>
-            <if test="codeGroup != null and codeGroup != ''">
-                AND code_group LIKE concat('%', #{codeGroup}, '%')
-            </if>
-            <if test="name != null and name != ''">
-                AND `name` LIKE concat('%', #{name}, '%')
-            </if>
-        </where>
     </sql>
 
     <sql id="searchCodeCondtion">
@@ -61,43 +38,25 @@
         </where>
     </sql>
 
-    <select id="selectCodeGroupList" resultType="com.example.default1.module.code.CodeGroup">
-        <include refid="selectCodeGroupQuery" />
-        ORDER BY id
+    <select id="countAllBy" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM `code` t1
+        LEFT JOIN `code_group` t2 ON t1.code_group_id = t2.id
+        <include refid="searchCodeCondtion"/>
     </select>
 
-    <select id="selectCodeGroupById" resultType="com.example.default1.module.code.CodeGroup">
-        <include refid="selectCodeGroupQuery" />
-        WHERE id = #{id}
-    </select>
-
-    <select id="selectCodeList" resultType="com.example.default1.module.code.Code">
+    <select id="findAllBy" resultType="com.example.default1.module.code.dto.Code">
         <include refid="selectCodeQuery" />
         <include refid="searchCodeCondtion" />
         ORDER BY `code_group_id`, `order`
     </select>
 
-    <select id="selectCodeById" resultType="com.example.default1.module.code.Code">
+    <select id="findById" resultType="com.example.default1.module.code.dto.Code">
         <include refid="selectCodeQuery" />
         WHERE t1.id = #{id}
    </select>
 
-    <insert id="insertCodeGroup">
-        INSERT INTO code_group (
-            `code_group`
-            , `name`
-            , `create_id`
-            , `update_id`
-        ) VALUES (
-            (SELECT code_group FROM (SELECT COALESCE(max(code_group) + 1, 100) code_group FROM code_group)
-             as code_group)
-            , #{name}
-            , #{createId}
-            , #{updateId}
-        )
-    </insert>
-
-    <insert id="insertCode">
+    <insert id="create" useGeneratedKeys="true" keyColumn="id">
         INSERT INTO code (
             code_group_id
             , `code`
@@ -129,18 +88,7 @@
         )
     </insert>
 
-    <update id="updateCodeGroup">
-        UPDATE code_group
-        <set>
-            <if test="name != null and name != ''">
-                name = #{name},
-            </if>
-            update_time = NOW()
-        </set>
-        WHERE id = #{id}
-    </update>
-
-    <update id="updateCode">
+    <update id="update">
         UPDATE code
         <set>
             <if test="name != null and name != ''">
@@ -165,18 +113,14 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteCodeGroupById">
-        DELETE FROM code_group
+    <delete id="removeById">
+        DELETE FROM `code`
         WHERE id = #{id}
     </delete>
 
-    <delete id="deleteCodeByCodeGroupId">
-        DELETE FROM `code`
+    <delete id="removeByCodeGroupId">
+        DELETE
+        FROM `code`
         WHERE code_group_id = #{codeGroupId}
-    </delete>
-
-    <delete id="deleteCodeById">
-        DELETE FROM `code`
-        WHERE id = #{id}
     </delete>
 </mapper>

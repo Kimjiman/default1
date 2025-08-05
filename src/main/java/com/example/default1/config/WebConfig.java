@@ -1,7 +1,7 @@
 package com.example.default1.config;
 
 import com.example.default1.config.enumConverter.YnToEnumConverter;
-import com.example.default1.interceptor.BaseInterceptor;
+import com.example.default1.interceptor.RoleInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -16,6 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new BaseInterceptor());
+        registry.addInterceptor(new RoleInterceptor());
     }
 }

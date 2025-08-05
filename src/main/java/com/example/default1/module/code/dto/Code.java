@@ -1,4 +1,4 @@
-package com.example.default1.module.code;
+package com.example.default1.module.code.dto;
 
 import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

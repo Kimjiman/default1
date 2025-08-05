@@ -1,6 +1,7 @@
-package com.example.default1.module.file;
+package com.example.default1.module.file.util;
 
 import com.example.default1.exception.CustomException;
+import com.example.default1.module.file.dto.FileInfo;
 import com.example.default1.utils.CollectionUtils;
 import com.example.default1.utils.DateUtils;
 import com.example.default1.utils.NetworkUtils;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class FileManager {
+public class FileUtils {
     @Value("${file.store.path}")
     private String storePath;
 

@@ -1,9 +1,12 @@
-package com.example.default1.module.code;
+package com.example.default1.module.code.dto;
 
 import com.example.default1.base.model.BaseSearchParam;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 /**
  * packageName    : com.example.default1.module.code.model
@@ -19,5 +22,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CodeSearchParam extends BaseSearchParam {
+    private Long codeGroupId;
+    private String name;
 }

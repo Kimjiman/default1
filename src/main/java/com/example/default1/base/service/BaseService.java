@@ -21,7 +21,7 @@ public interface BaseService<T extends BaseModel, P extends BaseSearchParam> {
     T findById(Long id);
     Long countAllBy(P p);
     List<T> findAllBy(P p);
-    T create(T t);
-    T update(T t);
+    Long create(T t);
+    Long update(T t);
     boolean removeById(Long id);
 }

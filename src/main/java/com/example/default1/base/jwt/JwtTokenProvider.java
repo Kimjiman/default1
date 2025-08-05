@@ -86,7 +86,7 @@ public class JwtTokenProvider {
         String accessToken = this.createAccessToken(refreshToken);
         redisRepository.save(
                 RedisObject.builder()
-                    .key(authentication.getName())
+                    .key(loginId)
                     .value(refreshToken)
                     .expirationDay(3L)
                     .build()

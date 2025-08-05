@@ -1,4 +1,4 @@
-package com.example.default1.base.model.pager;
+package com.example.default1.base.pager;
 
 import com.example.default1.base.model.BaseObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -25,10 +25,10 @@ public class PageInfo extends BaseObject {
     private long prevPage;                       // 이전페이지
     private long nextPage;                       // 다음페이지
 
-    private boolean hasStartPage;                 // 시작페이지 체크
-    private boolean hasLastPage;                  // 마지막페이지 체크
-    private boolean hasPrevPage;                  // 이전페이지 체크
-    private boolean hasNextPage;                  // 다음페이지 체크
+    private boolean hasStartPage;                // 시작페이지 체크
+    private boolean hasLastPage;                 // 마지막페이지 체크
+    private boolean hasPrevPage;                 // 이전페이지 체크
+    private boolean hasNextPage;                 // 다음페이지 체크
 
     private PageInfo(long page, long totalRow, int limit, int pageSize) {
         this.limit = limit <= 0 ? INIT_LIMIT : limit;

@@ -1,5 +1,6 @@
-package com.example.default1.module.file;
+package com.example.default1.module.file.mapper;
 
+import com.example.default1.module.file.dto.FileInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
