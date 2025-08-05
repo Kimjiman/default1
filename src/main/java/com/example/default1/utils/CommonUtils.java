@@ -5,8 +5,6 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.http.server.ServletServerHttpResponse;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,15 +14,19 @@ import java.util.Map;
 
 @Slf4j
 public class CommonUtils {
-    private static final MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-    private static final MediaType jsonMimeType = MediaType.APPLICATION_JSON;
+    private static final Gson gson = new Gson();
+    private static final Type mapType = new TypeToken<Map<String, Object>>() {}.getType();
 
     public static <T> void responseSuccess(T obj, HttpServletResponse response) throws IOException {
-        jsonConverter.write(Response.success(obj), jsonMimeType, new ServletServerHttpResponse(response));
+        String json = gson.toJson(Response.success(obj));
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getWriter().write(json);
     }
 
     public static void responseFail(Integer status, String message, HttpServletResponse response) throws IOException {
-        jsonConverter.write(Response.fail(status, message), jsonMimeType, new ServletServerHttpResponse(response));
+        String json = gson.toJson(Response.fail(status, message));
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getWriter().write(json);
     }
 
     /**
@@ -36,8 +38,6 @@ public class CommonUtils {
     public static Map<String, Object> decodeJwtToken(String token) {
         String[] chunks = token.split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
-        Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, Object>>() {}.getType();
-        return gson.fromJson(new String(decoder.decode(chunks[1])), type);
+        return gson.fromJson(new String(decoder.decode(chunks[1])), mapType);
     }
 }

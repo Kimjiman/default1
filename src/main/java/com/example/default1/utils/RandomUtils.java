@@ -1,11 +1,11 @@
 package com.example.default1.utils;
 
 import java.security.SecureRandom;
-import java.util.function.Supplier;
 
 public class RandomUtils {
     private static final String ALLOWED_CHARACTERS;
     private static final int DEFAULT_LENGTH = 8;
+    private static final SecureRandom secureRandom = new SecureRandom();
 
     static {
         StringBuilder sb = new StringBuilder();
@@ -31,14 +31,10 @@ public class RandomUtils {
     public static String generateRandomString(int length) {
         if (length <= 0) length = DEFAULT_LENGTH;
 
-        Supplier<Character> randomCharSupplier = () -> {
-            SecureRandom secureRandom = new SecureRandom();
-            return ALLOWED_CHARACTERS.charAt(secureRandom.nextInt(ALLOWED_CHARACTERS.length()));
-        };
-
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            sb.append(randomCharSupplier.get());
+            int randomIndex = secureRandom.nextInt(ALLOWED_CHARACTERS.length());
+            sb.append(ALLOWED_CHARACTERS.charAt(randomIndex));
         }
 
         return sb.toString();

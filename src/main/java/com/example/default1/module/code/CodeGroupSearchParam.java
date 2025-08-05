@@ -1,12 +1,13 @@
-package com.example.default1.base.model;
+package com.example.default1.module.code;
 
+import com.example.default1.base.model.BaseSearchParam;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * packageName    : com.example.default1.base.model
- * fileName       : SearchParam
+ * packageName    : com.example.default1.module.code.model
+ * fileName       : CodeGroupSearchParam
  * author         : KIM JIMAN
  * date           : 25. 8. 5. 화요일
  * description    :
@@ -15,14 +16,8 @@ import lombok.ToString;
  * -----------------------------------------------------------
  * 25. 8. 5.     KIM JIMAN      First Commit
  */
-@Setter
 @Getter
+@Setter
 @ToString
-public abstract class BaseSearchParam {
-    private String createTimeStart;
-    private String createTimeLast;
-    private String updateTimeStart;
-    private String updateTimeLast;
+public class CodeGroupSearchParam extends BaseSearchParam {
 }
-
-

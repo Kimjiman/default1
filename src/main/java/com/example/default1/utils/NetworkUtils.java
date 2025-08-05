@@ -6,6 +6,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class NetworkUtils {
     public static HttpServletRequest getRequest() {
@@ -42,45 +43,36 @@ public class NetworkUtils {
     }
 
     public static String getIpAddress(HttpServletRequest request) {
-        String ipAddress = request.getHeader("X-Forwarded-For");
+        final List<String> IP_HEADERS = Arrays.asList(
+                "X-Forwarded-For",
+                "Proxy-Client-IP",
+                "WL-Proxy-Client-IP",
+                "HTTP_X_FORWARDED_FOR",
+                "HTTP_X_FORWARDED",
+                "HTTP_X_CLUSTER_CLIENT_IP",
+                "HTTP_CLIENT_IP",
+                "HTTP_FORWARDED_FOR",
+                "HTTP_FORWARDED",
+                "X-Real-IP"
+        );
 
-        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("Proxy-Client-IP");
-        }
-        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("HTTP_X_FORWARDED_FOR");
-        }
-        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("HTTP_X_FORWARDED");
-        }
-        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("HTTP_X_CLUSTER_CLIENT_IP");
-        }
-        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("HTTP_CLIENT_IP");
-        }
-        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("HTTP_FORWARDED_FOR");
-        }
-        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("HTTP_FORWARDED");
-        }
-        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("X-Real-IP");
-        }
-        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getRemoteAddr();
+        for (String header : IP_HEADERS) {
+            String ipAddress = request.getHeader(header);
+            if (ipAddress != null && !ipAddress.isEmpty() && !"unknown".equalsIgnoreCase(ipAddress)) {
+                int commaIndex = ipAddress.indexOf(',');
+                if (commaIndex != -1) {
+                    return ipAddress.substring(0, commaIndex).trim();
+                }
+                return ipAddress;
+            }
         }
 
-        int index = ipAddress.indexOf('%');
-        if (index != -1) {
-            ipAddress = ipAddress.substring(0, index);
+        String remoteAddr = request.getRemoteAddr();
+        int percentIndex = remoteAddr.indexOf('%');
+        if (percentIndex != -1) {
+            return remoteAddr.substring(0, percentIndex);
         }
-
-        return ipAddress;
+        return remoteAddr;
     }
 
     public static String getOs(HttpServletRequest request) {
@@ -147,11 +139,19 @@ public class NetworkUtils {
     }
 
     public static boolean passReferer(HttpServletRequest request, String... refererArr) {
-        if(request == null || refererArr == null) return false;
-        List<String> accessUrlList = Arrays.asList(refererArr);
+        if (request == null || refererArr == null || refererArr.length == 0) {
+            return false;
+        }
+
         String referer = getReferer(request);
+        if (referer == null) {
+            return false;
+        }
+
         String domain = getDomain(request);
-        return accessUrlList.stream()
-                .anyMatch(accessUrl -> referer != null && referer.equals(domain + accessUrl));
+
+        return Stream.of(refererArr)
+                .map(path -> domain + path)
+                .anyMatch(referer::equals);
     }
 }
