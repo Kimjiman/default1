@@ -1,6 +1,7 @@
 package com.example.default1.config;
 
 import com.example.default1.base.model.Response;
+import com.example.default1.constants.UrlConstatns;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.MethodParameter;
@@ -16,6 +17,11 @@ import java.util.Objects;
 @Slf4j
 @ControllerAdvice
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
+    private static final String[] EXCLUDE_URL_PATTERNS = {
+            "/v3/api-docs",
+            "/swagger-ui"
+    };
+
     @Override
     public boolean supports(MethodParameter returnType,
                             Class<? extends HttpMessageConverter<?>> converterType) {
@@ -28,12 +34,14 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
 
-        if(ObjectUtils.isNotEmpty(body)) {
-            String returnTypeName = Objects.requireNonNull(returnType.getMethod()).getName();
-            if(returnTypeName.equals("openapiJson")) {
+        String requestPath = request.getURI().getPath();
+        for (String pattern : EXCLUDE_URL_PATTERNS) {
+            log.info("pattern: {}", pattern);
+            if (requestPath.startsWith(pattern)) {
                 return body;
             }
         }
+
         return Response.success(body);
     }
 }

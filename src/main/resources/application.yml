@@ -51,6 +51,10 @@ springdoc:
     disable-swagger-default-url: true
   api-docs:
     path: /v3/api-docs
+user:
+  swagger:
+    id: toyriding
+    pw: 1234
 ---
 # local
 server:

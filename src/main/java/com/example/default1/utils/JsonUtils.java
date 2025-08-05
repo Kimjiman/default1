@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
  * 25. 8. 5.     KIM JIMAN      First Commit
  */
 public class JsonUtils {
-    private static final TypeAdapter<LocalDateTime> localDateTimeAdapter = new TypeAdapter<LocalDateTime>() {
+    private static final TypeAdapter<LocalDateTime> localDateTimeAdapter = new TypeAdapter<>() {
         private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         @Override
@@ -45,7 +45,7 @@ public class JsonUtils {
         }
     };
 
-    private static final TypeAdapter<LocalDate> localDateAdapter = new TypeAdapter<LocalDate>() {
+    private static final TypeAdapter<LocalDate> localDateAdapter = new TypeAdapter<>() {
         private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         @Override
@@ -67,7 +67,7 @@ public class JsonUtils {
         }
     };
 
-    private static final Gson gson = new GsonBuilder()
+    private static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
             .disableHtmlEscaping()
             .registerTypeAdapter(LocalDateTime.class, localDateTimeAdapter)
@@ -75,6 +75,6 @@ public class JsonUtils {
             .create();
 
     public static String toJson(Object object) {
-        return gson.toJson(object);
+        return GSON.toJson(object);
     }
 }

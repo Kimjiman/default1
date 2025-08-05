@@ -1,6 +1,7 @@
 package com.example.default1.component;
 
 import com.example.default1.base.model.Response;
+import com.example.default1.utils.JsonUtils;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.config.RequestConfig;
@@ -30,7 +31,6 @@ import java.util.Map;
 @Component
 public class CustomHttpClient {
     private CloseableHttpClient HTTP_CLIENT;
-    private final Gson GSON = new Gson();
     private final Map<String, Object> HEADERS = new HashMap<>();
 
     @PostConstruct
@@ -121,7 +121,7 @@ public class CustomHttpClient {
 
     private void setBody(HttpEntityEnclosingRequestBase http, Map<String, Object> bodyParams) {
         if (bodyParams == null) return;
-        String jsonStr = GSON.toJson(bodyParams);
+        String jsonStr = JsonUtils.toJson(bodyParams);
         StringEntity entity = new StringEntity(jsonStr, StandardCharsets.UTF_8);
         entity.setContentType("application/json");
         http.setEntity(entity);

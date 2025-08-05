@@ -58,4 +58,9 @@ public class CodeService implements BaseService<Code, CodeSearchParam> {
         if (id == null) return false;
         return codeMapper.removeById(id) > 0;
     }
+
+    public boolean removeByCodeGroupId(Long groupId) {
+        if (groupId == null) return false;
+        return codeMapper.removeByCodeGroupId(groupId) > 0;
+    }
 }
