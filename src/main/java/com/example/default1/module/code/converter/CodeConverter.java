@@ -20,7 +20,6 @@ import org.mapstruct.Mapping;
  */
 @Mapper(
         componentModel = "spring"
-        , config = BaseMapperConfig.class
         , uses = {TypeConverter.class}
 )
 public interface CodeConverter {

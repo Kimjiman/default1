@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * packageName    : com.example.default1
@@ -20,19 +22,15 @@ import org.slf4j.LoggerFactory;
  * -----------------------------------------------------------
  * 25. 8. 11.     KIM JIMAN      First Commit
  */
+@SpringBootTest
 public class StructMapperTest {
+    @Autowired
     private CodeConverter codeConverter;
 
     private static final Logger log = LoggerFactory.getLogger(StructMapperTest.class);
 
-    @BeforeEach
-    public void setUp() {
-        this.codeConverter = Mappers.getMapper(CodeConverter.class);
-    }
-
     @Test
     void test() {
-
         Code code = Code.builder()
                 .id(1L)
                 .name("codeName")

@@ -18,9 +18,9 @@ import java.time.LocalDateTime;
  * 25. 8. 11.     KIM JIMAN      First Commit
  */
 @Component
-public interface TypeConverter {
+public class TypeConverter {
     @Named("stringToLocalDateTime")
-    default LocalDateTime stringToLocalDateTime(String time) {
+    public LocalDateTime stringToLocalDateTime(String time) {
         if (time == null || time.isEmpty()) {
             return null;
         }
@@ -28,7 +28,7 @@ public interface TypeConverter {
     }
 
     @Named("localDateTimeToString")
-    default String localDateTimeToString(LocalDateTime time) {
+    public String localDateTimeToString(LocalDateTime time) {
         if (time == null) {
             return null;
         }

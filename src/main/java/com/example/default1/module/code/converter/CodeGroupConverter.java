@@ -19,12 +19,12 @@ import org.mapstruct.Mapping;
  * 25. 8. 11.     KIM JIMAN      First Commit
  */
 @Mapper(
-        componentModel = "spring",
-        config = BaseMapperConfig.class,
-        uses = TypeConverter.class
+        componentModel = "spring"
+        , uses = {TypeConverter.class}
 )
 public interface CodeGroupConverter {
     @Mapping(source = "id", target = "id")
+    @Mapping(target = "codeDtoList", ignore = true)
     @Mapping(source = "createId", target = "createId")
     @Mapping(source = "createTime", target = "createTime", qualifiedByName = "stringToLocalDateTime")
     @Mapping(source = "updateId", target = "updateId")
@@ -32,6 +32,7 @@ public interface CodeGroupConverter {
     CodeGroupDTO toDto(CodeGroup codeGroup);
 
     @Mapping(target = "rowNum", ignore = true)
+    @Mapping(target = "codeList", ignore = true)
     @Mapping(source = "id", target = "id")
     @Mapping(source = "createId", target = "createId")
     @Mapping(source = "createTime", target = "createTime", qualifiedByName = "localDateTimeToString")

@@ -61,12 +61,10 @@ public class CodeFacade {
     }
 
     public void createCodeGroup(CodeGroup codeGroup) {
-        codeGroup.setCurrentUser();
         codeGroupService.create(codeGroup);
     }
 
     public void updateCodeGroup(CodeGroup codeGroup) {
-        codeGroup.setCurrentUserUpdateId();
         codeGroupService.update(codeGroup);
     }
 
