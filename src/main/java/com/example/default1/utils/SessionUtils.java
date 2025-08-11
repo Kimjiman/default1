@@ -4,6 +4,7 @@ import com.example.default1.config.auth.LoginUser;
 import com.example.default1.config.auth.LoginUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +31,7 @@ public class SessionUtils {
         }
     }
 
+
     public static LoginUserDetails getUser() {
         Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -50,9 +52,9 @@ public class SessionUtils {
         return loginUserDetails != null ? loginUserDetails.loginUser().getId() : null;
     }
 
-    public static String getUserLoginId() {
-        LoginUserDetails loginUserDetails = getUser();
-        return loginUserDetails != null ? loginUserDetails.getUsername() : null;
+    public static String getLoginId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 
     public static List<String> getUserRoleList() {

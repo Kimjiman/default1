@@ -32,13 +32,13 @@
         <include refid="searchCodeGroupCondition"/>
     </select>
 
-    <select id="findAllBy" resultType="com.example.default1.module.code.dto.CodeGroup">
+    <select id="findAllBy" resultType="com.example.default1.module.code.model.CodeGroup">
         <include refid="selectCodeGroupQuery" />
         <include refid="searchCodeGroupCondition"/>
         ORDER BY id DESC
     </select>
 
-    <select id="findById" resultType="com.example.default1.module.code.dto.CodeGroup">
+    <select id="findById" resultType="com.example.default1.module.code.model.CodeGroup">
         <include refid="selectCodeGroupQuery" />
         WHERE id = #{id}
     </select>

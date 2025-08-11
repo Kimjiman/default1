@@ -15,6 +15,6 @@ public class UserController {
 
     @PostMapping("/join")
     public void createUser(User user) {
-        userService.createUser(user);
+        userService.create(user);
     }
 }

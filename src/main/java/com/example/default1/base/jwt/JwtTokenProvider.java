@@ -4,7 +4,13 @@ import com.example.default1.base.redis.RedisObject;
 import com.example.default1.base.redis.RedisRepository;
 import com.example.default1.exception.CustomException;
 import com.example.default1.utils.StringUtils;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
@@ -18,12 +24,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.function.Supplier;
@@ -44,30 +46,6 @@ public class JwtTokenProvider {
         this.redisRepository = redisRepository;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    /**
-     * SecretKey 생성 메서드(256)
-     *
-     * @return Base64로 인코딩된 SecretKey
-     * @throws NoSuchAlgorithmException
-     */
-    public static String createSecretKey() throws NoSuchAlgorithmException {
-        return createSecretKey(256);
-    }
-
-    /**
-     * SecretKey 생성 메서드
-     *
-     * @param keySize keytGenerator 키사이즈
-     * @return Base64로 인코딩된 SecretKey
-     * @throws NoSuchAlgorithmException
-     */
-    public static String createSecretKey(int keySize) throws NoSuchAlgorithmException {
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
-        keyGenerator.init(keySize);
-        SecretKey secretKey = keyGenerator.generateKey();
-        return Base64.getEncoder().encodeToString(secretKey.getEncoded());
     }
 
     /**

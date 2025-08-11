@@ -1,10 +1,14 @@
 package com.example.default1.module.code.facade;
 
 import com.example.default1.base.annotation.Facade;
-import com.example.default1.module.code.dto.Code;
-import com.example.default1.module.code.dto.CodeGroup;
-import com.example.default1.module.code.dto.CodeGroupSearchParam;
-import com.example.default1.module.code.dto.CodeSearchParam;
+import com.example.default1.module.code.converter.CodeConverter;
+import com.example.default1.module.code.converter.CodeGroupConverter;
+import com.example.default1.module.code.dto.CodeDTO;
+import com.example.default1.module.code.dto.CodeGroupDTO;
+import com.example.default1.module.code.model.Code;
+import com.example.default1.module.code.model.CodeGroup;
+import com.example.default1.module.code.model.CodeGroupSearchParam;
+import com.example.default1.module.code.model.CodeSearchParam;
 import com.example.default1.module.code.service.CodeGroupService;
 import com.example.default1.module.code.service.CodeService;
 import lombok.RequiredArgsConstructor;
@@ -29,26 +33,31 @@ import java.util.stream.Collectors;
 public class CodeFacade {
     private final CodeGroupService codeGroupService;
     private final CodeService codeService;
+    private final CodeGroupConverter codeGroupConverter;
+    private final CodeConverter codeConverter;
 
-    public List<CodeGroup> findCodeGroupAllBy(CodeGroupSearchParam param) {
+    public List<CodeGroupDTO> findCodeGroupAllBy(CodeGroupSearchParam param) {
         List<CodeGroup> codeGroupList = codeGroupService.findAllBy(param);
+
         return codeGroupList.stream()
                 .peek(it -> {
                     it.setCodeList(codeService.findAllBy(CodeSearchParam.builder()
                             .codeGroupId(it.getId())
                             .build()));
                 })
+                .map(codeGroup -> codeGroupConverter.toDto(codeGroup))
                 .collect(Collectors.toList());
     }
 
 
-    public CodeGroup findCodeGroupById(Long id) {
+    public CodeGroupDTO findCodeGroupById(Long id) {
         if (id == null) return null;
         CodeGroup codeGroup = codeGroupService.findById(id);
         if (codeGroup != null) {
             codeGroup.setCodeList(codeService.findAllBy(CodeSearchParam.builder().codeGroupId(id).build()));
         }
-        return codeGroup;
+
+        return codeGroupConverter.toDto(codeGroup);
     }
 
     public void createCodeGroup(CodeGroup codeGroup) {
@@ -68,22 +77,22 @@ public class CodeFacade {
         codeGroupService.removeById(id);
     }
 
-    public List<Code> findCodeAllBy(CodeSearchParam param) {
-        return codeService.findAllBy(param);
+    public List<CodeDTO> findCodeAllBy(CodeSearchParam param) {
+        return codeService.findAllBy(param).stream()
+                .map(it -> codeConverter.toDto(it))
+                .collect(Collectors.toList());
     }
 
-    public Code findCodeById(Long id) {
+    public CodeDTO findCodeById(Long id) {
         if (id == null) return null;
-        return codeService.findById(id);
+        return codeConverter.toDto(codeService.findById(id));
     }
 
     public void createCode(Code code) {
-        code.setCurrentUser();
         codeService.create(code);
     }
 
     public void updateCode(Code code) {
-        code.setCurrentUserUpdateId();
         codeService.update(code);
     }
 

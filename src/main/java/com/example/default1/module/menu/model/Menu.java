@@ -1,12 +1,12 @@
-package com.example.default1.module.menu.dto;
+package com.example.default1.module.menu.model;
 
 import com.example.default1.base.model.BaseModel;
-import com.example.default1.utils.CollectionUtils;
 import com.example.default1.utils.StringUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,22 +28,23 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Menu extends BaseModel {
-    private Long id;
-    private Long parentId;
-    private String uri;
-    private String nodePath;
-    private String name;
-    private Integer order;
-    private String iconPath;
-    private String useYn;
-    private String roles;
-    private String description;
-    private Boolean isChild;
+    private Long parentId; // 부모아이디
+    private String uri; // 라우터, Uri
+    private String nodePath; // 노드 총 경로
+    private String name; // 명칭
+    private Integer order; // 순서
+    private String iconPath; // 아이콘 path (등록)
+    private String useYn; // 사용
+    private String roles; // 권한
+    private String description; // 설명
+    private Boolean isChild; // 자식유무
 
     private List<String> roleList;
 
     public List<String> getRoleList() {
-        StringUtils.ifNotBlank(roles, it -> roleList = CollectionUtils.arrayToList(roles.split(",")));
-        return CollectionUtils.arrayToList(roles.split(","));
+        if (null == this.roleList && StringUtils.isNotBlank(roles)) {
+            this.roleList = Arrays.stream(roles.split(",")).toList();
+        }
+        return this.roleList;
     }
 }

@@ -1,6 +1,6 @@
-package com.example.default1.module.user.model;
+package com.example.default1.module.code.dto;
 
-import com.example.default1.base.model.BaseModel;
+import com.example.default1.base.dto.BaseDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -16,8 +18,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User extends BaseModel {
-    private String loginId;
-    private String password;
+public class CodeGroupDTO extends BaseDTO {
+    private String codeGroup;
     private String name;
+    private List<CodeDTO> codeDtoList;
 }

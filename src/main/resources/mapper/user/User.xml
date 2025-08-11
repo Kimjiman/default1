@@ -11,19 +11,52 @@
 			, `name`
 			, `create_time`
 			, `create_id`
+			, `update_time`
+			, `update_id`
 		FROM `user`
 	</sql>
 
 	<sql id="searchCondition">
-
+		<where>
+			<if test="loginId != null">
+				AND `login_id` LIKE '%' || #{loginId} || '%'
+			</if>
+			<if test="name != null">
+				AND `login_id` LIKE '%' || #{name} || '%'
+			</if>
+			<if test="createTimeStart != null">
+				AND `create_time` >= #{createTimeStart}
+			</if>
+			<if test="createTimeLast != null">
+				AND #{createTimeLast} >= `create_time`
+			</if>
+			<if test="updateTimeStart != null">
+				AND `update_time` >= #{updateTimeStart}
+			</if>
+			<if test="updateTimeLast != null">
+				AND #{updateTimeLast} >= `update_time`
+			</if>
+		</where>
 	</sql>
+
+	<select id="countAllBy" resultType="java.lang.Long">
+		SELECT COUNT(1)
+		FROM `user`
+		<include refid="searchCondition"/>
+	</select>
+
+	<select id="findAllBy" resultType="com.example.default1.module.user.model.User">
+		<include refid="selectQuery"/>
+		<include refid="searchCondition"/>
+		ORDER BY create_time DESC
+	</select>
 
 	<select id="findById" resultType="com.example.default1.module.user.model.User">
 		<include refid="selectQuery" />
 		WHERE `id` = #{id}
 	</select>
 
-	<insert id="insert">
+	<insert id="create">
 		INSERT INTO `user` (
 			`login_id`
 			, `password`
@@ -51,7 +84,7 @@
 		WHERE id = #{id}
 	</update>
 
-	<delete id="deleteById">
+	<delete id="removeById">
 		DELETE FROM `user`
 		WHERE id = #{id}
 	</delete>

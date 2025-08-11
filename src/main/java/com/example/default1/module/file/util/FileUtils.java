@@ -1,7 +1,7 @@
 package com.example.default1.module.file.util;
 
 import com.example.default1.exception.CustomException;
-import com.example.default1.module.file.dto.FileInfo;
+import com.example.default1.module.file.model.FileInfo;
 import com.example.default1.utils.CollectionUtils;
 import com.example.default1.utils.DateUtils;
 import com.example.default1.utils.NetworkUtils;

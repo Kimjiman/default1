@@ -1,4 +1,4 @@
-package com.example.default1.module.code.dto;
+package com.example.default1.module.code.model;
 
 import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -16,13 +18,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Code extends BaseModel {
-    private Long id;
-    private Long codeGroupId;
+public class CodeGroup extends BaseModel {
     private String codeGroup;
-    private String code;
-    private String codeGroupName;
     private String name;
-    private Integer order;
-    private String info;
+    private List<Code> codeList;
 }

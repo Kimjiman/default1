@@ -45,13 +45,13 @@
         <include refid="searchCodeCondtion"/>
     </select>
 
-    <select id="findAllBy" resultType="com.example.default1.module.code.dto.Code">
+    <select id="findAllBy" resultType="com.example.default1.module.code.model.Code">
         <include refid="selectCodeQuery" />
         <include refid="searchCodeCondtion" />
         ORDER BY `code_group_id`, `order`
     </select>
 
-    <select id="findById" resultType="com.example.default1.module.code.dto.Code">
+    <select id="findById" resultType="com.example.default1.module.code.model.Code">
         <include refid="selectCodeQuery" />
         WHERE t1.id = #{id}
    </select>

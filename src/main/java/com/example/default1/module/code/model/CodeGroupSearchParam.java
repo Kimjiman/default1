@@ -1,4 +1,4 @@
-package com.example.default1.module.code.dto;
+package com.example.default1.module.code.model;
 
 import com.example.default1.base.model.BaseSearchParam;
 import lombok.AllArgsConstructor;
@@ -25,7 +25,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CodeSearchParam extends BaseSearchParam {
-    private Long codeGroupId;
+public class CodeGroupSearchParam extends BaseSearchParam {
     private String name;
 }

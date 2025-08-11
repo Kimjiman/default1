@@ -17,6 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
 public class Response<T> {
+    @Builder.Default
     private int status = 0;
     private String message;
     private T response;

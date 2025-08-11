@@ -22,5 +22,4 @@ public class RegexUtils {
     public static boolean isMobile(String mobile) {
         return StringUtils.isRegex(mobile, RegexConstatns.MOBILE);
     }
-
 }

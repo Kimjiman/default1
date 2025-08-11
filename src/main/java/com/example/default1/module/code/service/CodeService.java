@@ -2,8 +2,8 @@ package com.example.default1.module.code.service;
 
 import com.example.default1.base.service.BaseService;
 import com.example.default1.exception.CustomException;
-import com.example.default1.module.code.dto.Code;
-import com.example.default1.module.code.dto.CodeSearchParam;
+import com.example.default1.module.code.model.Code;
+import com.example.default1.module.code.model.CodeSearchParam;
 import com.example.default1.module.code.mapper.CodeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

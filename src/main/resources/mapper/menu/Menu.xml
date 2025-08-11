@@ -28,11 +28,11 @@
         </where>
     </sql>
     
-    <select id="selectMenuListBy" resultType="com.example.default1.module.menu.dto.Menu">
+    <select id="selectMenuListBy" resultType="com.example.default1.module.menu.model.Menu">
         <include refid="selectQuery" />
     </select>
 
-    <select id="selectMenuById" resultType="com.example.default1.module.menu.dto.Menu">
+    <select id="selectMenuById" resultType="com.example.default1.module.menu.model.Menu">
         <include refid="selectQuery"/>
         WHERE id = #{id}
     </select>

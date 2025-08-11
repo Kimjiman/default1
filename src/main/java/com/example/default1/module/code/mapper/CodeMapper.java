@@ -1,8 +1,7 @@
 package com.example.default1.module.code.mapper;
 
-import com.example.default1.module.code.dto.Code;
-import com.example.default1.module.code.dto.CodeGroup;
-import com.example.default1.module.code.dto.CodeSearchParam;
+import com.example.default1.module.code.model.Code;
+import com.example.default1.module.code.model.CodeSearchParam;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 public class CustomWebClient {
-
     private WebClient webClient;
 
     @PostConstruct

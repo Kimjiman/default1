@@ -1,8 +1,8 @@
 package com.example.default1.module.code.service;
 
 import com.example.default1.base.service.BaseService;
-import com.example.default1.module.code.dto.CodeGroup;
-import com.example.default1.module.code.dto.CodeGroupSearchParam;
+import com.example.default1.module.code.model.CodeGroup;
+import com.example.default1.module.code.model.CodeGroupSearchParam;
 import com.example.default1.module.code.mapper.CodeGroupMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

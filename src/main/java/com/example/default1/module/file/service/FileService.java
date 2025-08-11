@@ -4,7 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.default1.module.file.dto.FileInfo;
+import com.example.default1.module.file.model.FileInfo;
 import com.example.default1.module.file.util.FileUtils;
 import com.example.default1.module.file.mapper.FileMapper;
 import lombok.RequiredArgsConstructor;
