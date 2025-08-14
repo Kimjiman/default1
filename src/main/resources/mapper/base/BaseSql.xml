@@ -7,22 +7,24 @@
         OFFSET #{pageInfo.offset} ROWS FETCH NEXT #{pageInfo.limit} ROWS ONLY
     </sql>
 
-    <sql id="findByIdCondition">
-        id = #{id}
-    </sql>
-
     <sql id="findAllByCondition">
-        <if test="p.createTimeStart != null">
-            AND `create_time` >= #{entity.createTimeStart}
+        <if test="ids != null and ids.size() > 0">
+            AND t1.id IN
+            <foreach collection="ids" open="(" separator="," close=")" index="id">
+                #{id}
+            </foreach>
         </if>
-        <if test="p.createTimeLast != null">
+        <if test="createTimeStart != null">
+            AND `create_time` >= #{
+        </if>
+        <if test="createTimeLast != null">
             AND #{entity.createTimeLast} >= `create_time`
         </if>
-        <if test="p.updateTimeStart != null">
-            AND `update_time` >= #{entity.updateTimeStart}
+        <if test="updateTimeStart != null">
+            AND `update_time` >= #{
         </if>
-        <if test="p.updateTimeLast != null">
-            AND  #{entity.updateTimeLast} >=`update_time`
+        <if test="updateTimeLast != null">
+            AND #{updateTimeLast} >= `update_time`
         </if>
     </sql>
 </mapper>

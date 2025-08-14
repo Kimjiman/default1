@@ -8,8 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
-
 /**
  * packageName    : com.example.default1.module.code.model
  * fileName       : CodeGroupSearchParam
@@ -30,5 +28,4 @@ import java.util.List;
 public class CodeSearchParam extends BaseSearchParam {
     private Long codeGroupId;
     private String name;
-    private List<Long> ids;
 }

@@ -8,8 +8,6 @@
             t1.id
             , t1.code_group_id
             , t1.code
-            , t2.code_group
-            , t2.name AS code_group_name
             , t1.name
             , t1.order
             , t1.info
@@ -17,12 +15,32 @@
             , t1.create_id
             , t1.update_time
             , t1.update_id
+            , t2.code_group
+            , t2.name AS code_group_name
         FROM `code` t1
         LEFT JOIN `code_group` t2 ON t1.code_group_id = t2.id
     </sql>
 
     <sql id="searchCodeCondtion">
         <where>
+            <if test="ids != null and ids.size() > 0">
+                AND t1.id IN
+                <foreach collection="ids" open="(" separator="," close=")" index="id">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="createTimeStart != null">
+                AND `create_time` >= #{
+            </if>
+            <if test="createTimeLast != null">
+                AND #{entity.createTimeLast} >= `create_time`
+            </if>
+            <if test="updateTimeStart != null">
+                AND `update_time` >= #{
+            </if>
+            <if test="updateTimeLast != null">
+                AND #{updateTimeLast} >= `update_time`
+            </if>
             <if test="codeGroup != null and codeGroup != ''">
                 AND t2.code_group = #{codeGroup}
             </if>
@@ -45,13 +63,13 @@
         <include refid="searchCodeCondtion"/>
     </select>
 
-    <select id="findAllBy" resultType="com.example.default1.module.code.model.Code">
+    <select id="findAllBy" resultType="com.example.default1.module.code.model.CodeSearchParam">
         <include refid="selectCodeQuery" />
         <include refid="searchCodeCondtion" />
         ORDER BY `code_group_id`, `order`
     </select>
 
-    <select id="findById" resultType="com.example.default1.module.code.model.Code">
+    <select id="findById" resultType="com.example.default1.module.code.model.CodeSearchParam">
         <include refid="selectCodeQuery" />
         WHERE t1.id = #{id}
    </select>
