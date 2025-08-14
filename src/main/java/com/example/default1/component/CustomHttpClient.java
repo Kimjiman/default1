@@ -2,7 +2,6 @@ package com.example.default1.component;
 
 import com.example.default1.base.model.Response;
 import com.example.default1.utils.JsonUtils;
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;

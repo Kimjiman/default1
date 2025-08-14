@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 /**
  * packageName    : com.example.default1.base.model
  * fileName       : SearchParam
@@ -26,6 +28,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class BaseSearchParam {
+    private List<Long> ids;
+    private Long createId;
     private String createTimeStart;
     private String createTimeLast;
     private String updateTimeStart;

@@ -218,19 +218,19 @@ public class JwtTokenProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            log.error("Invalid JWT Token", e);
+            log.error("Invalid JWT Token: {}", e);
             throw new CustomException(2999, "유효하지 않은 JWT 토큰입니다.");
         } catch (ExpiredJwtException e) {
-            log.error("Expired JWT Token", e);
+            log.error("Expired JWT Token: {}", e);
             throw new CustomException(2999, "만료된 JWT 토큰입니다.");
         } catch (UnsupportedJwtException e) {
-            log.error("Unsupported JWT Token", e);
+            log.error("Unsupported JWT Token: {}", e);
             throw new CustomException(2999, "지원하지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
-            log.error("JWT claims string is empty.", e);
+            log.error("JWT claims string is empty: {}", e, e.getMessage());
             throw new CustomException(2999, "JWT 클레임 문자열이 비어 있습니다.");
         } catch (JwtException e) {
-            log.error("JWT processing error.", e);
+            log.error("JWT processing error: {}", e);
             throw new CustomException(2999, "JWT 처리 오류입니다.");
         }
     }

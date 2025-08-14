@@ -20,7 +20,7 @@ public record LoginUserDetails(LoginUser loginUser) implements UserDetails {
     public String getPassword() {
         return this.loginUser.getPassword();
     }
-
+    
     @Override
     public String getUsername() {
         return this.loginUser.getLoginId() == null ? "" : this.loginUser.getLoginId();
