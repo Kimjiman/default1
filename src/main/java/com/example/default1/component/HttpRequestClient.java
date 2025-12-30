@@ -28,7 +28,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class CustomHttpClient {
+public class HttpRequestClient {
     private CloseableHttpClient HTTP_CLIENT;
     private final Map<String, Object> HEADERS = new HashMap<>();
 
@@ -114,7 +114,7 @@ public class CustomHttpClient {
     private URI buildUri(String uri, Map<String, String> queryParams) throws URISyntaxException {
         uri = this.buildUri(uri);
         URIBuilder builder = new URIBuilder(uri);
-        if (queryParams != null) queryParams.forEach((key, value) -> builder.addParameter(key, value));
+        if (queryParams != null) queryParams.forEach(builder::addParameter);
         return builder.build();
     }
 
