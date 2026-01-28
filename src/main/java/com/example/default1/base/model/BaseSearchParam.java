@@ -27,7 +27,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseSearchParam {
+public abstract class BaseSearchParam extends BaseObject {
     private List<Long> ids;
     private Long createId;
     private String createTimeStart;

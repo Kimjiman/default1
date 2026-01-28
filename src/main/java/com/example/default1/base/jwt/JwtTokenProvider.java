@@ -104,7 +104,7 @@ public class JwtTokenProvider {
      * @param refreshToken
      */
     public void removeRefreshToken(String refreshToken) {
-        StringUtils.ifNotBlank(refreshToken, it -> redisRepository.deleteRawByKey(refreshToken));
+        if(StringUtils.isNotBlank(refreshToken)) redisRepository.deleteRawByKey(refreshToken)
     }
 
     /**

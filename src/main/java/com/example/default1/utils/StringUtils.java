@@ -88,6 +88,11 @@ public class StringUtils {
         return isEmpty(val) ? val : Character.toUpperCase(val.charAt(0)) + val.substring(1);
     }
 
+    public static boolean matches(String val, String regex) {
+        if (isEmpty(val) || isEmpty(regex)) return false;
+        return Pattern.matches(regex, val);
+    }
+
     public static String matchingRegex(String val, String regex) {
         if (isEmpty(val) || isEmpty(regex)) return val;
         Matcher matcher = Pattern.compile(regex).matcher(val);
@@ -98,6 +103,7 @@ public class StringUtils {
         if (isEmpty(val) || isEmpty(regex)) return false;
         return Pattern.compile(regex).matcher(val).matches();
     }
+
 
     public static boolean isNumber(String val) {
         if (isEmpty(val)) return false;
