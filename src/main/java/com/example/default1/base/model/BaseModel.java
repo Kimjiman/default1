@@ -15,8 +15,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class BaseModel extends BaseObject {
-    private Long id;
+public abstract class BaseModel<T> extends BaseObject {
+    private T id;
     private Long rowNum;
     private String createTime;
     private Long createId;

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CodeService implements BaseService<Code, CodeSearchParam> {
+public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
     private final CodeMapper codeMapper;
 
     @Override

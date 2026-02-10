@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,6 +21,10 @@ public abstract class BaseObject {
                 Field[] fields = currentClass.getDeclaredFields();
 
                 for (Field field : fields) {
+                    if (Modifier.isStatic(field.getModifiers())) {
+                        continue;
+                    }
+
                     field.setAccessible(true);
                     Object value = field.get(this);
                     if (value != null) {

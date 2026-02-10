@@ -2,7 +2,11 @@ package com.example.default1.module.file.model;
 
 import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Getter
@@ -12,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FileInfo extends BaseModel {
+public class FileInfo extends BaseModel<Long> {
     private String refPath; // 참조 위치 
     private Long refId; // 참조아이디
     private String oriName; // 원래이름

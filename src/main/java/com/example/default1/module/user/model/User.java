@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User extends BaseModel {
+public class User extends BaseModel<Long> {
     private String loginId;
     private String password;
     private String name;

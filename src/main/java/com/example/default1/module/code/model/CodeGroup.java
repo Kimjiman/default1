@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CodeGroup extends BaseModel {
+public class CodeGroup extends BaseModel<Long> {
     private String codeGroup;
     private String name;
     private List<Code> codeList;

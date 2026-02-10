@@ -3,7 +3,11 @@ package com.example.default1.module.menu.model;
 import com.example.default1.base.model.BaseModel;
 import com.example.default1.utils.StringUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Arrays;
@@ -27,7 +31,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Menu extends BaseModel {
+public class Menu extends BaseModel<Long> {
     private Long parentId; // 부모아이디
     private String uri; // 라우터, Uri
     private String nodePath; // 노드 총 경로

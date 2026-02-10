@@ -15,13 +15,16 @@ import java.util.List;
  * DATE           AUTHOR          NOTE
  * -----------------------------------------------------------
  * 25. 8. 5.     KIM JIMAN      First Commit
+ * @param <E> MainObject
+ * @param <P> SearchParam
+ * @param <T> PK
  */
-public interface BaseService<T extends BaseModel, P extends BaseSearchParam> {
-    boolean existsById(Long id);
-    T findById(Long id);
+public interface BaseService<E extends BaseModel<T>, P extends BaseSearchParam<T>, T> {
+    boolean existsById(T id);
+    E findById(T id);
     Long countAllBy(P p);
-    List<T> findAllBy(P p);
-    Long create(T t);
-    Long update(T t);
-    boolean removeById(Long id);
+    List<E> findAllBy(P p);
+    Long create(E e);
+    Long update(E e);
+    boolean removeById(T id);
 }

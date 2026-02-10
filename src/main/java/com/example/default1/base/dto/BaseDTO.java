@@ -20,8 +20,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class BaseDTO extends BaseObject {
-    private Long id;
+public abstract class BaseDTO<T> extends BaseObject {
+    private T id;
     private LocalDateTime createTime;
     @Builder.Default
     private Long createId = 0L;

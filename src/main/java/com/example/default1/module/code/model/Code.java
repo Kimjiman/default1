@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Code extends BaseModel {
+public class Code extends BaseModel<Long> {
     private Long codeGroupId;
     private String codeGroup;
     private String code;

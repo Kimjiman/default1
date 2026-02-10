@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.checkerframework.checker.units.qual.K;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
 @Setter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PageResponse<T extends BaseModel> extends BaseObject {
+public class PageResponse<T extends BaseModel<?>> extends BaseObject {
     private PageInfo pageInfo;
     private List<T> list;
 
@@ -35,7 +36,7 @@ public class PageResponse<T extends BaseModel> extends BaseObject {
     }
 
     private void assignRowNumbers() {
-        if (this.list == null || this.list.isEmpty() || this.pageInfo == null) {
+        if (this.list == null || this.list.isEmpty() || this.pageInfo.isEmpty()) {
             return;
         }
 

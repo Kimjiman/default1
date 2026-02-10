@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class ExceptionAdvice {
-    @ExceptionHandler({Exception.class})
-    public Response<?> InternalServerException(Exception ex) {
-        return Response.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
-    }
-
     @ExceptionHandler({CustomException.class})
     public Response<?> customException(CustomException ex) {
         return Response.fail(ex.getStatus(), ex.getMessage());
@@ -29,5 +24,10 @@ public class ExceptionAdvice {
     @ExceptionHandler({DataIntegrityViolationException.class})
     public Response<?> DataIntegrityViolationException(DataIntegrityViolationException ex) {
         return Response.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getCause().getMessage());
+    }
+
+    @ExceptionHandler({Exception.class})
+    public Response<?> InternalServerException(Exception ex) {
+        return Response.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
     }
 }

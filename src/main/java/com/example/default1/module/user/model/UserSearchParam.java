@@ -25,7 +25,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSearchParam extends BaseSearchParam {
+public class UserSearchParam extends BaseSearchParam<Long> {
     private String loginId;
     private String name;
 }

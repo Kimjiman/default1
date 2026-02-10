@@ -1,8 +1,6 @@
 package com.example.default1.interceptor;
 
 import com.example.default1.base.dto.BaseDTO;
-import com.example.default1.base.model.BaseModel;
-import com.example.default1.utils.SessionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -44,13 +42,13 @@ public class MyBatisInterceptor implements Interceptor {
         log.info("sqlId: {}, sqlCommandType: {}", sqlId, sqlCommandType);
 
         if ("INSERT".equalsIgnoreCase(sqlCommandType)) {
-            if (parameter instanceof BaseDTO dto) {
+            if (parameter instanceof BaseDTO<?> dto) {
                 dto.setCurrentUser();
                 dto.setCreateTime(LocalDateTime.now());
                 dto.setUpdateTime(LocalDateTime.now());
             }
         } else if ("UPDATE".equalsIgnoreCase(sqlCommandType)) {
-            if (parameter instanceof BaseDTO dto) {
+            if (parameter instanceof BaseDTO<?> dto) {
                 dto.setCurrentUserUpdateId();
                 dto.setUpdateTime(LocalDateTime.now());
             }

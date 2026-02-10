@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CodeDTO extends BaseDTO {
+public class CodeDTO extends BaseDTO<Long> {
     private Long codeGroupId;
     private String codeGroup;
     private String code;

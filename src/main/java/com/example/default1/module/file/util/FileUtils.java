@@ -13,7 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -39,15 +45,15 @@ public class FileUtils {
         }
 
         String savePath = DateUtils.localDateToString(LocalDate.now(), "yyyyMM");
-        File dir = new File(storePath + File.separator + savePath);
-        
+        File dir = new File(String.format("%s/%s", storePath, savePath));
+
         if (!dir.mkdirs()) {
             throw new IllegalArgumentException("디렉터리가 생성에 실패하였습니다.");
         }
 
         String oriName = mf.getOriginalFilename();
         String extension = extractSafeExtension(Objects.requireNonNull(oriName));
-        String newName = UUID.randomUUID() + "." + extension;
+        String newName = String.format("%s.%s", UUID.randomUUID(), extension);
 
         try {
             FileCopyUtils.copy(mf.getInputStream(), new FileOutputStream(new File(dir, newName)));
@@ -88,7 +94,7 @@ public class FileUtils {
             throw new IllegalArgumentException("다운로드할 파일 정보가 없습니다.");
         }
 
-        String filePath = storePath + File.separator + fileInfo.getSavePath();
+        String filePath = String.format("%s/%s", storePath, fileInfo.getSavePath());
         File file = new File(filePath, fileInfo.getNewName());
 
         if (!file.exists()) {
@@ -122,7 +128,7 @@ public class FileUtils {
             throw new IllegalArgumentException("읽을 파일 정보가 없습니다.");
         }
 
-        String filePath = storePath + File.separator + fileInfo.getSavePath();
+        String filePath = String.format("%s/%s", storePath, fileInfo.getSavePath());
         File file = new File(filePath, fileInfo.getNewName());
 
         if (!file.exists()) {
@@ -152,7 +158,7 @@ public class FileUtils {
             throw new IllegalArgumentException("삭제할 파일 정보가 없습니다.");
         }
 
-        String filePath = storePath + File.separator + fileInfo.getSavePath();
+        String filePath = String.format("%s/%s", storePath, fileInfo.getSavePath());
         File file = new File(filePath, fileInfo.getNewName());
 
         if (file.exists() && file.delete()) {

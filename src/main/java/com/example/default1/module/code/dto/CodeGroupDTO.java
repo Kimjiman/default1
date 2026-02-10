@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CodeGroupDTO extends BaseDTO {
+public class CodeGroupDTO extends BaseDTO<Long> {
     private String codeGroup;
     private String name;
     private List<CodeDTO> codeDtoList;

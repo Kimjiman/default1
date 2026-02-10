@@ -104,7 +104,7 @@ public class JwtTokenProvider {
      * @param refreshToken
      */
     public void removeRefreshToken(String refreshToken) {
-        if(StringUtils.isNotBlank(refreshToken)) redisRepository.deleteRawByKey(refreshToken)
+        if(StringUtils.isNotBlank(refreshToken)) redisRepository.deleteRawByKey(refreshToken);
     }
 
     /**
@@ -218,7 +218,7 @@ public class JwtTokenProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            log.error("Invalid JWT Token: {}", e);
+            log.error("Invalid JWT Token: {}", e, e);
             throw new CustomException(2999, "유효하지 않은 JWT 토큰입니다.");
         } catch (ExpiredJwtException e) {
             log.error("Expired JWT Token: {}", e);

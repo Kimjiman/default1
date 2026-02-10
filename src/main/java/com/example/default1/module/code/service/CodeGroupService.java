@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class CodeGroupService implements BaseService<CodeGroup, CodeGroupSearchParam> {
+public class CodeGroupService implements BaseService<CodeGroup, CodeGroupSearchParam, Long> {
     private final CodeGroupMapper codeGroupMapper;
 
     @Override

@@ -25,6 +25,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CodeGroupSearchParam extends BaseSearchParam {
+public class CodeGroupSearchParam extends BaseSearchParam<Long> {
     private String name;
 }

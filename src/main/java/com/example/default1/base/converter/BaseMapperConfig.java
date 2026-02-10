@@ -1,8 +1,7 @@
 package com.example.default1.base.converter;
 
-import com.example.default1.base.dto.BaseDTO;
-import com.example.default1.base.model.BaseModel;
 import org.mapstruct.MapperConfig;
+import org.mapstruct.MappingInheritanceStrategy;
 import org.mapstruct.ReportingPolicy;
 
 /**
@@ -18,7 +17,9 @@ import org.mapstruct.ReportingPolicy;
  */
 @MapperConfig(
         componentModel = "spring",
-        unmappedSourcePolicy = ReportingPolicy.IGNORE
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {TypeConverter.class},
+        mappingInheritanceStrategy = MappingInheritanceStrategy.AUTO_INHERIT_FROM_CONFIG
 )
 public interface BaseMapperConfig {
 }

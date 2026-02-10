@@ -15,16 +15,16 @@
             </foreach>
         </if>
         <if test="createTimeStart != null">
-            AND `create_time` >= #{
+            AND t1.create_time >= #{createTimeStart}
         </if>
         <if test="createTimeLast != null">
-            AND #{entity.createTimeLast} >= `create_time`
+            AND #{createTimeLast} >= t1.create_time
         </if>
         <if test="updateTimeStart != null">
-            AND `update_time` >= #{
+            AND t1.update_time >= #{updateTimeStart}
         </if>
         <if test="updateTimeLast != null">
-            AND #{updateTimeLast} >= `update_time`
+            AND #{updateTimeLast} >= t1.update_time
         </if>
     </sql>
 </mapper>
