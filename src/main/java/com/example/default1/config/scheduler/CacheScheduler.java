@@ -1,4 +1,4 @@
-package com.example.default1.base.scheduler;
+package com.example.default1.config.scheduler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

@@ -1,4 +1,4 @@
-package com.example.default1.config;
+package com.example.default1.config.advice;
 
 import com.example.default1.base.model.Response;
 import lombok.extern.slf4j.Slf4j;

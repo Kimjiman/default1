@@ -1,4 +1,4 @@
-package com.example.default1.base.jwt;
+package com.example.default1.base.security.jwt;
 
 import com.example.default1.base.constants.UrlConstatns;
 import com.example.default1.base.utils.StringUtils;

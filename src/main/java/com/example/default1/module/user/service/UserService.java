@@ -1,13 +1,12 @@
 package com.example.default1.module.user.service;
 
-import com.example.default1.base.jwt.JwtTokenProvider;
-import com.example.default1.base.jwt.JwtTokenInfo;
+import com.example.default1.base.security.jwt.JwtTokenProvider;
+import com.example.default1.base.security.jwt.JwtTokenInfo;
 import com.example.default1.base.service.BaseService;
 import com.example.default1.base.exception.CustomException;
-import com.example.default1.module.user.dto.UserDTO;
-import com.example.default1.module.user.model.UserSearchParam;
-import com.example.default1.module.user.mapper.UserMapper;
 import com.example.default1.module.user.model.User;
+import com.example.default1.module.user.model.UserSearchParam;
+import com.example.default1.module.user.repository.UserRepository;
 import com.example.default1.base.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,12 +17,13 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService implements BaseService<UserDTO, UserSearchParam, Long> {
-    private final UserMapper userMapper;
+public class UserService implements BaseService<User, UserSearchParam, Long> {
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -36,47 +36,43 @@ public class UserService implements BaseService<UserDTO, UserSearchParam, Long> 
 
     @Override
     public boolean existsById(Long id) {
-        return userMapper.findById(id) != null;
+        return userRepository.existsById(id);
     }
 
     @Override
-    public UserDTO findById(Long id) {
-        return userMapper.findById(id);
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 
     @Override
     public Long countAllBy(UserSearchParam param) {
-        return 0L;
+        return userRepository.countAllBy(param);
     }
 
     @Override
-    public List<UserDTO> findAllBy(UserSearchParam param) {
-        return List.of();
+    public List<User> findAllBy(UserSearchParam param) {
+        return userRepository.findAllBy(param);
     }
 
     @Override
-    public Long create(UserDTO dto) {
-        if (StringUtils.isBlank(dto.getLoginId())) {
+    public User save(User user) {
+        if (StringUtils.isBlank(user.getLoginId())) {
             throw new CustomException(2001, "로그인 아이디를 입력해주세요.");
         }
 
-        if (StringUtils.isBlank(dto.getPassword())) {
+        if (user.getId() == null && StringUtils.isBlank(user.getPassword())) {
             throw new CustomException(2001, "패스워드를 입력해주세요.");
         }
 
-        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-        userMapper.create(dto);
-        return dto.getId();
+        if (StringUtils.isNotBlank(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
+        return userRepository.save(user);
     }
 
     @Override
-    public Long update(UserDTO dto) {
-        userMapper.update(dto);
-        return dto.getId();
-    }
-
-    @Override
-    public boolean removeById(Long id) {
-        return userMapper.removeById(id) > 0;
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 }

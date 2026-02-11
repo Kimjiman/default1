@@ -1,7 +1,7 @@
 package com.example.default1.module.test.controller;
 
 import com.example.default1.base.exception.CustomException;
-import com.example.default1.module.test.mapper.TestMapper;
+import com.example.default1.module.test.repository.TestRepository;
 import com.example.default1.module.test.model.TestModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,22 +14,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/test")
 @RequiredArgsConstructor
 public class TestController {
-    private final TestMapper testMapper;
+    private final TestRepository testRepository;
 
     @GetMapping("/test")
     public ResponseEntity<?> test(TestModel testModel) {
         if(testModel.getId() == 1) {
             throw new CustomException(2023, "테스트");
         }
-//        log.info("testModel: {}", testModel);
-        return ResponseEntity.ok(testMapper.testSql());
+        return ResponseEntity.ok(testRepository.findAll());
     }
 
     @PostMapping("/test")
     public ResponseEntity<?> test1(@RequestBody TestModel testModel) {
         log.info("testModel: {}", testModel);
-        testMapper.testInsert(testModel);
-        return ResponseEntity.ok(testMapper.testSql());
+        testRepository.save(testModel);
+        return ResponseEntity.ok(testRepository.findAll());
     }
 
     @PostMapping("/test2")

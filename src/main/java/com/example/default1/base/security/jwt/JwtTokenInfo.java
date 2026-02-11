@@ -1,4 +1,4 @@
-package com.example.default1.base.jwt;
+package com.example.default1.base.security.jwt;
 
 import com.example.default1.base.model.BaseObject;
 import com.fasterxml.jackson.annotation.JsonInclude;

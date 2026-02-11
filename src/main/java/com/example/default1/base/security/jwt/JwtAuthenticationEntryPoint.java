@@ -1,4 +1,4 @@
-package com.example.default1.base.jwt;
+package com.example.default1.base.security.jwt;
 
 import com.example.default1.base.utils.CommonUtils;
 import org.springframework.security.core.AuthenticationException;

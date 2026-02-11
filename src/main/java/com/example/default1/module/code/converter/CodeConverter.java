@@ -1,6 +1,6 @@
 package com.example.default1.module.code.converter;
 
-import com.example.default1.converter.TypeConverter;
+import com.example.default1.base.converter.TypeConverter;
 import com.example.default1.module.code.dto.CodeDTO;
 import com.example.default1.module.code.model.Code;
 import org.mapstruct.Mapper;
@@ -24,16 +24,16 @@ import org.mapstruct.Mapping;
 public interface CodeConverter {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "createId", target = "createId")
-    @Mapping(source = "createTime", target = "createTime", qualifiedByName = "stringToLocalDateTime")
+    @Mapping(source = "createTime", target = "createTime", qualifiedByName = "localDateTimeToString")
     @Mapping(source = "updateId", target = "updateId")
-    @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "stringToLocalDateTime")
+    @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "localDateTimeToString")
     CodeDTO toDto(Code code);
 
     @Mapping(target = "rowNum", ignore = true)
     @Mapping(source = "id", target = "id")
     @Mapping(source = "createId", target = "createId")
-    @Mapping(source = "createTime", target = "createTime", qualifiedByName = "localDateTimeToString")
+    @Mapping(source = "createTime", target = "createTime", qualifiedByName = "stringToLocalDateTime")
     @Mapping(source = "updateId", target = "updateId")
-    @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "localDateTimeToString")
+    @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "stringToLocalDateTime")
     Code fromDto(CodeDTO codeDTO);
 }

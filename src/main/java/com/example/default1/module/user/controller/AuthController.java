@@ -1,8 +1,8 @@
 package com.example.default1.module.user.controller;
 
 import com.example.default1.base.exception.CustomException;
-import com.example.default1.base.jwt.JwtTokenInfo;
-import com.example.default1.base.jwt.JwtTokenProvider;
+import com.example.default1.base.security.jwt.JwtTokenInfo;
+import com.example.default1.base.security.jwt.JwtTokenProvider;
 import com.example.default1.base.utils.SessionUtils;
 import com.example.default1.base.utils.StringUtils;
 import com.example.default1.module.user.model.User;

@@ -78,10 +78,7 @@ public class FileController {
     @ResponseBody
     public void deleteByRef(@PathVariable("refPath") String refPath, @PathVariable("refId") Long refId) {
         try {
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.setRefPath(refPath);
-            fileInfo.setRefId(refId);
-            fileService.deleteByRef(fileInfo);
+            fileService.deleteByRef(refPath, refId);
         } catch (Exception e) {
             log.error("ref error: refPath:{}, refId:{}", refPath, refId);
         }

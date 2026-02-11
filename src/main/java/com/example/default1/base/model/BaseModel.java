@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -19,15 +20,41 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@MappedSuperclass
 public abstract class BaseModel<T> extends BaseObject {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private T id;
+
+    @Transient
     private Long rowNum;
+
+    @Column(name = "create_time", updatable = false)
     private LocalDateTime createTime;
+
+    @Column(name = "create_id", updatable = false)
     @Builder.Default
     private Long createId = 0L;
+
+    @Column(name = "update_time")
     private LocalDateTime updateTime;
+
+    @Column(name = "update_id")
     @Builder.Default
     private Long updateId = 0L;
+
+    @PrePersist
+    public void prePersist() {
+        this.createTime = LocalDateTime.now();
+        this.updateTime = LocalDateTime.now();
+        this.setCurrentUser();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updateTime = LocalDateTime.now();
+        this.setCurrentUserUpdateId();
+    }
 
     public void setSystemUser() {
         this.setSystemUserCreateId();

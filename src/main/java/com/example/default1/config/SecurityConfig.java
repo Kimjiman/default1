@@ -1,10 +1,10 @@
 package com.example.default1.config;
 
-import com.example.default1.base.jwt.JwtAuthenticationEntryPoint;
-import com.example.default1.base.jwt.JwtAuthenticationFilter;
-import com.example.default1.base.jwt.JwtTokenProvider;
-import com.example.default1.config.auth.AuthFailureHandler;
-import com.example.default1.config.auth.AuthSuccessHandler;
+import com.example.default1.base.security.jwt.JwtAuthenticationEntryPoint;
+import com.example.default1.base.security.jwt.JwtAuthenticationFilter;
+import com.example.default1.base.security.jwt.JwtTokenProvider;
+import com.example.default1.base.security.AuthFailureHandler;
+import com.example.default1.base.security.AuthSuccessHandler;
 import com.example.default1.base.constants.UrlConstatns;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.example.default1.module.exception.controller;
+package com.example.default1.config.advice;
 
 import com.example.default1.base.model.Response;
 import com.example.default1.base.exception.CustomException;

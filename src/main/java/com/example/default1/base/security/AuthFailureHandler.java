@@ -1,4 +1,4 @@
-package com.example.default1.config.auth;
+package com.example.default1.base.security;
 
 import java.io.IOException;
 
@@ -16,8 +16,7 @@ public class AuthFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException {
-        
+
         CommonUtils.responseFail(3001, exception.getMessage(), response);
     }
 }
-

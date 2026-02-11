@@ -1,4 +1,4 @@
-package com.example.default1.module.file.util;
+package com.example.default1.module.file.service;
 
 import com.example.default1.base.exception.CustomException;
 import com.example.default1.module.file.model.FileInfo;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class FileUtils {
+public class FileStorageService {
     @Value("${file.store.path}")
     private String storePath;
 
@@ -197,4 +197,3 @@ public class FileUtils {
                 .orElse("txt");
     }
 }
-

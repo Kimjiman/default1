@@ -10,20 +10,10 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * packageName    : com.example.default1.base.menu
- * fileName       : Menu
- * author         : KIM JIMAN
- * date           : 24. 7. 11. 목요일
- * description    :
- * ===========================================================
- * DATE           AUTHOR          NOTE
- * -----------------------------------------------------------
- * 24. 7. 11.     KIM JIMAN      First Commit
- */
 @Getter
 @Setter
 @ToString
@@ -31,18 +21,40 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Entity
+@Table(name = "menu")
 public class Menu extends BaseModel<Long> {
-    private Long parentId; // 부모아이디
-    private String uri; // 라우터, Uri
-    private String nodePath; // 노드 총 경로
-    private String name; // 명칭
-    private Integer order; // 순서
-    private String iconPath; // 아이콘 path (등록)
-    private String useYn; // 사용
-    private String roles; // 권한
-    private String description; // 설명
-    private Boolean isChild; // 자식유무
+    @Column(name = "parent_id")
+    private Long parentId;
 
+    @Column(name = "uri")
+    private String uri;
+
+    @Column(name = "node_path")
+    private String nodePath;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "`order`")
+    private Integer order;
+
+    @Column(name = "icon_path")
+    private String iconPath;
+
+    @Column(name = "use_yn")
+    private String useYn;
+
+    @Column(name = "roles")
+    private String roles;
+
+    @Column(name = "description")
+    private String description;
+
+    @Transient
+    private Boolean isChild;
+
+    @Transient
     private List<String> roleList;
 
     public List<String> getRoleList() {

@@ -1,4 +1,4 @@
-package com.example.default1.converter;
+package com.example.default1.base.converter;
 
 import com.example.default1.base.utils.DateUtils;
 import org.mapstruct.Named;
@@ -6,17 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-/**
- * packageName    : com.example.default1.base.converter
- * fileName       : NamedConverter
- * author         : KIM JIMAN
- * date           : 25. 8. 11. 월요일
- * description    :
- * ===========================================================
- * DATE           AUTHOR          NOTE
- * -----------------------------------------------------------
- * 25. 8. 11.     KIM JIMAN      First Commit
- */
 @Component
 public class TypeConverter {
     @Named("stringToLocalDateTime")

@@ -1,9 +1,8 @@
-package com.example.default1.base.interceptor;
+package com.example.default1.config.interceptor;
 
 import com.example.default1.module.menu.facade.MenuFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;

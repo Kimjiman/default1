@@ -1,12 +1,12 @@
 package com.example.default1.module.file.service;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.example.default1.module.file.model.FileInfo;
-import com.example.default1.module.file.util.FileUtils;
-import com.example.default1.module.file.mapper.FileMapper;
+import com.example.default1.module.file.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,49 +16,50 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
 public class FileService {
-    private final FileUtils fileUtils;
-    private final FileMapper fileMapper;
+    private final FileStorageService fileStorageService;
+    private final FileRepository fileRepository;
 
     public List<FileInfo> getList(List<Long> ids) {
-        return fileMapper.findAllIn(ids);
+        return fileRepository.findAllByIdIn(ids);
     }
 
     public FileInfo getById(Long id) {
-        return fileMapper.findById(id);
+        return fileRepository.findById(id).orElse(null);
     }
 
     @Transactional
     public FileInfo upload(MultipartFile mf, String refPath, Long refId) {
-        FileInfo fileInfo = fileUtils.upload(mf);
+        FileInfo fileInfo = fileStorageService.upload(mf);
         fileInfo.setRefPath(refPath);
         fileInfo.setRefId(refId);
-        fileMapper.insert(fileInfo);
-        return fileInfo;
+        return fileRepository.save(fileInfo);
     }
 
     public FileInfo readFile(HttpServletResponse response, Long id) {
-        FileInfo fileInfo = fileMapper.findById(id);
-        fileUtils.readFile(response, fileInfo);
+        FileInfo fileInfo = fileRepository.findById(id).orElse(null);
+        fileStorageService.readFile(response, fileInfo);
         return fileInfo;
     }
 
     public FileInfo download(HttpServletRequest request, HttpServletResponse response, Long id) {
-        FileInfo fileInfo = fileMapper.findById(id);
-        fileUtils.download(request, response, fileInfo);
+        FileInfo fileInfo = fileRepository.findById(id).orElse(null);
+        fileStorageService.download(request, response, fileInfo);
         return fileInfo;
     }
 
     @Transactional
     public void delete(Long id) {
-        FileInfo fileInfo = fileMapper.findById(id);
-        int result = fileMapper.deleteById(id);
-        if(result > 0) fileUtils.delete(fileInfo);
+        FileInfo fileInfo = fileRepository.findById(id).orElse(null);
+        if (fileInfo != null) {
+            fileRepository.deleteById(id);
+            fileStorageService.delete(fileInfo);
+        }
     }
 
     @Transactional
-    public void deleteByRef(FileInfo fileInfo) {
-        List<FileInfo> fileInfoList = fileMapper.findBy(fileInfo);
-        fileInfoList.forEach(fileMapper::deleteByRef);
+    public void deleteByRef(String refPath, Long refId) {
+        List<FileInfo> fileInfoList = fileRepository.findByRefPathAndRefId(refPath, refId);
+        fileInfoList.forEach(fileInfo -> fileStorageService.delete(fileInfo));
+        fileRepository.deleteByRefPathAndRefId(refPath, refId);
     }
 }
-

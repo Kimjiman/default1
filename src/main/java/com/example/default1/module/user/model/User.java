@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -18,9 +19,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Entity
+@Table(name = "`user`")
 public class User extends BaseModel<Long> {
+    @Column(name = "login_id")
     private String loginId;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "name")
     private String name;
+
+    @Transient
     private List<String> roleList;
 }

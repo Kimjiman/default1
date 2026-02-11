@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -18,8 +19,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Entity
+@Table(name = "code_group")
 public class CodeGroup extends BaseModel<Long> {
+    @Column(name = "code_group")
     private String codeGroup;
+
+    @Column(name = "name")
     private String name;
+
+    @Transient
     private List<Code> codeList;
 }

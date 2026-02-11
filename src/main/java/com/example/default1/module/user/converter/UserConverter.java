@@ -1,6 +1,6 @@
 package com.example.default1.module.user.converter;
 
-import com.example.default1.converter.TypeConverter;
+import com.example.default1.base.converter.TypeConverter;
 import com.example.default1.module.code.dto.CodeDTO;
 import com.example.default1.module.code.model.Code;
 import com.example.default1.module.user.dto.UserDTO;
@@ -24,12 +24,12 @@ import org.mapstruct.Mapping;
         , uses = {TypeConverter.class}
 )
 public interface UserConverter {
-    @Mapping(source = "createTime", target = "createTime", qualifiedByName = "stringToLocalDateTime")
-    @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "stringToLocalDateTime")
+    @Mapping(source = "createTime", target = "createTime", qualifiedByName = "localDateTimeToString")
+    @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "localDateTimeToString")
     UserDTO toDto(User dto);
 
     @Mapping(target = "rowNum", ignore = true)
-    @Mapping(source = "createTime", target = "createTime", qualifiedByName = "localDateTimeToString")
-    @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "localDateTimeToString")
+    @Mapping(source = "createTime", target = "createTime", qualifiedByName = "stringToLocalDateTime")
+    @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "stringToLocalDateTime")
     User fromDto(UserDTO dto);
 }
