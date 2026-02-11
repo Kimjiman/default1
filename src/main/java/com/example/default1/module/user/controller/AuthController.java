@@ -25,13 +25,12 @@ public class AuthController {
     @PostMapping("/login")
     public JwtTokenInfo login(@RequestBody User user) {
         String loginId = user.getLoginId();
-
-        if (StringUtils.isBlank(user.getLoginId())) {
+        if (StringUtils.isBlank(loginId)) {
             throw new CustomException(2001, "아이디를 입력해주세요.");
         }
 
         String password = user.getPassword();
-        if (StringUtils.isBlank(user.getLoginId())) {
+        if (StringUtils.isBlank(password)) {
             throw new CustomException(2002, "비밀번호를 입력해주세요.");
         }
 
