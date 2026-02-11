@@ -1,6 +1,6 @@
 package com.example.default1.module.test.controller;
 
-import com.example.default1.exception.CustomException;
+import com.example.default1.base.exception.CustomException;
 import com.example.default1.module.test.mapper.TestMapper;
 import com.example.default1.module.test.model.TestModel;
 import lombok.RequiredArgsConstructor;

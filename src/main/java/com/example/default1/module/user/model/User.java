@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -20,4 +22,5 @@ public class User extends BaseModel<Long> {
     private String loginId;
     private String password;
     private String name;
+    private List<String> roleList;
 }

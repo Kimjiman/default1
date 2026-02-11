@@ -1,6 +1,7 @@
 package com.example.default1.module.code.service;
 
 import com.example.default1.base.service.BaseService;
+import com.example.default1.module.code.dto.CodeGroupDTO;
 import com.example.default1.module.code.model.CodeGroup;
 import com.example.default1.module.code.model.CodeGroupSearchParam;
 import com.example.default1.module.code.mapper.CodeGroupMapper;
@@ -24,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class CodeGroupService implements BaseService<CodeGroup, CodeGroupSearchParam, Long> {
+public class CodeGroupService implements BaseService<CodeGroupDTO, CodeGroupSearchParam, Long> {
     private final CodeGroupMapper codeGroupMapper;
 
     @Override
@@ -33,7 +34,7 @@ public class CodeGroupService implements BaseService<CodeGroup, CodeGroupSearchP
     }
 
     @Override
-    public CodeGroup findById(Long id) {
+    public CodeGroupDTO findById(Long id) {
         return codeGroupMapper.findById(id);
     }
 
@@ -43,20 +44,20 @@ public class CodeGroupService implements BaseService<CodeGroup, CodeGroupSearchP
     }
 
     @Override
-    public List<CodeGroup> findAllBy(CodeGroupSearchParam codeGroupSearchParam) {
+    public List<CodeGroupDTO> findAllBy(CodeGroupSearchParam codeGroupSearchParam) {
         return codeGroupMapper.findAllBy(codeGroupSearchParam);
     }
 
     @Override
-    public Long create(CodeGroup codeGroup) {
-        codeGroupMapper.create(codeGroup);
-        return codeGroup.getId();
+    public Long create(CodeGroupDTO dto) {
+        codeGroupMapper.create(dto);
+        return dto.getId();
     }
 
     @Override
-    public Long update(CodeGroup codeGroup) {
-        codeGroupMapper.update(codeGroup);
-        return codeGroup.getId();
+    public Long update(CodeGroupDTO dto) {
+        codeGroupMapper.update(dto);
+        return dto.getId();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.default1;
 
-import com.example.default1.base.pager.PageInfo;
-import com.example.default1.base.pager.PageResponse;
+import com.example.default1.base.model.pager.PageInfo;
+import com.example.default1.base.model.pager.PageResponse;
 import com.example.default1.module.user.model.User;
 import groovy.util.logging.Slf4j;
 import org.instancio.Instancio;

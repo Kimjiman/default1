@@ -3,11 +3,12 @@ package com.example.default1.module.user.service;
 import com.example.default1.base.jwt.JwtTokenProvider;
 import com.example.default1.base.jwt.JwtTokenInfo;
 import com.example.default1.base.service.BaseService;
-import com.example.default1.exception.CustomException;
+import com.example.default1.base.exception.CustomException;
+import com.example.default1.module.user.dto.UserDTO;
 import com.example.default1.module.user.model.UserSearchParam;
 import com.example.default1.module.user.mapper.UserMapper;
 import com.example.default1.module.user.model.User;
-import com.example.default1.utils.StringUtils;
+import com.example.default1.base.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,7 +22,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService implements BaseService<User, UserSearchParam, Long> {
+public class UserService implements BaseService<UserDTO, UserSearchParam, Long> {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -39,7 +40,7 @@ public class UserService implements BaseService<User, UserSearchParam, Long> {
     }
 
     @Override
-    public User findById(Long id) {
+    public UserDTO findById(Long id) {
         return userMapper.findById(id);
     }
 
@@ -49,29 +50,29 @@ public class UserService implements BaseService<User, UserSearchParam, Long> {
     }
 
     @Override
-    public List<User> findAllBy(UserSearchParam param) {
+    public List<UserDTO> findAllBy(UserSearchParam param) {
         return List.of();
     }
 
     @Override
-    public Long create(User user) {
-        if (StringUtils.isBlank(user.getLoginId())) {
+    public Long create(UserDTO dto) {
+        if (StringUtils.isBlank(dto.getLoginId())) {
             throw new CustomException(2001, "로그인 아이디를 입력해주세요.");
         }
 
-        if (StringUtils.isBlank(user.getPassword())) {
+        if (StringUtils.isBlank(dto.getPassword())) {
             throw new CustomException(2001, "패스워드를 입력해주세요.");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userMapper.create(user);
-        return user.getId();
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+        userMapper.create(dto);
+        return dto.getId();
     }
 
     @Override
-    public Long update(User user) {
-        userMapper.update(user);
-        return user.getId();
+    public Long update(UserDTO dto) {
+        userMapper.update(dto);
+        return dto.getId();
     }
 
     @Override

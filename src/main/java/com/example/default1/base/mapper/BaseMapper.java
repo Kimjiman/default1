@@ -1,6 +1,6 @@
 package com.example.default1.base.mapper;
 
-import com.example.default1.base.model.BaseModel;
+import com.example.default1.base.model.BaseDTO;
 import com.example.default1.base.model.BaseSearchParam;
 
 import java.util.List;
@@ -15,16 +15,16 @@ import java.util.List;
  * DATE           AUTHOR          NOTE
  * -----------------------------------------------------------
  * 26. 2. 10.     KIM JIMAN      First Commit
- * @param <E> MainObject
+ * @param <D> DTO
  * @param <P> SearchParam
  * @param <T> PK
  */
 
-public interface BaseMapper<E extends BaseModel<T>, P extends BaseSearchParam<T>, T> {
+public interface BaseMapper<D extends BaseDTO<T>, P extends BaseSearchParam<T>, T> {
     Long countAllBy(P param);
-    List<E> findAllBy(P param);
-    E findById(T id);
-    void create(E entity);
-    void update(E entity);
+    List<D> findAllBy(P param);
+    D findById(T id);
+    void create(D dto);
+    void update(D dto);
     int removeById(T id);
 }

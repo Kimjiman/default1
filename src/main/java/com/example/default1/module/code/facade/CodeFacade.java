@@ -12,6 +12,7 @@ import com.example.default1.module.code.model.CodeSearchParam;
 import com.example.default1.module.code.service.CodeGroupService;
 import com.example.default1.module.code.service.CodeService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -36,62 +37,52 @@ public class CodeFacade {
     private final CodeGroupConverter codeGroupConverter;
     private final CodeConverter codeConverter;
 
-    public List<CodeGroupDTO> findCodeGroupAllBy(CodeGroupSearchParam param) {
-        List<CodeGroup> codeGroupList = codeGroupService.findAllBy(param);
-
-        return codeGroupList.stream()
-                .peek(it -> {
-                    it.setCodeList(codeService.findAllBy(CodeSearchParam.builder()
-                            .codeGroupId(it.getId())
-                            .build()));
-                })
-                .map(codeGroup -> codeGroupConverter.toDto(codeGroup))
-                .collect(Collectors.toList());
+    public List<CodeGroup> findCodeGroupAllBy(CodeGroupSearchParam param) {
+        return codeGroupService.findAllBy(param).stream()
+                .map(codeGroupConverter::fromDto)
+                .toList();
     }
 
-
-    public CodeGroupDTO findCodeGroupById(Long id) {
-        if (id == null) return null;
-        CodeGroup codeGroup = codeGroupService.findById(id);
-        if (codeGroup != null) {
-            codeGroup.setCodeList(codeService.findAllBy(CodeSearchParam.builder().codeGroupId(id).build()));
+    public CodeGroup findCodeGroupById(@NotNull Long id) {
+        CodeGroupDTO dto = codeGroupService.findById(id);
+        if (dto != null) {
+            dto.setCodeDtoList(codeService.findAllBy(CodeSearchParam.builder().codeGroupId(id).build()));
         }
-
-        return codeGroupConverter.toDto(codeGroup);
+        return codeGroupConverter.fromDto(dto);
     }
 
     public void createCodeGroup(CodeGroup codeGroup) {
-        codeGroupService.create(codeGroup);
+        codeGroupService.create(codeGroupConverter.toDto(codeGroup));
     }
 
     public void updateCodeGroup(CodeGroup codeGroup) {
-        codeGroupService.update(codeGroup);
+        codeGroupService.update(codeGroupConverter.toDto(codeGroup));
     }
 
     @Transactional
     public void removeCodeGroupById(Long id) {
         if (id == null) return;
         codeService.removeByCodeGroupId(id);
-        codeGroupService.removeById(id);
+        this.removeCodeById(id);
     }
 
-    public List<CodeDTO> findCodeAllBy(CodeSearchParam param) {
+    public List<Code> findCodeAllBy(CodeSearchParam param) {
         return codeService.findAllBy(param).stream()
-                .map(it -> codeConverter.toDto(it))
-                .collect(Collectors.toList());
+                .map(codeConverter::fromDto)
+                .toList();
     }
 
-    public CodeDTO findCodeById(Long id) {
+    public Code findCodeById(Long id) {
         if (id == null) return null;
-        return codeConverter.toDto(codeService.findById(id));
+        return codeConverter.fromDto(codeService.findById(id));
     }
 
     public void createCode(Code code) {
-        codeService.create(code);
+        codeService.create(codeConverter.toDto(code));
     }
 
     public void updateCode(Code code) {
-        codeService.update(code);
+        codeService.update(codeConverter.toDto(code));
     }
 
     public void removeCodeById(Long id) {

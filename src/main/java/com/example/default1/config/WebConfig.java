@@ -1,7 +1,7 @@
 package com.example.default1.config;
 
-import com.example.default1.config.enumConverter.YnToEnumConverter;
-import com.example.default1.interceptor.RoleInterceptor;
+import com.example.default1.base.converter.YnToEnumConverter;
+import com.example.default1.base.interceptor.RoleInterceptor;
 import com.example.default1.module.menu.facade.MenuFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

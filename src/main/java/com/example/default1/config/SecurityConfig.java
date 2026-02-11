@@ -3,9 +3,9 @@ package com.example.default1.config;
 import com.example.default1.base.jwt.JwtAuthenticationEntryPoint;
 import com.example.default1.base.jwt.JwtAuthenticationFilter;
 import com.example.default1.base.jwt.JwtTokenProvider;
-import com.example.default1.config.auth.LoginFailureHandler;
-import com.example.default1.config.auth.LoginSuccessHandler;
-import com.example.default1.constants.UrlConstatns;
+import com.example.default1.config.auth.AuthFailureHandler;
+import com.example.default1.config.auth.AuthSuccessHandler;
+import com.example.default1.base.constants.UrlConstatns;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +27,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 import org.springframework.web.accept.HeaderContentNegotiationStrategy;
@@ -96,13 +95,13 @@ public class SecurityConfig {
     }
 
     @Bean
-    public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler();
+    public AuthSuccessHandler loginSuccessHandler() {
+        return new AuthSuccessHandler();
     }
 
     @Bean
-    public LoginFailureHandler loginFailureHandler() {
-        return new LoginFailureHandler();
+    public AuthFailureHandler loginFailureHandler() {
+        return new AuthFailureHandler();
     }
 
     @Bean

@@ -1,7 +1,6 @@
 package com.example.default1.module.code.converter;
 
-import com.example.default1.base.converter.BaseMapperConfig;
-import com.example.default1.base.converter.TypeConverter;
+import com.example.default1.converter.TypeConverter;
 import com.example.default1.module.code.dto.CodeGroupDTO;
 import com.example.default1.module.code.model.CodeGroup;
 import org.mapstruct.Mapper;

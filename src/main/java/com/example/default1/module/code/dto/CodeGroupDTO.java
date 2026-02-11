@@ -1,6 +1,6 @@
 package com.example.default1.module.code.dto;
 
-import com.example.default1.base.dto.BaseDTO;
+import com.example.default1.base.model.BaseDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

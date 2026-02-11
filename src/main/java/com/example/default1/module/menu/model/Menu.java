@@ -1,7 +1,7 @@
 package com.example.default1.module.menu.model;
 
 import com.example.default1.base.model.BaseModel;
-import com.example.default1.utils.StringUtils;
+import com.example.default1.base.utils.StringUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,12 +1,12 @@
 package com.example.default1.module.user.controller;
 
+import com.example.default1.base.exception.CustomException;
 import com.example.default1.base.jwt.JwtTokenInfo;
 import com.example.default1.base.jwt.JwtTokenProvider;
-import com.example.default1.exception.CustomException;
+import com.example.default1.base.utils.SessionUtils;
+import com.example.default1.base.utils.StringUtils;
 import com.example.default1.module.user.model.User;
 import com.example.default1.module.user.service.UserService;
-import com.example.default1.utils.SessionUtils;
-import com.example.default1.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
@@ -52,7 +52,7 @@ public class AuthController {
     @PostMapping("/test")
     public void test() {
         log.info("loginId: {}", SessionUtils.getLoginId());
-        log.info("roleList: {}", SessionUtils.getUserRoleList());
+        log.info("roleList: {}", SessionUtils.getRoleList());
     }
 }
 

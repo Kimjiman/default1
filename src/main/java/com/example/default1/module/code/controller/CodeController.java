@@ -1,7 +1,5 @@
 package com.example.default1.module.code.controller;
 
-import com.example.default1.module.code.dto.CodeDTO;
-import com.example.default1.module.code.dto.CodeGroupDTO;
 import com.example.default1.module.code.facade.CodeFacade;
 import com.example.default1.module.code.model.Code;
 import com.example.default1.module.code.model.CodeGroup;
@@ -26,22 +24,22 @@ public class CodeController {
     private final CodeFacade codeFacade;
 
     @GetMapping("/codeGroup")
-    public List<CodeGroupDTO> selectCodeGroupList(CodeGroupSearchParam param) {
+    public List<CodeGroup> selectCodeGroupList(CodeGroupSearchParam param) {
         return codeFacade.findCodeGroupAllBy(param);
     }
 
     @GetMapping("/code")
-    public List<CodeDTO> selectCodeList(CodeSearchParam param) {
+    public List<Code> selectCodeList(CodeSearchParam param) {
         return codeFacade.findCodeAllBy(param);
     }
 
     @GetMapping("/codeGroup/{id}")
-    public CodeGroupDTO selectCodeGroupById(@PathVariable Long id) {
+    public CodeGroup selectCodeGroupById(@PathVariable Long id) {
         return codeFacade.findCodeGroupById(id);
     }
 
     @GetMapping("/code/{id}")
-    public CodeDTO selectCodeById(@PathVariable Long id) {
+    public Code selectCodeById(@PathVariable Long id) {
         return codeFacade.findCodeById(id);
     }
 

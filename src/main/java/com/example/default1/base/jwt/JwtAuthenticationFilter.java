@@ -1,7 +1,7 @@
 package com.example.default1.base.jwt;
 
-import com.example.default1.constants.UrlConstatns;
-import com.example.default1.utils.StringUtils;
+import com.example.default1.base.constants.UrlConstatns;
+import com.example.default1.base.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

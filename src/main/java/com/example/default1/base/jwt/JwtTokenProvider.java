@@ -2,8 +2,8 @@ package com.example.default1.base.jwt;
 
 import com.example.default1.base.redis.RedisObject;
 import com.example.default1.base.redis.RedisRepository;
-import com.example.default1.exception.CustomException;
-import com.example.default1.utils.StringUtils;
+import com.example.default1.base.exception.CustomException;
+import com.example.default1.base.utils.StringUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;

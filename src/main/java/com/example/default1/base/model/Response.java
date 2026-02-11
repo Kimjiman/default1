@@ -16,9 +16,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class Response<T> {
+public class Response<T> extends BaseObject {
     @Builder.Default
-    private int status = 0;
+    private int status = 200;
     private String message;
     private T response;
 
@@ -31,7 +31,7 @@ public class Response<T> {
 
     public static <T> Response<T> success(T response) {
         return Response.<T>builder()
-                .status(0)
+                .status(200)
                 .response(response)
                 .build();
     }

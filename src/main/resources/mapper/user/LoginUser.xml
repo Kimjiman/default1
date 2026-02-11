@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.default1.config.auth.LoginUserMapper">
+<mapper namespace="com.example.default1.config.auth.AuthUserMapper">
 	<sql id="selectQuery">
 		SELECT
 			`id`
@@ -14,7 +14,7 @@
 		FROM `user`
 	</sql>
 
-	<select id="selectLoginUserByLoginId" resultType="com.example.default1.config.auth.LoginUser">
+	<select id="selectLoginUserByLoginId" resultType="com.example.default1.config.auth.AuthUser">
 		<include refid="selectQuery" />
 		WHERE `login_id` = #{loginId}
 	</select>
