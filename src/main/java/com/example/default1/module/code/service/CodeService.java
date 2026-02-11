@@ -50,6 +50,11 @@ public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
     }
 
     @Override
+    public Code update(Code code) {
+        return codeRepository.save(code);
+    }
+
+    @Override
     public void deleteById(Long id) {
         if (id == null) return;
         codeRepository.deleteById(id);

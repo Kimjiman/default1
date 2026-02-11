@@ -35,7 +35,7 @@ public class PageResponse<T extends BaseModel<?>> extends BaseObject {
     }
 
     private void assignRowNumbers() {
-        if (this.list == null || this.list.isEmpty() || this.pageInfo.isEmpty()) {
+        if (this.list == null || this.list.isEmpty() || this.pageInfo == null) {
             return;
         }
 

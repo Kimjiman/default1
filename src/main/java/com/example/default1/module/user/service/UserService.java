@@ -9,6 +9,7 @@ import com.example.default1.module.user.model.UserSearchParam;
 import com.example.default1.module.user.repository.UserRepository;
 import com.example.default1.base.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -25,12 +26,12 @@ import java.util.Optional;
 public class UserService implements BaseService<User, UserSearchParam, Long> {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
     public JwtTokenInfo login(String loginId, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password);
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
         return jwtTokenProvider.createJwtTokenInfo(authentication);
     }
 
@@ -68,6 +69,11 @@ public class UserService implements BaseService<User, UserSearchParam, Long> {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User update(User user) {
         return userRepository.save(user);
     }
 

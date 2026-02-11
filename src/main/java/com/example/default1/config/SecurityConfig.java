@@ -103,13 +103,4 @@ public class SecurityConfig {
     public AuthFailureHandler loginFailureHandler() {
         return new AuthFailureHandler();
     }
-
-    @Bean
-    public UserDetailsService swaggerUserDetailsService() {
-        UserDetails user = User.withUsername(userSwaggerId)
-                .password(passwordEncoder().encode(userSwaggerPw))
-                .roles("SWAGGER_ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }
 }

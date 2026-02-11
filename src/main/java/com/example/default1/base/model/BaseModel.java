@@ -21,10 +21,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @MappedSuperclass
-public abstract class BaseModel<T> extends BaseObject {
+public abstract class BaseModel<ID> extends BaseObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private T id;
+    private ID id;
 
     @Transient
     private Long rowNum;

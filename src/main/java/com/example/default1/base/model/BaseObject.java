@@ -13,7 +13,7 @@ import java.lang.reflect.Modifier;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class BaseObject {
-    public boolean isEmpty() {
+    public boolean checkEmpty() {
         Class<?> currentClass = this.getClass();
 
         try {

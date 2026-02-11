@@ -43,6 +43,11 @@ public class CodeGroupService implements BaseService<CodeGroup, CodeGroupSearchP
     }
 
     @Override
+    public CodeGroup update(CodeGroup codeGroup) {
+        return codeGroupRepository.save(codeGroup);
+    }
+
+    @Override
     public void deleteById(Long id) {
         codeGroupRepository.deleteById(id);
     }
