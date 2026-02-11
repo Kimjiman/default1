@@ -36,7 +36,7 @@ public class Code extends BaseModel<Long> {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "`order`")
+    @Column(name = "order")
     private Integer order;
 
     @Column(name = "info")

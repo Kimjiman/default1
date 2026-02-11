@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "`user`")
+@Table(name = "user")
 public class User extends BaseModel<Long> {
     @Column(name = "login_id")
     private String loginId;

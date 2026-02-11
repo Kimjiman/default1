@@ -1,4 +1,4 @@
-package com.example.default1.base.mybatis.typeHandler;
+package com.example.default1.base.typeHandler;
 
 import com.example.default1.base.constants.YN;
 
