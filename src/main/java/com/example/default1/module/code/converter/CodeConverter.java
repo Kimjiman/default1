@@ -1,10 +1,15 @@
 package com.example.default1.module.code.converter;
 
 import com.example.default1.base.converter.TypeConverter;
-import com.example.default1.module.code.dto.CodeDTO;
+import com.example.default1.base.model.pager.PageInfo;
+import com.example.default1.base.model.pager.PageResponse;
+import com.example.default1.module.code.model.CodeModel;
 import com.example.default1.module.code.model.Code;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * packageName    : com.example.default1.module.code.converter
@@ -27,7 +32,7 @@ public interface CodeConverter {
     @Mapping(source = "createTime", target = "createTime", qualifiedByName = "localDateTimeToString")
     @Mapping(source = "updateId", target = "updateId")
     @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "localDateTimeToString")
-    CodeDTO toDto(Code code);
+    CodeModel toModel(Code code);
 
     @Mapping(target = "rowNum", ignore = true)
     @Mapping(source = "id", target = "id")
@@ -35,5 +40,15 @@ public interface CodeConverter {
     @Mapping(source = "createTime", target = "createTime", qualifiedByName = "stringToLocalDateTime")
     @Mapping(source = "updateId", target = "updateId")
     @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "stringToLocalDateTime")
-    Code fromDto(CodeDTO codeDTO);
+    Code toEntity(CodeModel codeModel);
+
+    List<CodeModel> toModelList(List<Code> codeList);
+
+    List<Code> toEntityList(List<CodeModel> codeModelList);
+
+    default PageResponse<CodeModel> toPageResponse(Page<Code> page) {
+        PageInfo pageInfo = PageInfo.from(page);
+        List<CodeModel> list = toModelList(page.getContent());
+        return new PageResponse<>(pageInfo, list);
+    }
 }

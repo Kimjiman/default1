@@ -1,6 +1,6 @@
-package com.example.default1.module.code.dto;
+package com.example.default1.module.code.model;
 
-import com.example.default1.base.model.BaseDTO;
+import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,8 +10,8 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 /**
- * packageName    : com.example.default1.module.code.dto
- * fileName       : CodeDTO
+ * packageName    : com.example.default1.module.code.model
+ * fileName       : CodeModel
  * author         : KIM JIMAN
  * date           : 25. 8. 11. 월요일
  * description    :
@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CodeDTO extends BaseDTO<Long> {
+public class CodeModel extends BaseModel<Long> {
     private Long codeGroupId;
     private String codeGroup;
     private String code;

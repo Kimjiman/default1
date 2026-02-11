@@ -14,24 +14,15 @@ public class CodeGroupRepositoryImpl implements CodeGroupRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Long countAllBy(CodeGroupSearchParam param) {
-        QCodeGroup codeGroup = QCodeGroup.codeGroup1;
-        BooleanBuilder builder = buildWhere(param);
-
-        return queryFactory.select(codeGroup.count())
-                .from(codeGroup)
-                .where(builder)
-                .fetchOne();
-    }
-
-    @Override
     public List<CodeGroup> findAllBy(CodeGroupSearchParam param) {
         QCodeGroup codeGroup = QCodeGroup.codeGroup1;
         BooleanBuilder builder = buildWhere(param);
 
         return queryFactory.selectFrom(codeGroup)
+                .leftJoin(codeGroup.codeList).fetchJoin()
                 .where(builder)
                 .orderBy(codeGroup.id.asc())
+                .distinct()
                 .fetch();
     }
 

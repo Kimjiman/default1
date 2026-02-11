@@ -6,8 +6,12 @@ import com.example.default1.module.code.model.QCode;
 import com.example.default1.module.code.model.QCodeGroup;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -16,18 +20,40 @@ public class CodeRepositoryImpl implements CodeRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Long countAllBy(CodeSearchParam param) {
-        QCode code = QCode.code1;
-        BooleanBuilder builder = buildWhere(param);
-
-        return queryFactory.select(code.count())
-                .from(code)
-                .where(builder)
-                .fetchOne();
+    public List<Code> findAllBy(CodeSearchParam param) {
+        return createBaseQuery(param)
+                .orderBy(QCode.code1.codeGroupId.asc(), QCode.code1.order.asc())
+                .fetch();
     }
 
     @Override
-    public List<Code> findAllBy(CodeSearchParam param) {
+    public Page<Code> findAllBy(CodeSearchParam param, Pageable pageable) {
+        QCode code = QCode.code1;
+
+        List<Code> content = createBaseQuery(param)
+                .orderBy(code.codeGroupId.asc(), code.order.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long total = queryFactory.select(code.count())
+                .from(code)
+                .where(buildWhere(param))
+                .fetchOne();
+
+        return new PageImpl<>(content, pageable, total != null ? total : 0L);
+    }
+
+    @Override
+    public Integer findMaxOrderByCodeGroupId(Long codeGroupId) {
+        QCode code = QCode.code1;
+        return queryFactory.select(code.order.max())
+                .from(code)
+                .where(code.codeGroupId.eq(codeGroupId))
+                .fetchOne();
+    }
+
+    private JPAQuery<Code> createBaseQuery(CodeSearchParam param) {
         QCode code = QCode.code1;
         QCodeGroup codeGroup = QCodeGroup.codeGroup1;
         BooleanBuilder builder = buildWhere(param);
@@ -48,18 +74,7 @@ public class CodeRepositoryImpl implements CodeRepositoryCustom {
                 ))
                 .from(code)
                 .leftJoin(codeGroup).on(code.codeGroupId.eq(codeGroup.id))
-                .where(builder)
-                .orderBy(code.codeGroupId.asc(), code.order.asc())
-                .fetch();
-    }
-
-    @Override
-    public Integer findMaxOrderByCodeGroupId(Long codeGroupId) {
-        QCode code = QCode.code1;
-        return queryFactory.select(code.order.max())
-                .from(code)
-                .where(code.codeGroupId.eq(codeGroupId))
-                .fetchOne();
+                .where(builder);
     }
 
     private BooleanBuilder buildWhere(CodeSearchParam param) {

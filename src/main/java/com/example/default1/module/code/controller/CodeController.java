@@ -1,11 +1,13 @@
 package com.example.default1.module.code.controller;
 
+import com.example.default1.base.model.pager.PageResponse;
 import com.example.default1.module.code.facade.CodeFacade;
-import com.example.default1.module.code.model.Code;
-import com.example.default1.module.code.model.CodeGroup;
+import com.example.default1.module.code.model.CodeGroupModel;
 import com.example.default1.module.code.model.CodeGroupSearchParam;
+import com.example.default1.module.code.model.CodeModel;
 import com.example.default1.module.code.model.CodeSearchParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,43 +26,48 @@ public class CodeController {
     private final CodeFacade codeFacade;
 
     @GetMapping("/codeGroup")
-    public List<CodeGroup> selectCodeGroupList(CodeGroupSearchParam param) {
+    public List<CodeGroupModel> selectCodeGroupList(CodeGroupSearchParam param) {
         return codeFacade.findCodeGroupAllBy(param);
     }
 
     @GetMapping("/code")
-    public List<Code> selectCodeList(CodeSearchParam param) {
+    public List<CodeModel> selectCodeList(CodeSearchParam param) {
         return codeFacade.findCodeAllBy(param);
     }
 
+    @GetMapping("/code/page")
+    public PageResponse<CodeModel> selectCodePage(CodeSearchParam param, Pageable pageable) {
+        return codeFacade.findCodeAllBy(param, pageable);
+    }
+
     @GetMapping("/codeGroup/{id}")
-    public CodeGroup selectCodeGroupById(@PathVariable Long id) {
+    public CodeGroupModel selectCodeGroupById(@PathVariable Long id) {
         return codeFacade.findCodeGroupById(id);
     }
 
     @GetMapping("/code/{id}")
-    public Code selectCodeById(@PathVariable Long id) {
+    public CodeModel selectCodeById(@PathVariable Long id) {
         return codeFacade.findCodeById(id);
     }
 
     @PostMapping("/codeGroup")
-    public void createCodeGroup(@RequestBody CodeGroup codeGroup) {
-        codeFacade.createCodeGroup(codeGroup);
+    public void createCodeGroup(@RequestBody CodeGroupModel codeGroupModel) {
+        codeFacade.createCodeGroup(codeGroupModel);
     }
 
     @PostMapping("/code")
-    public void createCode(@RequestBody Code code) {
-        codeFacade.createCode(code);
+    public void createCode(@RequestBody CodeModel codeModel) {
+        codeFacade.createCode(codeModel);
     }
 
     @PutMapping("/codeGroup")
-    public void updateCodeGroup(@RequestBody CodeGroup codeGroup) {
-        codeFacade.updateCodeGroup(codeGroup);
+    public void updateCodeGroup(@RequestBody CodeGroupModel codeGroupModel) {
+        codeFacade.updateCodeGroup(codeGroupModel);
     }
 
     @PutMapping("/code")
-    public void updateCode(@RequestBody Code code) {
-        codeFacade.updateCode(code);
+    public void updateCode(@RequestBody CodeModel codeModel) {
+        codeFacade.updateCode(codeModel);
     }
 
     @DeleteMapping("/codeGroup/{id}")

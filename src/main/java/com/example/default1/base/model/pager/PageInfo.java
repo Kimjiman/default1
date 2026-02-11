@@ -1,12 +1,11 @@
 package com.example.default1.base.model.pager;
 
 import com.example.default1.base.model.BaseObject;
-import com.example.default1.base.model.BaseSearchParam;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.poi.ss.formula.functions.T;
+import org.springframework.data.domain.Page;
 
 @Getter
 @Setter
@@ -61,7 +60,12 @@ public class PageInfo extends BaseObject {
         return new PageInfo(page, totalRow, limit, pageSize);
     }
 
-    public static <T extends BaseSearchParam<?>> PageInfo of(T searchParam) {
-        return new PageInfo(searchParam.getPage(), searchParam.getTotalRow(), INIT_LIMIT, INIT_PAGE_SIZE);
+    public static PageInfo from(Page<?> page) {
+        return new PageInfo(
+                page.getNumber() + 1,
+                page.getTotalElements(),
+                page.getSize(),
+                INIT_PAGE_SIZE
+        );
     }
 }

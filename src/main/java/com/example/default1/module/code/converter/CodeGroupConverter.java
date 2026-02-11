@@ -1,10 +1,12 @@
 package com.example.default1.module.code.converter;
 
 import com.example.default1.base.converter.TypeConverter;
-import com.example.default1.module.code.dto.CodeGroupDTO;
+import com.example.default1.module.code.model.CodeGroupModel;
 import com.example.default1.module.code.model.CodeGroup;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.List;
 
 /**
  * packageName    : com.example.default1.module.code.converter
@@ -19,23 +21,27 @@ import org.mapstruct.Mapping;
  */
 @Mapper(
         componentModel = "spring"
-        , uses = {TypeConverter.class}
+        , uses = {TypeConverter.class, CodeConverter.class}
 )
 public interface CodeGroupConverter {
     @Mapping(source = "id", target = "id")
-    @Mapping(target = "codeDtoList", ignore = true)
+    @Mapping(source = "codeList", target = "codeModelList")
     @Mapping(source = "createId", target = "createId")
     @Mapping(source = "createTime", target = "createTime", qualifiedByName = "localDateTimeToString")
     @Mapping(source = "updateId", target = "updateId")
     @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "localDateTimeToString")
-    CodeGroupDTO toDto(CodeGroup codeGroup);
+    CodeGroupModel toModel(CodeGroup codeGroup);
 
     @Mapping(target = "rowNum", ignore = true)
-    @Mapping(target = "codeList", ignore = true)
+    @Mapping(source = "codeModelList", target = "codeList")
     @Mapping(source = "id", target = "id")
     @Mapping(source = "createId", target = "createId")
     @Mapping(source = "createTime", target = "createTime", qualifiedByName = "stringToLocalDateTime")
     @Mapping(source = "updateId", target = "updateId")
     @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "stringToLocalDateTime")
-    CodeGroup fromDto(CodeGroupDTO codeGroupDTO);
+    CodeGroup toEntity(CodeGroupModel codeGroupModel);
+
+    List<CodeGroupModel> toModelList(List<CodeGroup> codeGroupList);
+
+    List<CodeGroup> toEntityList(List<CodeGroupModel> codeGroupModelList);
 }

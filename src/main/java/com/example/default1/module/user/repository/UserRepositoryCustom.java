@@ -6,6 +6,5 @@ import com.example.default1.module.user.model.UserSearchParam;
 import java.util.List;
 
 public interface UserRepositoryCustom {
-    Long countAllBy(UserSearchParam param);
     List<User> findAllBy(UserSearchParam param);
 }

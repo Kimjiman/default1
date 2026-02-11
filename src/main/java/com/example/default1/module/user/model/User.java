@@ -1,6 +1,6 @@
 package com.example.default1.module.user.model;
 
-import com.example.default1.base.model.BaseModel;
+import com.example.default1.base.model.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +21,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "user")
-public class User extends BaseModel<Long> {
+public class User extends BaseEntity<Long> {
     @Column(name = "login_id")
     private String loginId;
 

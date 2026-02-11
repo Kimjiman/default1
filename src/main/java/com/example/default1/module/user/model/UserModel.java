@@ -1,5 +1,6 @@
-package com.example.default1.base.model;
+package com.example.default1.module.user.model;
 
+import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -15,10 +18,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class BaseDTO<ID> extends BaseObject {
-    private ID id;
-    private Long createId;
-    private String createTime;
-    private Long updateId;
-    private String updateTime;
+public class UserModel extends BaseModel<Long> {
+    private String loginId;
+    private String password;
+    private String name;
+    private List<String> roleList;
 }

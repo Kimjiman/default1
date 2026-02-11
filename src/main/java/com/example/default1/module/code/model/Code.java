@@ -1,6 +1,6 @@
 package com.example.default1.module.code.model;
 
-import com.example.default1.base.model.BaseModel;
+import com.example.default1.base.model.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import javax.persistence.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "code")
-public class Code extends BaseModel<Long> {
+public class Code extends BaseEntity<Long> {
     @Column(name = "code_group_id")
     private Long codeGroupId;
 

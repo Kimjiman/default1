@@ -1,6 +1,6 @@
 package com.example.default1.module.menu.model;
 
-import com.example.default1.base.model.BaseModel;
+import com.example.default1.base.model.BaseEntity;
 import com.example.default1.base.utils.StringUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "menu")
-public class Menu extends BaseModel<Long> {
+public class Menu extends BaseEntity<Long> {
     @Column(name = "parent_id")
     private Long parentId;
 

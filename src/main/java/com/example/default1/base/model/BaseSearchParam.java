@@ -33,9 +33,6 @@ public abstract class BaseSearchParam<ID> extends BaseObject {
     private String createTimeLast;
     private String updateTimeStart;
     private String updateTimeLast;
-
-    private Long page;                           // 현재 페이지
-    private Long totalRow;                       // 총 글의 개수
 }
 
 

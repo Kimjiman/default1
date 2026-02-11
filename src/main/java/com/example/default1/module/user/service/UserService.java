@@ -46,11 +46,6 @@ public class UserService implements BaseService<User, UserSearchParam, Long> {
     }
 
     @Override
-    public Long countAllBy(UserSearchParam param) {
-        return userRepository.countAllBy(param);
-    }
-
-    @Override
     public List<User> findAllBy(UserSearchParam param) {
         return userRepository.findAllBy(param);
     }

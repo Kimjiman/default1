@@ -1,13 +1,17 @@
 package com.example.default1.module.code.facade;
 
 import com.example.default1.base.annotation.Facade;
-import com.example.default1.module.code.model.Code;
-import com.example.default1.module.code.model.CodeGroup;
+import com.example.default1.module.code.converter.CodeConverter;
+import com.example.default1.module.code.converter.CodeGroupConverter;
+import com.example.default1.module.code.model.CodeGroupModel;
 import com.example.default1.module.code.model.CodeGroupSearchParam;
+import com.example.default1.module.code.model.CodeModel;
 import com.example.default1.module.code.model.CodeSearchParam;
+import com.example.default1.base.model.pager.PageResponse;
 import com.example.default1.module.code.service.CodeGroupService;
 import com.example.default1.module.code.service.CodeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -17,25 +21,25 @@ import java.util.List;
 public class CodeFacade {
     private final CodeGroupService codeGroupService;
     private final CodeService codeService;
+    private final CodeConverter codeConverter;
+    private final CodeGroupConverter codeGroupConverter;
 
-    public List<CodeGroup> findCodeGroupAllBy(CodeGroupSearchParam param) {
-        return codeGroupService.findAllBy(param);
+    public List<CodeGroupModel> findCodeGroupAllBy(CodeGroupSearchParam param) {
+        return codeGroupConverter.toModelList(codeGroupService.findAllBy(param));
     }
 
-    public CodeGroup findCodeGroupById(Long id) {
-        CodeGroup codeGroup = codeGroupService.findById(id).orElse(null);
-        if (codeGroup != null) {
-            codeGroup.setCodeList(codeService.findAllBy(CodeSearchParam.builder().codeGroupId(id).build()));
-        }
-        return codeGroup;
+    public CodeGroupModel findCodeGroupById(Long id) {
+        return codeGroupService.findByIdWithCodes(id)
+                .map(codeGroupConverter::toModel)
+                .orElse(null);
     }
 
-    public void createCodeGroup(CodeGroup codeGroup) {
-        codeGroupService.save(codeGroup);
+    public void createCodeGroup(CodeGroupModel codeGroupModel) {
+        codeGroupService.save(codeGroupConverter.toEntity(codeGroupModel));
     }
 
-    public void updateCodeGroup(CodeGroup codeGroup) {
-        codeGroupService.save(codeGroup);
+    public void updateCodeGroup(CodeGroupModel codeGroupModel) {
+        codeGroupService.save(codeGroupConverter.toEntity(codeGroupModel));
     }
 
     @Transactional
@@ -45,21 +49,27 @@ public class CodeFacade {
         codeGroupService.deleteById(id);
     }
 
-    public List<Code> findCodeAllBy(CodeSearchParam param) {
-        return codeService.findAllBy(param);
+    public List<CodeModel> findCodeAllBy(CodeSearchParam param) {
+        return codeConverter.toModelList(codeService.findAllBy(param));
     }
 
-    public Code findCodeById(Long id) {
+    public PageResponse<CodeModel> findCodeAllBy(CodeSearchParam param, Pageable pageable) {
+        return codeConverter.toPageResponse(codeService.findAllBy(param, pageable));
+    }
+
+    public CodeModel findCodeById(Long id) {
         if (id == null) return null;
-        return codeService.findById(id).orElse(null);
+        return codeService.findById(id)
+                .map(codeConverter::toModel)
+                .orElse(null);
     }
 
-    public void createCode(Code code) {
-        codeService.save(code);
+    public void createCode(CodeModel codeModel) {
+        codeService.save(codeConverter.toEntity(codeModel));
     }
 
-    public void updateCode(Code code) {
-        codeService.save(code);
+    public void updateCode(CodeModel codeModel) {
+        codeService.save(codeConverter.toEntity(codeModel));
     }
 
     public void removeCodeById(Long id) {

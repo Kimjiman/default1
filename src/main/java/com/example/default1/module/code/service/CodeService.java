@@ -6,6 +6,8 @@ import com.example.default1.module.code.model.Code;
 import com.example.default1.module.code.model.CodeSearchParam;
 import com.example.default1.module.code.repository.CodeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,13 +30,12 @@ public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
     }
 
     @Override
-    public Long countAllBy(CodeSearchParam param) {
-        return codeRepository.countAllBy(param);
-    }
-
-    @Override
     public List<Code> findAllBy(CodeSearchParam param) {
         return codeRepository.findAllBy(param);
+    }
+
+    public Page<Code> findAllBy(CodeSearchParam param, Pageable pageable) {
+        return codeRepository.findAllBy(param, pageable);
     }
 
     @Override

@@ -1,17 +1,12 @@
 package com.example.default1.base.model;
 
-import com.example.default1.base.utils.SessionUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,65 +15,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@MappedSuperclass
 public abstract class BaseModel<ID> extends BaseObject {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ID id;
-
-    @Transient
     private Long rowNum;
-
-    @Column(name = "create_time", updatable = false)
-    private LocalDateTime createTime;
-
-    @Column(name = "create_id", updatable = false)
-    @Builder.Default
-    private Long createId = 0L;
-
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    @Column(name = "update_id")
-    @Builder.Default
-    private Long updateId = 0L;
-
-    @PrePersist
-    public void prePersist() {
-        this.createTime = LocalDateTime.now();
-        this.updateTime = LocalDateTime.now();
-        this.setCurrentUser();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updateTime = LocalDateTime.now();
-        this.setCurrentUserUpdateId();
-    }
-
-    public void setSystemUser() {
-        this.setSystemUserCreateId();
-        this.setSystemUserUpdateId();
-    }
-
-    public void setSystemUserCreateId() {
-        this.setCreateId(0L);
-    }
-
-    public void setSystemUserUpdateId() {
-        this.setUpdateId(0L);
-    }
-
-    public void setCurrentUser() {
-        this.setCurrentUserCreateId();
-        this.setCurrentUserUpdateId();
-    }
-
-    public void setCurrentUserCreateId() {
-        this.setCreateId(SessionUtils.getId());
-    }
-
-    public void setCurrentUserUpdateId() {
-        this.setUpdateId(SessionUtils.getId());
-    }
+    private Long createId;
+    private String createTime;
+    private Long updateId;
+    private String updateTime;
 }

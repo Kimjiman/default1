@@ -27,17 +27,18 @@ public class PagerTests {
 
     @Test
     void test() {
-        long totalRow = 29;
+        long totalRow = 69;
         int limit = 10;
-        int pageSize = 3;
+        int pageSize = 5;
 
         List<User> userList = Instancio.ofList(User.class)
                 .size(9)
                 .create();
 
-        PageInfo pageInfo = PageInfo.of(3, totalRow, limit, pageSize);
+        PageInfo pageInfo = PageInfo.of(6, totalRow, limit, pageSize);
         PageResponse<User> pageResponse = new PageResponse<>(pageInfo, userList);
 
+        log.info("pageResponse={}", pageResponse.getPageInfo());
         pageResponse.getList().forEach(user -> log.info("rowNum: {}", user.getRowNum()));
     }
 }

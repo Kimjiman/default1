@@ -1,12 +1,9 @@
 package com.example.default1.module.user.controller;
 
-import com.example.default1.base.exception.CustomException;
 import com.example.default1.base.security.jwt.JwtTokenInfo;
-import com.example.default1.base.security.jwt.JwtTokenProvider;
 import com.example.default1.base.utils.SessionUtils;
-import com.example.default1.base.utils.StringUtils;
-import com.example.default1.module.user.model.User;
-import com.example.default1.module.user.service.UserService;
+import com.example.default1.module.user.facade.UserFacade;
+import com.example.default1.module.user.model.UserModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,34 +16,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class AuthController {
-    private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final UserFacade userFacade;
 
     @PostMapping("/login")
-    public JwtTokenInfo login(@RequestBody User user) {
-        String loginId = user.getLoginId();
-        if (StringUtils.isBlank(loginId)) {
-            throw new CustomException(2001, "아이디를 입력해주세요.");
-        }
-
-        String password = user.getPassword();
-        if (StringUtils.isBlank(password)) {
-            throw new CustomException(2002, "비밀번호를 입력해주세요.");
-        }
-
-        return userService.login(loginId, password);
+    public JwtTokenInfo login(@RequestBody UserModel userModel) {
+        return userFacade.login(userModel);
     }
 
     @PostMapping("/logout")
     public void logout() {
-        jwtTokenProvider.removeRefreshToken(SessionUtils.getLoginId());
+        userFacade.logout();
     }
 
     @PostMapping("/token")
     public JwtTokenInfo accessToken(@RequestBody JwtTokenInfo jwtTokenInfo) {
-        return jwtTokenProvider.createAccessToken(jwtTokenInfo);
+        return userFacade.accessToken(jwtTokenInfo);
     }
-
 
     @PostMapping("/test")
     public void test() {
@@ -54,5 +39,3 @@ public class AuthController {
         log.info("roleList: {}", SessionUtils.getRoleList());
     }
 }
-
-

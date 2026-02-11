@@ -14,17 +14,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Long countAllBy(UserSearchParam param) {
-        QUser user = QUser.user;
-        BooleanBuilder builder = buildWhere(param);
-
-        return queryFactory.select(user.count())
-                .from(user)
-                .where(builder)
-                .fetchOne();
-    }
-
-    @Override
     public List<User> findAllBy(UserSearchParam param) {
         QUser user = QUser.user;
         BooleanBuilder builder = buildWhere(param);

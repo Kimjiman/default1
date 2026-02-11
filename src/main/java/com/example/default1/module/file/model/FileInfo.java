@@ -1,6 +1,6 @@
 package com.example.default1.module.file.model;
 
-import com.example.default1.base.model.BaseModel;
+import com.example.default1.base.model.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import javax.persistence.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "file")
-public class FileInfo extends BaseModel<Long> {
+public class FileInfo extends BaseEntity<Long> {
     @Column(name = "ref_path")
     private String refPath;
 

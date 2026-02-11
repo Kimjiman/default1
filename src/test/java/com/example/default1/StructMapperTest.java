@@ -1,7 +1,7 @@
 package com.example.default1;
 
 import com.example.default1.module.code.converter.CodeConverter;
-import com.example.default1.module.code.dto.CodeDTO;
+import com.example.default1.module.code.model.CodeModel;
 import com.example.default1.module.code.model.Code;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -31,8 +31,8 @@ public class StructMapperTest {
 
         log.info("source code object={}", code.toJson());
 
-        CodeDTO codeDTO = codeConverter.toDto(code);
+        CodeModel codeModel = codeConverter.toModel(code);
 
-        log.info("codeDTO={}", codeDTO.toJson());
+        log.info("codeModel={}", codeModel.toJson());
     }
 }

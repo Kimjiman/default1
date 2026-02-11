@@ -1,12 +1,12 @@
 package com.example.default1.module.user.converter;
 
 import com.example.default1.base.converter.TypeConverter;
-import com.example.default1.module.code.dto.CodeDTO;
-import com.example.default1.module.code.model.Code;
-import com.example.default1.module.user.dto.UserDTO;
+import com.example.default1.module.user.model.UserModel;
 import com.example.default1.module.user.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.List;
 
 /**
  * packageName    : com.example.default1.module.code.converter
@@ -26,10 +26,14 @@ import org.mapstruct.Mapping;
 public interface UserConverter {
     @Mapping(source = "createTime", target = "createTime", qualifiedByName = "localDateTimeToString")
     @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "localDateTimeToString")
-    UserDTO toDto(User dto);
+    UserModel toModel(User user);
 
     @Mapping(target = "rowNum", ignore = true)
     @Mapping(source = "createTime", target = "createTime", qualifiedByName = "stringToLocalDateTime")
     @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "stringToLocalDateTime")
-    User fromDto(UserDTO dto);
+    User toEntity(UserModel userModel);
+
+    List<UserModel> toModelList(List<User> userList);
+
+    List<User> toEntityList(List<UserModel> userModelList);
 }

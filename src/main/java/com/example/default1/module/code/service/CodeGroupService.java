@@ -27,9 +27,8 @@ public class CodeGroupService implements BaseService<CodeGroup, CodeGroupSearchP
         return codeGroupRepository.findById(id);
     }
 
-    @Override
-    public Long countAllBy(CodeGroupSearchParam param) {
-        return codeGroupRepository.countAllBy(param);
+    public Optional<CodeGroup> findByIdWithCodes(Long id) {
+        return codeGroupRepository.findWithCodesById(id);
     }
 
     @Override

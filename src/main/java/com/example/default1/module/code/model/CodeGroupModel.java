@@ -1,6 +1,6 @@
-package com.example.default1.module.code.dto;
+package com.example.default1.module.code.model;
 
-import com.example.default1.base.model.BaseDTO;
+import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,8 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CodeGroupDTO extends BaseDTO<Long> {
+public class CodeGroupModel extends BaseModel<Long> {
     private String codeGroup;
     private String name;
-    private List<CodeDTO> codeDtoList;
+    private List<CodeModel> codeModelList;
 }
