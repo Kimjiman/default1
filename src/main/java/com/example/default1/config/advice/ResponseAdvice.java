@@ -32,7 +32,6 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
         String requestPath = request.getURI().getPath();
         for (String pattern : EXCLUDE_URL_PATTERNS) {
-            log.info("pattern: {}", pattern);
             if (requestPath.startsWith(pattern)) {
                 return body;
             }

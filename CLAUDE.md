@@ -54,23 +54,31 @@ Controller → Facade → Service → Repository (JPA + QueryDSL)
 | **Repository** | JPA + QueryDSL 데이터 접근 | `module/{name}/repository/` |
 | **Converter** | MapStruct 기반 Entity↔Model 변환 | `module/{name}/converter/` |
 
-### JWT 아키텍처
+### 인증/인가 아키텍처
 
 ```
-JwtAuthenticationFilter → JwtTokenProvider (JWT 암호화/검증만)
-UserService/UserFacade  → JwtTokenService  → JwtTokenProvider (JWT 암호화)
-                                           → RefreshTokenStore (인터페이스)
-                                                 ↑
-                                           RedisRefreshTokenStore (구현체)
+JwtAuthenticationFilter → JwtTokenProvider (JWT 검증)
+                        → AuthUserDetailsService (DB에서 유저 로드 → AuthUserDetails)
+
+AuthFacade  → UserService (로그인)
+            → JwtTokenService  → JwtTokenProvider (JWT 생성)
+                               → RefreshTokenStore (인터페이스)
+                                     ↑
+                               RedisRefreshTokenStore (구현체)
 ```
 
 | 클래스 | 역할 |
 |---|---|
+| **AuthUserDetailsService** | `UserDetailsService` 구현체, DB에서 유저 조회 후 `AuthUserDetails` 반환 |
+| **AuthUserDetails** | `UserDetails` 구현 record, `User` 엔티티를 래핑 |
+| **JwtAuthenticationFilter** | JWT 토큰 검증 후 `AuthUserDetailsService`로 유저를 로드하여 SecurityContext 설정 |
 | **JwtProperties** | `jwt.yml` 설정값 바인딩 (`@ConfigurationProperties`) |
 | **JwtTokenProvider** | 순수 JWT 암호화/복호화/검증 (Redis 의존 없음) |
 | **JwtTokenService** | 토큰 생명주기 관리 (생성, 재발급, 삭제, 중복로그인 체크) |
 | **RefreshTokenStore** | 리프레시 토큰 저장소 추상화 인터페이스 |
 | **RedisRefreshTokenStore** | Redis 구현체 (key: `jwt:refresh:{loginId}`) |
+| **AuthFacade** | 인증 관련 Facade (로그인, 로그아웃, 토큰 재발급) |
+| **AuthController** | 인증 API (`/auth/login`, `/auth/logout`, `/auth/issueAccessToken`) |
 
 - JWT 설정은 `src/main/resources/jwt.yml`에서 관리 (`spring.config.import`로 로드)
 - 저장소 교체 시 `RefreshTokenStore` 구현체만 추가하면 됨
@@ -185,7 +193,7 @@ src/main/java/com/example/default1/
 │   ├── exception/         — ErrorCode, SystemErrorCode, CustomException, BaseException, ToyAssert
 │   ├── model/             — BaseObject, BaseEntity, BaseModel, BaseSearchParam, Response, pager/
 │   ├── redis/             — RedisRepository, RedisObject
-│   ├── security/          — AuthUserDetails, AuthUserService
+│   ├── security/          — AuthUserDetails, AuthUserDetailsService
 │   │   └── jwt/           — JwtProperties, JwtTokenProvider, JwtTokenService, JwtAuthenticationFilter
 │   │       └── token/     — RefreshTokenStore, RedisRefreshTokenStore
 │   ├── service/           — BaseService 인터페이스
@@ -196,7 +204,7 @@ src/main/java/com/example/default1/
 │   └── scheduler/         — CacheScheduler
 └── module/
     ├── code/              — controller, converter, facade, model, repository, service
-    ├── user/              — controller, converter, facade, model, repository, service
+    ├── user/              — controller(AuthController, UserController), converter, facade(AuthFacade, UserFacade), model, repository, service
     ├── menu/              — controller, facade, model, repository, service
     ├── file/              — controller, model, repository, service
     ├── main/              — controller (MainController)

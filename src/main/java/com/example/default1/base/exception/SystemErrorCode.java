@@ -23,7 +23,10 @@ public enum SystemErrorCode implements ErrorCode {
     TOKEN_PROCESSING_ERROR(1107, "토큰 처리 오류입니다."),
 
     // 파일
-    FILE_ERROR(1201, "파일 처리 중 오류가 발생했습니다.");
+    FILE_ERROR(1201, "파일 처리 중 오류가 발생했습니다."),
+
+    // 권한
+    FORBIDDEN(1301, "접근 권한이 없습니다.");
 
     private final int code;
     private final String message;

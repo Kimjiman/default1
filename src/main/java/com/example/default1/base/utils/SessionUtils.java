@@ -63,6 +63,12 @@ public class SessionUtils {
                 .collect(Collectors.toList());
     }
 
+    public static boolean hasRole(String roleName) {
+        return getRoleList().stream()
+                .map(role -> role.startsWith("ROLE_") ? role.substring(5) : role)
+                .anyMatch(role -> role.equals(roleName));
+    }
+
 //    /**
 //     * 중복 로그인이라면 기존 유저의 세션을 만료시키고, 새 유저의 정보를 세션레지스트리에 등록한다.
 //     * @param principal 인증객체
