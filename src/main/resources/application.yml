@@ -11,6 +11,8 @@ logging:
   pattern:
     console: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([${LOG_LEVEL_PATTERN:%5p}]) %clr(%-36.36(%logger{0}.%method)){cyan} %4.4L %clr(:){faint} %m%n'
 spring:
+  config:
+    import: classpath:jwt.yml
   jpa:
     hibernate:
       ddl-auto: update
@@ -45,8 +47,6 @@ spring:
 cron:
   cache:
     refresh-cache: '55 55 23 * * *'
-jwt:
-  secret: /kO7/CZDZArXhIZBBw8tuVoUQP3/gcIKDKOMlSI5xdE=
 springdoc:
   swagger-ui:
     config-url: /v3/api-docs/swagger-config

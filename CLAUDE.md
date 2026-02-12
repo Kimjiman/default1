@@ -18,6 +18,11 @@ gradlew bootRun -PspringProfiles=local
 
 - JDK 17 필요 (IntelliJ 기준: `File > Project Structure > SDK`)
 - Gradle Wrapper 사용 (`gradlew` / `gradlew.bat`)
+- 빌드 실패 시 시스템 기본 Java가 1.8일 수 있음. 이 경우 `JAVA_HOME`을 `C:\java\temurin-17.0.16`으로 지정하여 빌드:
+  ```bash
+  # Windows
+  set JAVA_HOME=C:\java\temurin-17.0.16 && gradlew.bat clean build
+  ```
 
 ## Tech Stack
 
@@ -27,7 +32,7 @@ gradlew bootRun -PspringProfiles=local
 - **Lombok** (@SuperBuilder, @Getter/@Setter 등)
 - **Spring Security + JWT** (jjwt 0.11.5)
 - **MySQL** (런타임)
-- **Redis** (캐시/세션)
+- **Redis** (토큰 저장소, 캐시)
 - **Springdoc OpenAPI** (Swagger UI)
 - **JUnit 5 + Mockito + Instancio** (테스트)
 
@@ -48,6 +53,27 @@ Controller → Facade → Service → Repository (JPA + QueryDSL)
 | **Service** | 단일 도메인 비즈니스 로직 | `module/{name}/service/` |
 | **Repository** | JPA + QueryDSL 데이터 접근 | `module/{name}/repository/` |
 | **Converter** | MapStruct 기반 Entity↔Model 변환 | `module/{name}/converter/` |
+
+### JWT 아키텍처
+
+```
+JwtAuthenticationFilter → JwtTokenProvider (JWT 암호화/검증만)
+UserService/UserFacade  → JwtTokenService  → JwtTokenProvider (JWT 암호화)
+                                           → RefreshTokenStore (인터페이스)
+                                                 ↑
+                                           RedisRefreshTokenStore (구현체)
+```
+
+| 클래스 | 역할 |
+|---|---|
+| **JwtProperties** | `jwt.yml` 설정값 바인딩 (`@ConfigurationProperties`) |
+| **JwtTokenProvider** | 순수 JWT 암호화/복호화/검증 (Redis 의존 없음) |
+| **JwtTokenService** | 토큰 생명주기 관리 (생성, 재발급, 삭제, 중복로그인 체크) |
+| **RefreshTokenStore** | 리프레시 토큰 저장소 추상화 인터페이스 |
+| **RedisRefreshTokenStore** | Redis 구현체 (key: `jwt:refresh:{loginId}`) |
+
+- JWT 설정은 `src/main/resources/jwt.yml`에서 관리 (`spring.config.import`로 로드)
+- 저장소 교체 시 `RefreshTokenStore` 구현체만 추가하면 됨
 
 ### 모듈 목록
 
@@ -100,6 +126,29 @@ BaseObject
 - 목록 조회: QueryDSL에서 `.leftJoin().fetchJoin().distinct()` 사용
 - 단건 조회: `@EntityGraph(attributePaths = {...})` 사용
 
+## Commit Convention
+
+```
+[상태] 구현내역 - 구현내역상세
+```
+
+| 상태 | 용도 |
+|---|---|
+| **Feature** | 신규 기능 추가 |
+| **Fix** | 버그 수정 |
+| **Well** | 기능 개선, 리팩토링 |
+| **Docs** | 문서 수정 |
+| **Chore** | 빌드 설정, 의존성 변경 등 기능 외 작업 |
+| **Remove** | 기능/코드 삭제 |
+
+예시:
+- `[Feature] 사용자 인증 - JWT 토큰 발급 기능 추가`
+- `[Fix] 로그아웃 - Redis key 불일치 버그 수정`
+- `[Well] JWT 아키텍처 - 책임 분리 및 인터페이스 추상화`
+- `[Docs] CLAUDE.md - 커밋 컨벤션 추가`
+- `[Chore] Gradle - QueryDSL 의존성 버전 업데이트`
+- `[Remove] 레거시 API - 미사용 엔드포인트 삭제`
+
 ## Project Structure
 
 ```
@@ -112,7 +161,9 @@ src/main/java/com/example/default1/
 │   ├── exception/         — CustomException, BaseException, ToyAssert
 │   ├── model/             — BaseObject, BaseEntity, BaseModel, BaseSearchParam, Response, pager/
 │   ├── redis/             — RedisRepository, RedisObject
-│   ├── security/          — AuthUserDetails, AuthUserService, JWT 관련
+│   ├── security/          — AuthUserDetails, AuthUserService
+│   │   └── jwt/           — JwtProperties, JwtTokenProvider, JwtTokenService, JwtAuthenticationFilter
+│   │       └── token/     — RefreshTokenStore, RedisRefreshTokenStore
 │   ├── service/           — BaseService 인터페이스
 │   ├── typeHandler/       — YnAttributeConverter
 │   └── utils/             — StringUtils, DateUtils, JsonUtils, CryptoUtils 등

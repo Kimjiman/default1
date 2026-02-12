@@ -1,0 +1,9 @@
+jwt:
+  secret: /kO7/CZDZArXhIZBBw8tuVoUQP3/gcIKDKOMlSI5xdE=
+  grant-type: bearer
+  claim-name: auth
+  access-token:
+    expiration: 900000        # 15분 (밀리초)
+  refresh-token:
+    expiration: 259200000     # 3일 (밀리초)
+    expiration-days: 3        # Redis TTL (일 단위)

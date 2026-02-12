@@ -1,9 +1,6 @@
 package com.example.default1.base.security.jwt;
 
-import com.example.default1.base.redis.RedisObject;
-import com.example.default1.base.redis.RedisRepository;
 import com.example.default1.base.exception.CustomException;
-import com.example.default1.base.utils.StringUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -15,7 +12,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,160 +24,66 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 public class JwtTokenProvider {
-    private static final long REFRESH_TOKEN_EXP = 60 * 60 * 24 * 3 * 1000; // 3일
-    private static final long ACCESS_TOKEN_EXP = 60 * 15 * 1000; // 15분
-    private static final String GRANT_TYPE = "bearer";
-    private static final String CLAIM_NAME = "auth";
-
-    private final RedisRepository redisRepository;
+    private final JwtProperties jwtProperties;
     private final Key key;
 
-    public JwtTokenProvider(RedisRepository redisRepository, @Value("${jwt.secret}") String secretKey) {
-        this.redisRepository = redisRepository;
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    public JwtTokenProvider(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
+        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecret());
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     /**
-     * 유저 정보를 가지고 RefreshToken, AccessToken 생성하는 메서드
-     *
-     * @param authentication
-     * @return
-     */
-    public JwtTokenInfo createJwtTokenInfo(Authentication authentication) {
-        String loginId = authentication.getName();
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
-
-        String refreshToken = this.createRefreshToken(loginId, authorities);
-        String accessToken = this.createAccessToken(refreshToken);
-        redisRepository.save(
-                RedisObject.builder()
-                    .key(loginId)
-                    .value(refreshToken)
-                    .expirationDay(3L)
-                    .build()
-        );
-
-        return JwtTokenInfo.builder()
-                .grantType(GRANT_TYPE)
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
-    }
-
-    /**
      * loginId와 권한으로 refreshToken 생성
-     *
-     * @param loginId
-     * @param authorities
-     * @return
      */
     public String createRefreshToken(String loginId, String authorities) {
-        Supplier<Date> refreshTokenExpiresInSupplier = () -> new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXP);
+        Date expiration = new Date(System.currentTimeMillis() + jwtProperties.getRefreshToken().getExpiration());
 
         return Jwts.builder()
                 .setSubject(loginId)
-                .claim(CLAIM_NAME, authorities)
-                .setExpiration(refreshTokenExpiresInSupplier.get())
+                .claim(jwtProperties.getClaimName(), authorities)
+                .setExpiration(expiration)
                 .setIssuer(loginId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-
     /**
-     * 리프레쉬 토큰 삭제
-     *
-     * @param refreshToken
-     */
-    public void removeRefreshToken(String refreshToken) {
-        if(StringUtils.isNotBlank(refreshToken)) redisRepository.deleteRawByKey(refreshToken);
-    }
-
-    /**
-     * refreshToken을 이용해서 엑세스토큰 생성하기
-     *
-     * @param refreshToken
-     * @return
+     * refreshToken을 이용해서 accessToken 생성
      */
     public String createAccessToken(String refreshToken) {
-        Supplier<Date> accessTokenExpiresInSupplier = () -> new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXP); // 15분
+        Date expiration = new Date(System.currentTimeMillis() + jwtProperties.getAccessToken().getExpiration());
 
         Claims claims = this.parseClaimsByToken(refreshToken);
         String loginId = claims.getSubject();
-        String auth = (String) claims.get(CLAIM_NAME);
+        String auth = (String) claims.get(jwtProperties.getClaimName());
 
         return Jwts.builder()
                 .setSubject(loginId)
-                .claim(CLAIM_NAME, auth)
-                .setExpiration(accessTokenExpiresInSupplier.get())
+                .claim(jwtProperties.getClaimName(), auth)
+                .setExpiration(expiration)
                 .setIssuer(loginId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-    }
-
-
-    /**
-     * accessToken 재발급
-     *
-     * @param jwtTokenInfo
-     * @return
-     */
-    public JwtTokenInfo createAccessToken(JwtTokenInfo jwtTokenInfo) {
-        String refreshToken = jwtTokenInfo.getRefreshToken();
-        Claims claims = this.parseClaimsByToken(refreshToken);
-        String loginId = (String) claims.get("loginId");
-
-        try {
-            if (StringUtils.isBlank(refreshToken)) {
-                throw new CustomException(2999, "토큰값이 존재하지 않습니다.");
-            }
-
-            if (this.validateToken(refreshToken)) {
-                // 1. redis에서 token 정보를 찾을수가 없을때
-                RedisObject redisObject = redisRepository.findValueByKey(loginId);
-                String originRefreshToken = redisObject.getValue();
-
-                // 2. refreshToken이 새로발급됬을때
-                if (!originRefreshToken.equals(refreshToken)) {
-                    throw new CustomException(2997, "중복로그인이 발생했습니다.");
-                }
-            }
-        } catch (Exception e) {
-            throw new CustomException(2997, "refresh 토큰이 만료되었습니다.");
-        }
-
-        return JwtTokenInfo.builder()
-                .grantType("Bearer")
-                .accessToken(this.createAccessToken(refreshToken))
-                .build();
     }
 
     /**
      * token으로 claims 추출
-     *
-     * @param token
-     * @return
      */
     public Claims parseClaimsByToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
         try {
-            return claims;
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
@@ -189,16 +91,12 @@ public class JwtTokenProvider {
 
     /**
      * JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
-     *
-     * @param token
-     * @return
      */
     public Authentication getAuthenticationByToken(String token) {
-        // 토큰 복호화
         Claims claims = parseClaimsByToken(token);
 
         Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(CLAIM_NAME).toString().split(","))
+                Arrays.stream(claims.get(jwtProperties.getClaimName()).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
@@ -206,12 +104,8 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
-
     /**
      * 토큰 유효성 검사
-     *
-     * @param token
-     * @return
      */
     public boolean validateToken(String token) {
         try {

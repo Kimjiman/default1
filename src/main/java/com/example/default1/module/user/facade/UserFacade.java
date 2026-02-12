@@ -3,7 +3,7 @@ package com.example.default1.module.user.facade;
 import com.example.default1.base.annotation.Facade;
 import com.example.default1.base.exception.CustomException;
 import com.example.default1.base.security.jwt.JwtTokenInfo;
-import com.example.default1.base.security.jwt.JwtTokenProvider;
+import com.example.default1.base.security.jwt.JwtTokenService;
 import com.example.default1.base.utils.SessionUtils;
 import com.example.default1.base.utils.StringUtils;
 import com.example.default1.module.user.model.UserModel;
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserFacade {
     private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenService jwtTokenService;
 
     public JwtTokenInfo login(UserModel userModel) {
         String loginId = userModel.getLoginId();
@@ -33,10 +33,10 @@ public class UserFacade {
     }
 
     public void logout() {
-        jwtTokenProvider.removeRefreshToken(SessionUtils.getLoginId());
+        jwtTokenService.removeRefreshToken(SessionUtils.getLoginId());
     }
 
     public JwtTokenInfo accessToken(JwtTokenInfo jwtTokenInfo) {
-        return jwtTokenProvider.createAccessToken(jwtTokenInfo);
+        return jwtTokenService.refreshAccessToken(jwtTokenInfo);
     }
 }
