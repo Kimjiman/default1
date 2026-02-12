@@ -1,5 +1,6 @@
 package com.example.default1.base.converter;
 
+import com.example.default1.base.constants.YN;
 import com.example.default1.base.utils.DateUtils;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
@@ -22,5 +23,16 @@ public class TypeConverter {
             return null;
         }
         return DateUtils.localDateTimeToString(time, "yyyy-MM-dd HH:mm:ss");
+    }
+
+    @Named("ynToString")
+    public String ynToString(YN yn) {
+        return yn != null ? yn.getValue() : null;
+    }
+
+    @Named("stringToYn")
+    public YN stringToYn(String value) {
+        if (value == null) return null;
+        return YN.fromValue(value);
     }
 }

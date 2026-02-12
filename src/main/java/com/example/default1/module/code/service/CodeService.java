@@ -1,6 +1,5 @@
 package com.example.default1.module.code.service;
 
-import com.example.default1.base.exception.CustomException;
 import com.example.default1.base.service.BaseService;
 import com.example.default1.module.code.model.Code;
 import com.example.default1.module.code.model.CodeSearchParam;
@@ -40,9 +39,6 @@ public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
 
     @Override
     public Code save(Code code) {
-        if (code.getCodeGroupId() == null) {
-            throw new CustomException(2800, "code.code_group_id가 입력되지 않았습니다.");
-        }
         if (code.getOrder() == null) {
             Integer maxOrder = codeRepository.findMaxOrderByCodeGroupId(code.getCodeGroupId());
             code.setOrder(maxOrder != null ? maxOrder + 1 : 1);

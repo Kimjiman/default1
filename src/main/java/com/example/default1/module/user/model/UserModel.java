@@ -1,5 +1,6 @@
 package com.example.default1.module.user.model;
 
+import com.example.default1.base.constants.YN;
 import com.example.default1.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -22,5 +23,6 @@ public class UserModel extends BaseModel<Long> {
     private String loginId;
     private String password;
     private String name;
+    private YN useYn;
     private List<String> roleList;
 }

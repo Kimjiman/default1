@@ -19,8 +19,17 @@ import lombok.ToString;
 public class Response<T> extends BaseObject {
     @Builder.Default
     private int status = 200;
+    private String error;
     private String message;
     private T response;
+
+    public static <T> Response<T> fail(int status, String error, String message) {
+        return Response.<T>builder()
+                .status(status)
+                .error(error)
+                .message(message)
+                .build();
+    }
 
     public static <T> Response<T> fail(int status, String message) {
         return Response.<T>builder()

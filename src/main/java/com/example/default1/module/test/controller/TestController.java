@@ -1,6 +1,7 @@
 package com.example.default1.module.test.controller;
 
 import com.example.default1.base.exception.CustomException;
+import com.example.default1.base.exception.SystemErrorCode;
 import com.example.default1.module.test.repository.TestRepository;
 import com.example.default1.module.test.model.TestModel;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class TestController {
     @GetMapping("/test")
     public ResponseEntity<?> test(TestModel testModel) {
         if(testModel.getId() == 1) {
-            throw new CustomException(2023, "테스트");
+            throw new CustomException(SystemErrorCode.INTERNAL_ERROR, "테스트");
         }
         return ResponseEntity.ok(testRepository.findAll());
     }

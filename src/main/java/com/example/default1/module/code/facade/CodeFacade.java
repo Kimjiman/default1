@@ -1,6 +1,8 @@
 package com.example.default1.module.code.facade;
 
 import com.example.default1.base.annotation.Facade;
+import com.example.default1.base.exception.SystemErrorCode;
+import com.example.default1.base.exception.ToyAssert;
 import com.example.default1.module.code.converter.CodeConverter;
 import com.example.default1.module.code.converter.CodeGroupConverter;
 import com.example.default1.module.code.model.CodeGroupModel;
@@ -65,6 +67,7 @@ public class CodeFacade {
     }
 
     public void createCode(CodeModel codeModel) {
+        ToyAssert.notNull(codeModel.getCodeGroupId(), SystemErrorCode.REQUIRED, "code_group_id가 입력되지 않았습니다.");
         codeService.save(codeConverter.toEntity(codeModel));
     }
 

@@ -1,6 +1,7 @@
 package com.example.default1.base.security.jwt;
 
-import com.example.default1.base.exception.CustomException;
+import com.example.default1.base.exception.SystemErrorCode;
+import com.example.default1.base.exception.ToyAssert;
 import com.example.default1.base.security.jwt.token.RefreshTokenStore;
 import com.example.default1.base.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -46,17 +47,16 @@ public class JwtTokenService {
     public JwtTokenInfo refreshAccessToken(JwtTokenInfo jwtTokenInfo) {
         String refreshToken = jwtTokenInfo.getRefreshToken();
 
-        if (StringUtils.isBlank(refreshToken)) {
-            throw new CustomException(2999, "토큰값이 존재하지 않습니다.");
-        }
+        ToyAssert.notBlank(refreshToken, SystemErrorCode.TOKEN_NOT_FOUND);
 
         if (jwtTokenProvider.validateToken(refreshToken)) {
             String loginId = jwtTokenProvider.parseClaimsByToken(refreshToken).getSubject();
             String storedRefreshToken = refreshTokenStore.findByLoginId(loginId);
 
-            if (storedRefreshToken == null || !storedRefreshToken.equals(refreshToken)) {
-                throw new CustomException(2997, "중복로그인이 발생했습니다.");
-            }
+            ToyAssert.isTrue(
+                    storedRefreshToken == null || !storedRefreshToken.equals(refreshToken),
+                    SystemErrorCode.DUPLICATE_LOGIN
+            );
         }
 
         return JwtTokenInfo.builder()

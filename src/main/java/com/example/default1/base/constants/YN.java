@@ -1,6 +1,7 @@
 package com.example.default1.base.constants;
 
-import com.example.default1.base.exception.CustomException;
+import com.example.default1.base.exception.SystemErrorCode;
+import com.example.default1.base.exception.ToyAssert;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
@@ -35,9 +36,7 @@ public enum YN {
     // RequestBody로 받기위해서 JsonCreator로 key(String/Boolean)을 받아서 ENUM값을 전달한다.
     @JsonCreator
     public static YN of(String key) {
-        if(key == null) {
-            throw new CustomException(2700, "key is null");
-        }
+        ToyAssert.notNull(key, SystemErrorCode.REQUIRED, "key is null");
 
         return Arrays.stream(YN.values())
                 .filter(t -> t.key.equals(key.toLowerCase()))
@@ -46,9 +45,7 @@ public enum YN {
     }
 
     public static YN fromValue(String value) {
-        if(value == null) {
-            throw new CustomException(2700, "value is null");
-        }
+        ToyAssert.notNull(value, SystemErrorCode.REQUIRED, "value is null");
 
         return Arrays.stream(YN.values())
                 .filter(t -> t.value.equals(value))

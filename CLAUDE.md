@@ -104,9 +104,11 @@ BaseObject
 
 - `toModel(Entity)` / `toEntity(Model)` — 단건 변환
 - `toModelList(List<Entity>)` / `toEntityList(List<Model>)` — 목록 변환
-- `TypeConverter` — `LocalDateTime ↔ String` 변환 (`uses = {TypeConverter.class}`)
-- Entity→Model: `qualifiedByName = "localDateTimeToString"`
-- Model→Entity: `qualifiedByName = "stringToLocalDateTime"`, `@Mapping(target = "rowNum", ignore = true)`
+- `TypeConverter` — 타입 변환 (`uses = {TypeConverter.class}`)
+  - `LocalDateTime ↔ String`: `qualifiedByName = "localDateTimeToString"` / `"stringToLocalDateTime"`
+  - `String ↔ YN`: `qualifiedByName = "stringToYn"` / `"ynToString"`
+- Model→Entity: `@Mapping(target = "rowNum", ignore = true)`
+- Entity의 `YN` 컬럼은 `String`으로 저장, Model에서 `YN` enum 사용 → MapStruct에서 변환
 
 ### Service 규칙
 
@@ -118,6 +120,28 @@ BaseObject
 - `{Name}Repository extends JpaRepository<T, ID>, {Name}RepositoryCustom`
 - `{Name}RepositoryCustom` — QueryDSL 커스텀 쿼리 인터페이스
 - `{Name}RepositoryImpl` — QueryDSL 구현체 (`JPAQueryFactory` 사용)
+
+### Exception 규칙
+
+```
+ErrorCode (전략 인터페이스)
+    └── SystemErrorCode (공통 에러 enum)
+            ↓
+    CustomException (ErrorCode를 위임받아 처리)
+            ↓
+    ExceptionAdvice (응답 조립)
+```
+
+- **예외는 Facade에서만 발생**시키는 것이 원칙
+- **검증은 `ToyAssert`** 사용 (단순 검증), 복합 조건은 직접 `throw`
+- 에러 추가 시 `SystemErrorCode`에 enum 추가, 모듈 고유 에러가 많아지면 별도 enum 분리
+- 사용 예시:
+  ```java
+  ToyAssert.notBlank(loginId, SystemErrorCode.REQUIRED, "아이디를 입력해주세요.");
+  ToyAssert.notNull(id, SystemErrorCode.REQUIRED);
+  ToyAssert.isTrue(condition, SystemErrorCode.DUPLICATE_LOGIN);
+  throw new CustomException(SystemErrorCode.FILE_ERROR, "파일 다운로드 중 오류가 발생했습니다.");
+  ```
 
 ### JPA 관계
 
@@ -158,14 +182,13 @@ src/main/java/com/example/default1/
 │   ├── component/         — ShellExecute, HttpRequestClient, GlobalLogAop
 │   ├── constants/         — YN, RegexConstants, UrlConstants
 │   ├── converter/         — TypeConverter, BaseMapperConfig
-│   ├── exception/         — CustomException, BaseException, ToyAssert
+│   ├── exception/         — ErrorCode, SystemErrorCode, CustomException, BaseException, ToyAssert
 │   ├── model/             — BaseObject, BaseEntity, BaseModel, BaseSearchParam, Response, pager/
 │   ├── redis/             — RedisRepository, RedisObject
 │   ├── security/          — AuthUserDetails, AuthUserService
 │   │   └── jwt/           — JwtProperties, JwtTokenProvider, JwtTokenService, JwtAuthenticationFilter
 │   │       └── token/     — RefreshTokenStore, RedisRefreshTokenStore
 │   ├── service/           — BaseService 인터페이스
-│   ├── typeHandler/       — YnAttributeConverter
 │   └── utils/             — StringUtils, DateUtils, JsonUtils, CryptoUtils 등
 ├── config/                — Security, CORS, Redis, Swagger, QueryDSL, WebConfig
 │   ├── advice/            — ResponseAdvice, ExceptionAdvice

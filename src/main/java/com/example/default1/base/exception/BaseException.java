@@ -1,12 +1,15 @@
 package com.example.default1.base.exception;
 
+import lombok.Getter;
+
 import java.io.Serial;
 
+@Getter
 public class BaseException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 2288443710582826194L;
 
-    public final int status;
+    private final int status;
     
     public BaseException(int status, String message) {
         super(message);

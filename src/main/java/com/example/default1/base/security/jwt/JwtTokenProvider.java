@@ -1,6 +1,7 @@
 package com.example.default1.base.security.jwt;
 
 import com.example.default1.base.exception.CustomException;
+import com.example.default1.base.exception.SystemErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -113,19 +114,19 @@ public class JwtTokenProvider {
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.error("Invalid JWT Token: {}", e, e);
-            throw new CustomException(2999, "유효하지 않은 JWT 토큰입니다.");
+            throw new CustomException(SystemErrorCode.INVALID_TOKEN);
         } catch (ExpiredJwtException e) {
             log.error("Expired JWT Token: {}", e);
-            throw new CustomException(2999, "만료된 JWT 토큰입니다.");
+            throw new CustomException(SystemErrorCode.EXPIRED_TOKEN);
         } catch (UnsupportedJwtException e) {
             log.error("Unsupported JWT Token: {}", e);
-            throw new CustomException(2999, "지원하지 않는 JWT 토큰입니다.");
+            throw new CustomException(SystemErrorCode.UNSUPPORTED_TOKEN);
         } catch (IllegalArgumentException e) {
             log.error("JWT claims string is empty: {}", e, e.getMessage());
-            throw new CustomException(2999, "JWT 클레임 문자열이 비어 있습니다.");
+            throw new CustomException(SystemErrorCode.EMPTY_CLAIMS);
         } catch (JwtException e) {
             log.error("JWT processing error: {}", e);
-            throw new CustomException(2999, "JWT 처리 오류입니다.");
+            throw new CustomException(SystemErrorCode.TOKEN_PROCESSING_ERROR);
         }
     }
 }

@@ -26,11 +26,13 @@ import java.util.List;
 public interface UserConverter {
     @Mapping(source = "createTime", target = "createTime", qualifiedByName = "localDateTimeToString")
     @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "localDateTimeToString")
+    @Mapping(source = "useYn", target = "useYn", qualifiedByName = "stringToYn")
     UserModel toModel(User user);
 
     @Mapping(target = "rowNum", ignore = true)
     @Mapping(source = "createTime", target = "createTime", qualifiedByName = "stringToLocalDateTime")
     @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "stringToLocalDateTime")
+    @Mapping(source = "useYn", target = "useYn", qualifiedByName = "ynToString")
     User toEntity(UserModel userModel);
 
     List<UserModel> toModelList(List<User> userList);

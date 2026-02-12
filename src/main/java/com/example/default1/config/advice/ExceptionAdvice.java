@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionAdvice {
     @ExceptionHandler({CustomException.class})
     public Response<?> customException(CustomException ex) {
-        return Response.fail(ex.getStatus(), ex.getMessage());
+        return Response.fail(ex.getStatus(), ex.getErrorCode().name(), ex.getMessage());
     }
 
     @ExceptionHandler({RuntimeException.class})

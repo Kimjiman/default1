@@ -3,6 +3,7 @@ package com.example.default1.module.user.model;
 import com.example.default1.base.model.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,10 @@ public class User extends BaseEntity<Long> {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "use_yn")
+    @Builder.Default
+    private String useYn = "Y";
 
     @Transient
     private List<String> roleList;

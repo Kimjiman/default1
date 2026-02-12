@@ -1,29 +1,23 @@
 package com.example.default1.base.exception;
 
 import lombok.Getter;
-import lombok.Setter;
 
-// 에러코드 2000 ~ 2999 까지 사용
 @Getter
-@Setter
 public class CustomException extends BaseException {
-    private int status;
-    private String message;
+    private final ErrorCode errorCode;
 
-    public CustomException(int status, String message, Exception e) {
-        super(status, message, e);
-        this.status = status;
-        this.message = message;
-    }
-    
-    public CustomException(int status, String message) {
-        super(status, message);
-        this.status = status;
-        this.message = message;
+    public CustomException(ErrorCode errorCode) {
+        super(errorCode.getCode(), errorCode.getMessage());
+        this.errorCode = errorCode;
     }
 
-    public CustomException(String message) {
-        super(500, message);
-        this.message = message;
+    public CustomException(ErrorCode errorCode, String message) {
+        super(errorCode.getCode(), message);
+        this.errorCode = errorCode;
+    }
+
+    public CustomException(ErrorCode errorCode, String message, Exception e) {
+        super(errorCode.getCode(), message, e);
+        this.errorCode = errorCode;
     }
 }

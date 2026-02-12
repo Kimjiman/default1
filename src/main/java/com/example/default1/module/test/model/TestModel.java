@@ -1,7 +1,5 @@
 package com.example.default1.module.test.model;
 
-import com.example.default1.base.constants.YN;
-import com.example.default1.base.typeHandler.YnAttributeConverter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +19,5 @@ public class TestModel {
     private Integer id;
 
     @Column(name = "yn")
-    @Convert(converter = YnAttributeConverter.class)
-    private YN yn;
+    private String yn;
 }

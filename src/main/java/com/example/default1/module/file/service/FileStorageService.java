@@ -1,6 +1,7 @@
 package com.example.default1.module.file.service;
 
 import com.example.default1.base.exception.CustomException;
+import com.example.default1.base.exception.SystemErrorCode;
 import com.example.default1.module.file.model.FileInfo;
 import com.example.default1.base.utils.CollectionUtils;
 import com.example.default1.base.utils.DateUtils;
@@ -111,7 +112,7 @@ public class FileStorageService {
             FileCopyUtils.copy(is, os);
 
         } catch (IOException e) {
-            throw new CustomException(2999, "파일 다운로드 중 오류가 발생했습니다.");
+            throw new CustomException(SystemErrorCode.FILE_ERROR, "파일 다운로드 중 오류가 발생했습니다.");
         }
     }
 
@@ -143,7 +144,7 @@ public class FileStorageService {
             FileCopyUtils.copy(is, os);
 
         } catch (IOException e) {
-            throw new CustomException(2999, "파일 읽기 중 오류가 발생했습니다.");
+            throw new CustomException(SystemErrorCode.FILE_ERROR, "파일 읽기 중 오류가 발생했습니다.");
         }
 
         return fileInfo;
@@ -183,7 +184,7 @@ public class FileStorageService {
 
             response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);
         } catch (UnsupportedEncodingException e) {
-            throw new CustomException(2999, "파일명 인코딩에 실패했습니다.");
+            throw new CustomException(SystemErrorCode.FILE_ERROR, "파일명 인코딩에 실패했습니다.");
         }
     }
 

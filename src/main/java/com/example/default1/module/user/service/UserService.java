@@ -3,7 +3,6 @@ package com.example.default1.module.user.service;
 import com.example.default1.base.security.jwt.JwtTokenService;
 import com.example.default1.base.security.jwt.JwtTokenInfo;
 import com.example.default1.base.service.BaseService;
-import com.example.default1.base.exception.CustomException;
 import com.example.default1.module.user.model.User;
 import com.example.default1.module.user.model.UserSearchParam;
 import com.example.default1.module.user.repository.UserRepository;
@@ -51,18 +50,9 @@ public class UserService implements BaseService<User, UserSearchParam, Long> {
 
     @Override
     public User save(User user) {
-        if (StringUtils.isBlank(user.getLoginId())) {
-            throw new CustomException(2001, "로그인 아이디를 입력해주세요.");
-        }
-
-        if (user.getId() == null && StringUtils.isBlank(user.getPassword())) {
-            throw new CustomException(2001, "패스워드를 입력해주세요.");
-        }
-
         if (StringUtils.isNotBlank(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-
         return userRepository.save(user);
     }
 
