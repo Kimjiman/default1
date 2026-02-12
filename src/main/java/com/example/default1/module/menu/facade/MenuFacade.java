@@ -1,6 +1,7 @@
 package com.example.default1.module.menu.facade;
 
 import com.example.default1.base.annotation.Facade;
+import com.example.default1.base.exception.CustomException;
 import com.example.default1.base.exception.SystemErrorCode;
 import com.example.default1.base.exception.ToyAssert;
 import com.example.default1.module.menu.converter.MenuConverter;
@@ -30,7 +31,7 @@ public class MenuFacade {
     public MenuModel findById(Long id) {
         ToyAssert.notNull(id, SystemErrorCode.REQUIRED, "ID를 입력해주세요.");
         Menu menu = menuService.findById(id).orElseThrow(() ->
-                new com.example.default1.base.exception.CustomException(SystemErrorCode.NOT_FOUND, "메뉴를 찾을 수 없습니다."));
+                new CustomException(SystemErrorCode.NOT_FOUND, "메뉴를 찾을 수 없습니다."));
         return menuConverter.toModel(menu);
     }
 

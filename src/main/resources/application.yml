@@ -27,7 +27,7 @@ spring:
     default: local
 cron:
   cache:
-    refresh-cache: '55 55 23 * * *'
+    refresh-cache: '* 0/30 * * * *'
 springdoc:
   swagger-ui:
     config-url: /v3/api-docs/swagger-config

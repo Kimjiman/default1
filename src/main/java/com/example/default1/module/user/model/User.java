@@ -23,16 +23,16 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 public class User extends BaseEntity<Long> {
-    @Column(name = "login_id")
+    @Column(name = "login_id", unique = true, nullable = false)
     private String loginId;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "use_yn")
+    @Column(name = "use_yn", nullable = false)
     @Builder.Default
     private String useYn = "Y";
 
