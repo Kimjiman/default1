@@ -3,6 +3,8 @@ package com.example.default1.base.security;
 import com.example.default1.module.user.model.User;
 import com.example.default1.module.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +29,7 @@ public class AuthUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
         User user = userRepository.findByLoginId(loginId).orElseThrow(() -> new UsernameNotFoundException(loginId));
+        user.setRoleList(List.of("USR"));
         return new AuthUserDetails(user);
     }
 }

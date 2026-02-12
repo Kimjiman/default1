@@ -4,8 +4,10 @@ import com.example.default1.base.constants.UrlConstatns;
 import com.example.default1.base.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,6 +23,7 @@ import java.util.List;
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserDetailsService userDetailsService;
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
     private final List<String> allowedUrls = Arrays.asList(UrlConstatns.ALLOWED_URLS);
 
@@ -31,11 +34,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (!isAllowedUrl(requestURI)) {
             String token = resolveToken(request);
-            if (StringUtils.isNotBlank(token)) {
-                if (jwtTokenProvider.validateToken(token)) {
-                    Authentication authentication = jwtTokenProvider.getAuthenticationByToken(token);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
+            if (StringUtils.isNotBlank(token) && jwtTokenProvider.validateToken(token)) {
+                String loginId = jwtTokenProvider.parseClaimsByToken(token).getSubject();
+                UserDetails userDetails = userDetailsService.loadUserByUsername(loginId);
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
         chain.doFilter(request, response);
