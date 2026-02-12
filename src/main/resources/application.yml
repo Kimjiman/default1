@@ -13,25 +13,6 @@ logging:
 spring:
   config:
     import: classpath:jwt.yml
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-    show-sql: true
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-  datasource:
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Seoul
-    username: root
-    password: 1234
-    hikari:
-      maximum-pool-size: 10
-  devtools:
-    add-properties: true
-    livereload:
-      enabled: true
   mvc:
     static-path-pattern: /static/**
     throw-exception-if-no-handler-found: true
@@ -67,6 +48,25 @@ spring:
   config:
     activate:
       on-profile: local
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+    hikari:
+      maximum-pool-size: 10
+  devtools:
+    add-properties: true
+    livereload:
+      enabled: true
 file:
   store:
     path: c:/tmp/default1
@@ -81,6 +81,25 @@ spring:
   config:
     activate:
       on-profile: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+    hikari:
+      maximum-pool-size: 10
+  devtools:
+    add-properties: false
+    livereload:
+      enabled: false
 file:
   store:
     path: /web/file
@@ -98,6 +117,25 @@ spring:
   config:
     activate:
       on-profile: prod
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+    hikari:
+      maximum-pool-size: 10
+  devtools:
+    add-properties: false
+    livereload:
+      enabled: false
 file:
   store:
     path: /web/file

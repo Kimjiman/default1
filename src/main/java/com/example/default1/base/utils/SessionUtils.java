@@ -42,13 +42,13 @@ public class SessionUtils {
     }
 
     public static User getUser() {
-        AuthUserDetails loginUserDetails = getAuthUserDetails();
-        return loginUserDetails != null ? loginUserDetails.user() : null;
+        AuthUserDetails authUserDetails = getAuthUserDetails();
+        return authUserDetails != null && authUserDetails.user() != null ? authUserDetails.user() : null;
     }
 
     public static Long getId() {
-        AuthUserDetails loginUserDetails = getAuthUserDetails();
-        return loginUserDetails != null ? loginUserDetails.user().getId() : null;
+        AuthUserDetails authUserDetails = getAuthUserDetails();
+        return authUserDetails != null && authUserDetails.user() != null ? authUserDetails.user().getId() : null;
     }
 
     public static String getLoginId() {

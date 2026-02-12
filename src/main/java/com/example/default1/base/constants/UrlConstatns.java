@@ -22,8 +22,9 @@ public class UrlConstatns {
     };
 
     public static String[] ALLOWED_URLS = {
-            "/user/login"
-            , "/user/token"
+            "/auth/login"
+            , "/auth/logout"
+            , "/auth/issueAccessToken"
     };
 
     public static String[] NOT_ALLOWED_URLS = {

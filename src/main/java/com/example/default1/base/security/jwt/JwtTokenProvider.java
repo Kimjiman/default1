@@ -113,19 +113,14 @@ public class JwtTokenProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            log.error("Invalid JWT Token: {}", e, e);
             throw new CustomException(SystemErrorCode.INVALID_TOKEN);
         } catch (ExpiredJwtException e) {
-            log.error("Expired JWT Token: {}", e);
             throw new CustomException(SystemErrorCode.EXPIRED_TOKEN);
         } catch (UnsupportedJwtException e) {
-            log.error("Unsupported JWT Token: {}", e);
             throw new CustomException(SystemErrorCode.UNSUPPORTED_TOKEN);
         } catch (IllegalArgumentException e) {
-            log.error("JWT claims string is empty: {}", e, e.getMessage());
             throw new CustomException(SystemErrorCode.EMPTY_CLAIMS);
         } catch (JwtException e) {
-            log.error("JWT processing error: {}", e);
             throw new CustomException(SystemErrorCode.TOKEN_PROCESSING_ERROR);
         }
     }

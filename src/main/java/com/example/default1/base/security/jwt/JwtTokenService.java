@@ -44,7 +44,7 @@ public class JwtTokenService {
     /**
      * refreshToken으로 accessToken 재발급 + 중복로그인 체크
      */
-    public JwtTokenInfo refreshAccessToken(JwtTokenInfo jwtTokenInfo) {
+    public JwtTokenInfo issueAccessToken(JwtTokenInfo jwtTokenInfo) {
         String refreshToken = jwtTokenInfo.getRefreshToken();
 
         ToyAssert.notBlank(refreshToken, SystemErrorCode.TOKEN_NOT_FOUND);
