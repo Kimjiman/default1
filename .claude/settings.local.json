@@ -1,5 +1,5 @@
 {
-  "enableAllProjectMcpServers": false,
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "github",
     "memory",

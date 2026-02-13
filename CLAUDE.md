@@ -10,13 +10,13 @@ Spring Boot 2.7 기반 웹 애플리케이션 (Java 17, Gradle 7.6)
 
 ```bash
 # 빌드 (Git Bash / Claude Code 환경)
-JAVA_HOME=/c/java/temurin-17.0.16 ./gradlew clean build
+JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew clean build
 
 # 실행 (프로필 지정)
-JAVA_HOME=/c/java/temurin-17.0.16 ./gradlew bootRun -PspringProfiles=local
+JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew bootRun -PspringProfiles=local
 ```
 
-- JDK 17 필요 (`C:\java\temurin-17.0.16`)
+- JDK 17 필요 (`C:\java\jdk-17.0.18+8`)
 - Gradle Wrapper 사용 (`gradlew` / `gradlew.bat`)
 - Claude Code(Git Bash) 환경에서는 반드시 `./gradlew` (Unix wrapper) 사용 (`gradlew.bat`은 인식 불가)
 - Git Bash 경로 표기: `C:\java\...` → `/c/java/...`
