@@ -25,6 +25,16 @@ spring:
     suffix: .html
   profiles:
     default: local
+web-client:
+  domains:
+    default:
+      base-url: http://localhost:8080
+      connect-timeout: 5000
+      read-timeout: 10000
+      write-timeout: 10000
+      headers:
+        Content-Type: application/json
+        Accept: '*/*'
 cron:
   cache:
     refresh-cache: '* 0/30 * * * *'

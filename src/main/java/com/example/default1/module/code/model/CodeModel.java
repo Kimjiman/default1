@@ -33,6 +33,5 @@ public class CodeModel extends BaseModel<Long> {
     private String code;
     private String codeGroupName;
     private String name;
-    private Integer order;
     private String info;
 }

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,11 +40,19 @@ public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
 
     @Override
     public Code save(Code code) {
-        if (code.getOrder() == null) {
-            Integer maxOrder = codeRepository.findMaxOrderByCodeGroupId(code.getCodeGroupId());
-            code.setOrder(maxOrder != null ? maxOrder + 1 : 1);
+        if (!StringUtils.hasText(code.getCode())) {
+            String maxCode = codeRepository.findMaxCodeByCodeGroupId(code.getCodeGroupId());
+            code.setCode(nextCode(maxCode));
         }
         return codeRepository.save(code);
+    }
+
+    private String nextCode(String currentMax) {
+        if (!StringUtils.hasText(currentMax)) {
+            return "001";
+        }
+        int next = Integer.parseInt(currentMax) + 1;
+        return String.format("%03d", next);
     }
 
     @Override

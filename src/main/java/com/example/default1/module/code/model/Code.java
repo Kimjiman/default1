@@ -9,7 +9,11 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 @Getter
 @Setter
@@ -19,25 +23,24 @@ import javax.persistence.*;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
-@Table(name = "code")
+@Table(name = "code", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"code_group_id", "code"}),
+})
 public class Code extends BaseEntity<Long> {
-    @Column(name = "code_group_id")
+    @Column(name = "code_group_id", nullable = false)
     private Long codeGroupId;
 
     @Transient
     private String codeGroup;
 
-    @Column(name = "code")
+    @Column(name = "code", nullable = false)
     private String code;
 
     @Transient
     private String codeGroupName;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "order")
-    private Integer order;
 
     @Column(name = "info")
     private String info;

@@ -9,7 +9,11 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Getter
@@ -22,10 +26,10 @@ import java.util.List;
 @Entity
 @Table(name = "code_group")
 public class CodeGroup extends BaseEntity<Long> {
-    @Column(name = "code_group")
+    @Column(name = "code_group", nullable = false)
     private String codeGroup;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @ToString.Exclude

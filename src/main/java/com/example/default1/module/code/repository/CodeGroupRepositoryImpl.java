@@ -26,6 +26,14 @@ public class CodeGroupRepositoryImpl implements CodeGroupRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public String findMaxCodeGroup() {
+        QCodeGroup codeGroup = QCodeGroup.codeGroup1;
+        return queryFactory.select(codeGroup.codeGroup.max())
+                .from(codeGroup)
+                .fetchOne();
+    }
+
     private BooleanBuilder buildWhere(CodeGroupSearchParam param) {
         QCodeGroup codeGroup = QCodeGroup.codeGroup1;
         BooleanBuilder builder = new BooleanBuilder();

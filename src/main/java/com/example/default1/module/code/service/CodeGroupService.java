@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import org.springframework.util.StringUtils;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +40,19 @@ public class CodeGroupService implements BaseService<CodeGroup, CodeGroupSearchP
 
     @Override
     public CodeGroup save(CodeGroup codeGroup) {
+        if (!StringUtils.hasText(codeGroup.getCodeGroup())) {
+            String maxCodeGroup = codeGroupRepository.findMaxCodeGroup();
+            codeGroup.setCodeGroup(nextCode(maxCodeGroup));
+        }
         return codeGroupRepository.save(codeGroup);
+    }
+
+    private String nextCode(String currentMax) {
+        if (!StringUtils.hasText(currentMax)) {
+            return "001";
+        }
+        int next = Integer.parseInt(currentMax) + 1;
+        return String.format("%03d", next);
     }
 
     @Override

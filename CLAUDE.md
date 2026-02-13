@@ -9,20 +9,17 @@ Spring Boot 2.7 기반 웹 애플리케이션 (Java 17, Gradle 7.6)
 ## Build & Run
 
 ```bash
-# 빌드
-gradlew clean build
+# 빌드 (Git Bash / Claude Code 환경)
+JAVA_HOME=/c/java/temurin-17.0.16 ./gradlew clean build
 
 # 실행 (프로필 지정)
-gradlew bootRun -PspringProfiles=local
+JAVA_HOME=/c/java/temurin-17.0.16 ./gradlew bootRun -PspringProfiles=local
 ```
 
-- JDK 17 필요 (IntelliJ 기준: `File > Project Structure > SDK`)
+- JDK 17 필요 (`C:\java\temurin-17.0.16`)
 - Gradle Wrapper 사용 (`gradlew` / `gradlew.bat`)
-- 빌드 실패 시 시스템 기본 Java가 1.8일 수 있음. 이 경우 `JAVA_HOME`을 `C:\java\temurin-17.0.16`으로 지정하여 빌드:
-  ```bash
-  # Windows
-  set JAVA_HOME=C:\java\temurin-17.0.16 && gradlew.bat clean build
-  ```
+- Claude Code(Git Bash) 환경에서는 반드시 `./gradlew` (Unix wrapper) 사용 (`gradlew.bat`은 인식 불가)
+- Git Bash 경로 표기: `C:\java\...` → `/c/java/...`
 
 ## Tech Stack
 

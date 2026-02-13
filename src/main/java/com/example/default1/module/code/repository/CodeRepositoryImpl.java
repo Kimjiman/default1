@@ -22,7 +22,7 @@ public class CodeRepositoryImpl implements CodeRepositoryCustom {
     @Override
     public List<Code> findAllBy(CodeSearchParam param) {
         return createBaseQuery(param)
-                .orderBy(QCode.code1.codeGroupId.asc(), QCode.code1.order.asc())
+                .orderBy(QCode.code1.codeGroupId.asc())
                 .fetch();
     }
 
@@ -31,7 +31,7 @@ public class CodeRepositoryImpl implements CodeRepositoryCustom {
         QCode code = QCode.code1;
 
         List<Code> content = createBaseQuery(param)
-                .orderBy(code.codeGroupId.asc(), code.order.asc())
+                .orderBy(code.codeGroupId.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -45,9 +45,9 @@ public class CodeRepositoryImpl implements CodeRepositoryCustom {
     }
 
     @Override
-    public Integer findMaxOrderByCodeGroupId(Long codeGroupId) {
+    public String findMaxCodeByCodeGroupId(Long codeGroupId) {
         QCode code = QCode.code1;
-        return queryFactory.select(code.order.max())
+        return queryFactory.select(code.code.max())
                 .from(code)
                 .where(code.codeGroupId.eq(codeGroupId))
                 .fetchOne();
@@ -63,7 +63,6 @@ public class CodeRepositoryImpl implements CodeRepositoryCustom {
                         code.codeGroupId,
                         code.code,
                         code.name,
-                        code.order,
                         code.info,
                         code.createTime,
                         code.createId,

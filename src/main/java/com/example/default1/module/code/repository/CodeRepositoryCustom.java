@@ -10,5 +10,5 @@ import java.util.List;
 public interface CodeRepositoryCustom {
     List<Code> findAllBy(CodeSearchParam param);
     Page<Code> findAllBy(CodeSearchParam param, Pageable pageable);
-    Integer findMaxOrderByCodeGroupId(Long codeGroupId);
+    String findMaxCodeByCodeGroupId(Long codeGroupId);
 }

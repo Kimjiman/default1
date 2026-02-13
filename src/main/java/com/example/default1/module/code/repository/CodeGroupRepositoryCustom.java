@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CodeGroupRepositoryCustom {
     List<CodeGroup> findAllBy(CodeGroupSearchParam param);
+    String findMaxCodeGroup();
 }
