@@ -53,7 +53,7 @@
         "/c",
         "npx",
         "-y",
-        "@context7/mcp-server"
+        "@upstash/context7-mcp@latest"
       ],
       "description": "Live documentation lookup"
     },
