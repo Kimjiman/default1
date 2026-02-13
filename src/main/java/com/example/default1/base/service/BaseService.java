@@ -3,10 +3,11 @@ package com.example.default1.base.service;
 import com.example.default1.base.model.BaseEntity;
 import com.example.default1.base.model.BaseSearchParam;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public interface BaseService<T extends BaseEntity<ID>, P extends BaseSearchParam<ID>, ID> {
+public interface BaseService<T extends BaseEntity<ID>, P extends BaseSearchParam<ID>, ID extends Serializable> {
     boolean existsById(ID id);
     Optional<T> findById(ID id);
     List<T> findAllBy(P p);

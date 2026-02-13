@@ -18,6 +18,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
@@ -28,7 +29,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @MappedSuperclass
-public abstract class BaseEntity<ID> extends BaseObject {
+public abstract class BaseEntity<ID extends Serializable> extends BaseObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ID id;

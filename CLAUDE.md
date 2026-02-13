@@ -31,6 +31,14 @@ JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "*.UserServiceTest.testMe
 - In Claude Code (Git Bash): always use `./gradlew` (Unix wrapper), not `gradlew.bat`
 - Git Bash path: `C:\java\...` becomes `/c/java/...`
 
+### Profiles
+
+| Profile | Port | Description |
+|---------|------|-------------|
+| `local` (default) | 8085 | DevTools enabled, show-sql on |
+| `dev` | 8080 | File logging (`/web/jar/log/file.log`) |
+| `prod` | 8080 | show-sql off, file logging |
+
 ## Tech Stack
 
 - **Spring Boot 2.7.18** (spring-security, spring-data-jpa, thymeleaf, webflux)
@@ -122,8 +130,8 @@ BaseObject
 
 ### Service Rules
 
-- `implements BaseService<T, P, ID>`
-- Standard methods: `existsById`, `findById`, `countAllBy`, `findAllBy`, `save`, `update`, `deleteById`
+- `implements BaseService<T extends BaseEntity<ID>, P extends BaseSearchParam<ID>, ID>`
+- Standard methods: `existsById`, `findById`, `findAllBy`, `save`, `update`, `deleteById`
 
 ### Repository Rules
 
@@ -174,6 +182,33 @@ ErrorCode (strategy interface)
 | **Docs** | Documentation |
 | **Chore** | Build config, dependency changes |
 | **Remove** | Delete feature/code |
+
+### Response & Pagination
+
+- **`Response<T>`**: API envelope — `Response.success(data)` / `Response.fail(status, message)`, `@JsonInclude(NON_NULL)`
+- **`PageResponse<T>`**: Wraps `PageInfo` + `List<T>`, auto-assigns descending `rowNum` in constructor
+- **`PageInfo`**: Static factory `PageInfo.of(page, totalRow)` or `PageInfo.from(Page<?>)` for Spring Data
+
+### YN Enum Pattern
+
+Entity stores `String` ("Y"/"N"), Model uses `YN` enum. MapStruct converts via `TypeConverter`.
+- `YN.of("true"/"false")` — from JSON boolean-like input (`@JsonCreator`)
+- `YN.fromValue("Y"/"N")` — from DB value
+
+### Auditing
+
+`BaseEntity` auto-sets `createTime`/`updateTime` via `@PrePersist`/`@PreUpdate`, and `createId`/`updateId` via `SessionUtils.getId()`. System operations use `entity.setSystemUser()` (sets ID to 0L).
+
+### Key Utilities
+
+| Utility | Purpose |
+|---|---|
+| `SessionUtils` | Static access to current user from SecurityContext (`getPrincipal`, `getId`, `getUser`, `hasRole`) |
+| `ToyAssert` | Validation: `notBlank`, `notNull`, `notEmpty`, `isTrue` — throws `CustomException` on failure |
+| `DateUtils` | 40+ date/time operations, pattern: `"yyyy-MM-dd HH:mm:ss"` |
+| `StringUtils` | Null-safe string ops, masking, padding, regex |
+| `CollectionUtils` | `safeStream`, `merge`, `extractList`, `toMap`, `removeDuplicates` |
+| `JsonUtils` | GSON-based with LocalDateTime adapters |
 
 ## Project Structure
 
