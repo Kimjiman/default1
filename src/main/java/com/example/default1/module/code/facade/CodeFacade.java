@@ -38,17 +38,20 @@ public class CodeFacade {
 
     public void createCodeGroup(CodeGroupModel codeGroupModel) {
         codeGroupService.save(codeGroupConverter.toEntity(codeGroupModel));
+        codeService.refreshCache();
     }
 
     public void updateCodeGroup(CodeGroupModel codeGroupModel) {
         codeGroupService.save(codeGroupConverter.toEntity(codeGroupModel));
+        codeService.refreshCache();
     }
 
     @Transactional
     public void removeCodeGroupById(Long id) {
-        if (id == null) return;
+        ToyAssert.notNull(id, SystemErrorCode.REQUIRED, "ID를 입력해주세요.");
         codeService.deleteByCodeGroupId(id);
         codeGroupService.deleteById(id);
+        codeService.refreshCache();
     }
 
     public List<CodeModel> findCodeAllBy(CodeSearchParam param) {
@@ -69,14 +72,17 @@ public class CodeFacade {
     public void createCode(CodeModel codeModel) {
         ToyAssert.notNull(codeModel.getCodeGroupId(), SystemErrorCode.REQUIRED, "code_group_id가 입력되지 않았습니다.");
         codeService.save(codeConverter.toEntity(codeModel));
+        codeService.refreshCache();
     }
 
     public void updateCode(CodeModel codeModel) {
         codeService.save(codeConverter.toEntity(codeModel));
+        codeService.refreshCache();
     }
 
     public void removeCodeById(Long id) {
-        if (id == null) return;
+        ToyAssert.notNull(id, SystemErrorCode.REQUIRED, "ID를 입력해주세요.");
         codeService.deleteById(id);
+        codeService.refreshCache();
     }
 }

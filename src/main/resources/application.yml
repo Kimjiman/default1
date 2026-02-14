@@ -12,7 +12,9 @@ logging:
     console: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([${LOG_LEVEL_PATTERN:%5p}]) %clr(%-36.36(%logger{0}.%method)){cyan} %4.4L %clr(:){faint} %m%n'
 spring:
   config:
-    import: classpath:jwt.yml
+    import:
+      - classpath:jwt.yml
+      - classpath:cron.yml
   mvc:
     static-path-pattern: /static/**
     throw-exception-if-no-handler-found: true
@@ -35,9 +37,6 @@ web-client:
       headers:
         Content-Type: application/json
         Accept: '*/*'
-cron:
-  cache:
-    refresh-cache: '* 0/30 * * * *'
 springdoc:
   swagger-ui:
     config-url: /v3/api-docs/swagger-config

@@ -5,19 +5,48 @@ import com.example.default1.module.code.model.Code;
 import com.example.default1.module.code.model.CodeSearchParam;
 import com.example.default1.module.code.repository.CodeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
     private final CodeRepository codeRepository;
+    private final ConcurrentHashMap<String, String> codeCache = new ConcurrentHashMap<>();
+
+    @PostConstruct
+    public void init() {
+        refreshCache();
+    }
+
+    public void refreshCache() {
+        List<Code> codes = codeRepository.findAll();
+        ConcurrentHashMap<String, String> newCache = new ConcurrentHashMap<>();
+
+        for (Code code : codes) {
+            if (code.getCodeGroup() != null && code.getCode() != null) {
+                newCache.put(code.getCodeGroup() + ":" + code.getCode(), code.getName());
+            }
+        }
+
+        codeCache.clear();
+        codeCache.putAll(newCache);
+        log.info("Code cache refreshed. entries={}", codeCache.size());
+    }
+
+    public String findNameByCode(String codeGroup, String code) {
+        return codeCache.get(codeGroup + ":" + code);
+    }
 
     @Override
     public boolean existsById(Long id) {

@@ -1,0 +1,4 @@
+cron:
+  cache:
+    refresh-menu: '0 0/30 * * * *'    # 30분마다
+    refresh-code: '0 0 * * * *'        # 1시간마다

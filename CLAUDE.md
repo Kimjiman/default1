@@ -31,13 +31,26 @@ JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "*.UserServiceTest.testMe
 - In Claude Code (Git Bash): always use `./gradlew` (Unix wrapper), not `gradlew.bat`
 - Git Bash path: `C:\java\...` becomes `/c/java/...`
 
+### Docker (Local Development)
+
+```bash
+# Start all services (App + PostgreSQL + Redis + Jenkins)
+docker-compose up -d
+
+# Stop all services
+docker-compose down
+
+# Rebuild app image
+docker-compose up -d --build app
+```
+
 ### Profiles
 
-| Profile | Port | Description |
-|---------|------|-------------|
-| `local` (default) | 8085 | DevTools enabled, show-sql on |
-| `dev` | 8080 | File logging (`/web/jar/log/file.log`) |
-| `prod` | 8080 | show-sql off, file logging |
+| Profile | Port | DB | Description |
+|---------|------|----|-------------|
+| `local` (default) | 8085 | PostgreSQL (localhost:5432) | DevTools enabled, show-sql on |
+| `dev` | 8080 | PostgreSQL (container) | File logging (`/web/jar/log/file.log`) |
+| `prod` | 8080 | PostgreSQL (container) | show-sql off, file logging |
 
 ## Tech Stack
 
@@ -46,7 +59,10 @@ JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "*.UserServiceTest.testMe
 - **MapStruct 1.5.5** (Entity <-> Model conversion)
 - **Lombok** (@SuperBuilder, @Getter/@Setter)
 - **Spring Security + JWT** (jjwt 0.11.5)
-- **MySQL** (runtime), **Redis** (token store, cache)
+- **PostgreSQL** (runtime), **Redis** (token store, cache)
+- **Flyway** (DB schema migration)
+- **Docker + Docker Compose** (PostgreSQL, Redis, Jenkins)
+- **Jenkins** (CI/CD pipeline: build → test → docker build)
 - **JUnit 5 + Mockito + Instancio** (testing)
 
 ## Architecture — Layered + Facade Pattern
@@ -60,7 +76,7 @@ Controller → Facade → Service → Repository (JPA + QueryDSL)
 | Layer | Role | Location |
 |---|---|---|
 | **Controller** | HTTP request/response, `@RestController` | `module/{name}/controller/` |
-| **Facade** | Cross-service orchestration, Model conversion (`@Facade`) | `module/{name}/facade/` |
+| **Facade** | Cross-service orchestration, Model conversion, **validation**, **exception throwing** (`@Facade`) | `module/{name}/facade/` |
 | **Service** | Single-domain business logic | `module/{name}/service/` |
 | **Repository** | JPA + QueryDSL data access | `module/{name}/repository/` |
 | **Converter** | MapStruct Entity↔Model mapping | `module/{name}/converter/` |
@@ -139,6 +155,23 @@ BaseObject
 - `{Name}RepositoryCustom` — QueryDSL custom query interface
 - `{Name}RepositoryImpl` — QueryDSL implementation (`JPAQueryFactory`)
 
+### Validation Strategy
+
+**Intentional design: ToyAssert in Facade layer instead of Bean Validation (@Valid)**
+
+Rationale:
+- `@Valid` + annotation scatters validation logic across DTO classes → hard to trace
+- Facade-centralized validation keeps all checks (input + business) in one place
+- Easier to debug: one breakpoint in Facade catches all validation flow
+
+```java
+// All validation visible in Facade — single point of control
+ToyAssert.notBlank(loginId, SystemErrorCode.REQUIRED, "Please enter login ID.");
+ToyAssert.notNull(id, SystemErrorCode.REQUIRED);
+ToyAssert.isTrue(condition, SystemErrorCode.DUPLICATE_LOGIN);
+throw new CustomException(SystemErrorCode.FILE_ERROR, "Error during file download.");
+```
+
 ### Exception Rules
 
 ```
@@ -153,13 +186,6 @@ ErrorCode (strategy interface)
 - **Exceptions should only be thrown in Facade layer**
 - **Validation uses `ToyAssert`** (simple checks), complex conditions use direct `throw`
 - Add errors to `SystemErrorCode` enum; extract module-specific enum when it grows large
-- Examples:
-  ```java
-  ToyAssert.notBlank(loginId, SystemErrorCode.REQUIRED, "Please enter login ID.");
-  ToyAssert.notNull(id, SystemErrorCode.REQUIRED);
-  ToyAssert.isTrue(condition, SystemErrorCode.DUPLICATE_LOGIN);
-  throw new CustomException(SystemErrorCode.FILE_ERROR, "Error during file download.");
-  ```
 
 ### JPA Relationships
 
@@ -167,6 +193,13 @@ ErrorCode (strategy interface)
 - LAZY fields require `@ToString.Exclude`
 - List queries: QueryDSL `.leftJoin().fetchJoin().distinct()`
 - Single queries: `@EntityGraph(attributePaths = {...})`
+
+### Database Migration (Flyway)
+
+- Migration scripts: `src/main/resources/db/migration/`
+- Naming: `V{version}__{description}.sql` (e.g., `V1__init_schema.sql`)
+- Current schema baseline from `DB-default.sql` → converted to PostgreSQL syntax
+- **Never use `ddl-auto: update` in dev/prod** — all schema changes via Flyway
 
 ## Commit Convention
 
@@ -210,6 +243,26 @@ Entity stores `String` ("Y"/"N"), Model uses `YN` enum. MapStruct converts via `
 | `CollectionUtils` | `safeStream`, `merge`, `extractList`, `toMap`, `removeDuplicates` |
 | `JsonUtils` | GSON-based with LocalDateTime adapters |
 
+## Infrastructure
+
+### Docker Compose Services
+
+| Service | Image | Port | Purpose |
+|---------|-------|------|---------|
+| `app` | Dockerfile (multi-stage) | 8085 | Spring Boot application |
+| `postgres` | postgres:15 | 5432 | Primary database |
+| `redis` | redis:7 | 6379 | Token store, cache |
+| `jenkins` | jenkins/jenkins:lts | 9090 | CI/CD pipeline |
+
+### Jenkins Pipeline
+
+```
+Checkout → Build (gradlew clean build) → Test (gradlew test) → Docker Build → Deploy
+```
+
+- Jenkinsfile in project root
+- Triggered on push to main branch
+
 ## Project Structure
 
 ```
@@ -222,4 +275,13 @@ src/main/java/com/example/default1/
 │   └── scheduler/  — CacheScheduler
 └── module/         — Feature modules (code, user, menu, file, main, test)
                       Each module: controller/, converter/, facade/, model/, repository/, service/
+
+src/main/resources/
+├── db/migration/   — Flyway migration scripts (V1__init_schema.sql, ...)
+├── application.yml — Spring config (profiles: local, dev, prod)
+└── jwt.yml         — JWT configuration
+
+docker-compose.yml  — Local dev environment (App + PostgreSQL + Redis + Jenkins)
+Dockerfile          — Multi-stage build (build → runtime)
+Jenkinsfile         — CI/CD pipeline definition
 ```
