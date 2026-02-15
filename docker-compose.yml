@@ -1,6 +1,6 @@
 # ===========================================
-# Local Development - Infrastructure Only
-# MySQL + Redis (앱은 로컬에서 실행)
+# Local Development
+# MySQL, Redis
 # ===========================================
 # Usage:
 #   docker-compose up -d
