@@ -85,6 +85,10 @@ public class JsonUtils {
         return GSON.fromJson(json, clazz);
     }
 
+    public static <T> T fromJson(String json, Type type) {
+        return GSON.fromJson(json, type);
+    }
+
     public static Map<String, Object> fromJsonToMap(String json) {
         Type type = new TypeToken<Map<String, Object>>() {}.getType();
         return GSON.fromJson(json, type);

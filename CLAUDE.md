@@ -34,14 +34,11 @@ JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "*.UserServiceTest.testMe
 ### Docker (Local Development)
 
 ```bash
-# Start all services (App + PostgreSQL + Redis + Jenkins)
+# Start all services (PostgreSQL + Redis)
 docker-compose up -d
 
 # Stop all services
 docker-compose down
-
-# Rebuild app image
-docker-compose up -d --build app
 ```
 
 ### Profiles
@@ -61,8 +58,7 @@ docker-compose up -d --build app
 - **Spring Security + JWT** (jjwt 0.11.5)
 - **PostgreSQL** (runtime), **Redis** (token store, cache)
 - **Flyway** (DB schema migration)
-- **Docker + Docker Compose** (PostgreSQL, Redis, Jenkins)
-- **Jenkins** (CI/CD pipeline: build → test → docker build)
+- **Docker + Docker Compose** (PostgreSQL, Redis)
 - **JUnit 5 + Mockito + Instancio** (testing)
 
 ## Architecture — Layered + Facade Pattern
@@ -116,6 +112,18 @@ AuthFacade  → UserService (login)
 - `menu` — Menu management
 - `file` — File upload/download
 - `test` — Testing utilities
+
+### Cache (In-Memory)
+
+`ConcurrentHashMap` 기반 인메모리 캐시. `@PostConstruct`로 기동 시 로딩, `CacheScheduler`로 주기적 리프레시.
+
+| 캐시 | 위치 | 키 → 값 | 리프레시 주기 |
+|------|------|---------|-------------|
+| Code 캐시 | `CodeService.codeCache` | `codeGroup:code → name` | 1시간 |
+| Menu 역할 캐시 | `MenuService.roleCache` | `uri → roleList` | 30분 |
+
+- 스케줄러: `CacheScheduler` (`cron.yml`에서 주기 설정)
+- Menu 역할 캐시는 `RoleInterceptor`에서 URI별 권한 체크에 사용
 
 ## Key Conventions
 
@@ -249,19 +257,13 @@ Entity stores `String` ("Y"/"N"), Model uses `YN` enum. MapStruct converts via `
 
 | Service | Image | Port | Purpose |
 |---------|-------|------|---------|
-| `app` | Dockerfile (multi-stage) | 8085 | Spring Boot application |
 | `postgres` | postgres:15 | 5432 | Primary database |
-| `redis` | redis:7 | 6379 | Token store, cache |
-| `jenkins` | jenkins/jenkins:lts | 9090 | CI/CD pipeline |
+| `redis` | redis:7-alpine | 6379 | Token store, cache |
 
-### Jenkins Pipeline
+### CI/CD (TODO)
 
-```
-Checkout → Build (gradlew clean build) → Test (gradlew test) → Docker Build → Deploy
-```
-
-- Jenkinsfile in project root
-- Triggered on push to main branch
+- Jenkins 또는 GitHub Actions 도입 예정
+- 파이프라인: Build → Test → Docker Build → Deploy
 
 ## Project Structure
 
@@ -281,7 +283,5 @@ src/main/resources/
 ├── application.yml — Spring config (profiles: local, dev, prod)
 └── jwt.yml         — JWT configuration
 
-docker-compose.yml  — Local dev environment (App + PostgreSQL + Redis + Jenkins)
-Dockerfile          — Multi-stage build (build → runtime)
-Jenkinsfile         — CI/CD pipeline definition
+docker-compose.yml  — Local dev environment (PostgreSQL + Redis)
 ```

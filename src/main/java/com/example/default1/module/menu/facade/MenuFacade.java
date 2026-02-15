@@ -21,11 +21,11 @@ public class MenuFacade {
     private final MenuConverter menuConverter;
 
     public List<MenuModel> findAll() {
-        return menuConverter.toModelList(menuService.findAll());
+        return menuConverter.toModelList(menuService.findAllCached());
     }
 
     public List<MenuModel> findByUseYn(String useYn) {
-        return menuConverter.toModelList(menuService.findByUseYn(useYn));
+        return menuConverter.toModelList(menuService.findByUseYnCached(useYn));
     }
 
     public MenuModel findById(Long id) {

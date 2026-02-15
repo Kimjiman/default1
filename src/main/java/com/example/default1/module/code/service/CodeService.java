@@ -8,21 +8,25 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
+    private static final String CACHE_KEY = "cache:code";
+
     private final CodeRepository codeRepository;
-    private final ConcurrentHashMap<String, String> codeCache = new ConcurrentHashMap<>();
+    private final StringRedisTemplate stringRedisTemplate;
 
     @PostConstruct
     public void init() {
@@ -31,7 +35,7 @@ public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
 
     public void refreshCache() {
         List<Code> codes = codeRepository.findAll();
-        ConcurrentHashMap<String, String> newCache = new ConcurrentHashMap<>();
+        Map<String, String> newCache = new HashMap<>();
 
         for (Code code : codes) {
             if (code.getCodeGroup() != null && code.getCode() != null) {
@@ -39,13 +43,16 @@ public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
             }
         }
 
-        codeCache.clear();
-        codeCache.putAll(newCache);
-        log.info("Code cache refreshed. entries={}", codeCache.size());
+        stringRedisTemplate.delete(CACHE_KEY);
+        if (!newCache.isEmpty()) {
+            stringRedisTemplate.opsForHash().putAll(CACHE_KEY, newCache);
+        }
+        log.info("Code cache refreshed. entries={}", newCache.size());
     }
 
     public String findNameByCode(String codeGroup, String code) {
-        return codeCache.get(codeGroup + ":" + code);
+        Object value = stringRedisTemplate.opsForHash().get(CACHE_KEY, codeGroup + ":" + code);
+        return value != null ? value.toString() : null;
     }
 
     @Override

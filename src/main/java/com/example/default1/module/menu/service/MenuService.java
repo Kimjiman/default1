@@ -1,26 +1,35 @@
 package com.example.default1.module.menu.service;
 
 import com.example.default1.base.service.BaseService;
+import com.example.default1.base.utils.JsonUtils;
 import com.example.default1.module.menu.entity.Menu;
 import com.example.default1.module.menu.model.MenuSearchParam;
 import com.example.default1.module.menu.repository.MenuRepository;
+import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class MenuService implements BaseService<Menu, MenuSearchParam, Long> {
+    private static final String ROLE_CACHE_KEY = "cache:menu:role";
+    private static final String MENU_CACHE_KEY = "cache:menu";
+    private static final String MENU_FIELD_ALL = "all";
+    private static final String MENU_FIELD_USE_Y = "useYn:Y";
+
     private final MenuRepository menuRepository;
-    private final ConcurrentHashMap<String, List<String>> roleCache = new ConcurrentHashMap<>();
+    private final StringRedisTemplate stringRedisTemplate;
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     @PostConstruct
@@ -29,35 +38,73 @@ public class MenuService implements BaseService<Menu, MenuSearchParam, Long> {
     }
 
     public void refreshCache() {
-        List<Menu> menus = menuRepository.findByUseYn("Y");
-        ConcurrentHashMap<String, List<String>> newCache = new ConcurrentHashMap<>();
+        List<Menu> allMenus = menuRepository.findAll();
+        List<Menu> activeMenus = menuRepository.findByUseYn("Y");
 
-        for (Menu menu : menus) {
+        refreshRoleCache(activeMenus);
+        refreshMenuCache(allMenus, activeMenus);
+    }
+
+    private void refreshRoleCache(List<Menu> activeMenus) {
+        Map<String, String> newCache = new HashMap<>();
+
+        for (Menu menu : activeMenus) {
             if (menu.getUri() != null && menu.getRoleList() != null && !menu.getRoleList().isEmpty()) {
-                newCache.put(menu.getUri(), menu.getRoleList());
+                newCache.put(menu.getUri(), String.join(",", menu.getRoleList()));
             }
         }
 
-        roleCache.clear();
-        roleCache.putAll(newCache);
-        log.info("Menu role cache refreshed. entries={}", roleCache.size());
+        stringRedisTemplate.delete(ROLE_CACHE_KEY);
+        if (!newCache.isEmpty()) {
+            stringRedisTemplate.opsForHash().putAll(ROLE_CACHE_KEY, newCache);
+        }
+        log.info("Menu role cache refreshed. entries={}", newCache.size());
+    }
+
+    private void refreshMenuCache(List<Menu> allMenus, List<Menu> activeMenus) {
+        Map<String, String> newCache = new HashMap<>();
+        newCache.put(MENU_FIELD_ALL, JsonUtils.toJson(allMenus));
+        newCache.put(MENU_FIELD_USE_Y, JsonUtils.toJson(activeMenus));
+
+        stringRedisTemplate.delete(MENU_CACHE_KEY);
+        stringRedisTemplate.opsForHash().putAll(MENU_CACHE_KEY, newCache);
+        log.info("Menu cache refreshed. all={}, active={}", allMenus.size(), activeMenus.size());
+    }
+
+    public List<Menu> findAllCached() {
+        Object value = stringRedisTemplate.opsForHash().get(MENU_CACHE_KEY, MENU_FIELD_ALL);
+        if (value != null) {
+            return JsonUtils.fromJson(value.toString(), new TypeToken<List<Menu>>() {}.getType());
+        }
+        return menuRepository.findAll();
+    }
+
+    public List<Menu> findByUseYnCached(String useYn) {
+        if ("Y".equals(useYn)) {
+            Object value = stringRedisTemplate.opsForHash().get(MENU_CACHE_KEY, MENU_FIELD_USE_Y);
+            if (value != null) {
+                return JsonUtils.fromJson(value.toString(), new TypeToken<List<Menu>>() {}.getType());
+            }
+        }
+        return menuRepository.findByUseYn(useYn);
     }
 
     public List<String> findRolesByUri(String uri) {
         // 정확 매칭 우선
-        List<String> roles = roleCache.get(uri);
-        if (roles != null) {
-            return roles;
+        Object value = stringRedisTemplate.opsForHash().get(ROLE_CACHE_KEY, uri);
+        if (value != null) {
+            return Arrays.asList(value.toString().split(","));
         }
 
         // AntPathMatcher 패턴 매칭
-        for (Map.Entry<String, List<String>> entry : roleCache.entrySet()) {
-            if (pathMatcher.match(entry.getKey(), uri)) {
-                return entry.getValue();
+        Map<Object, Object> entries = stringRedisTemplate.opsForHash().entries(ROLE_CACHE_KEY);
+        for (Map.Entry<Object, Object> entry : entries.entrySet()) {
+            if (pathMatcher.match(entry.getKey().toString(), uri)) {
+                return Arrays.asList(entry.getValue().toString().split(","));
             }
         }
 
-        // 등록되지 않은 URI → null (허용)
+        // 등록되지 않은 URI -> null (허용)
         return null;
     }
 
