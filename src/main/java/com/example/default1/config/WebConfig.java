@@ -1,6 +1,6 @@
 package com.example.default1.config;
 
-import com.example.default1.base.constants.UrlConstatns;
+import com.example.default1.base.constants.UrlConstants;
 import com.example.default1.base.converter.YnToEnumConverter;
 import com.example.default1.config.interceptor.RoleInterceptor;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +28,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> excludePatterns = new ArrayList<>();
-        excludePatterns.addAll(Arrays.asList(UrlConstatns.SWAGGER_URLS));
-        excludePatterns.addAll(Arrays.asList(UrlConstatns.ALLOWED_URLS));
-        excludePatterns.addAll(Arrays.asList(UrlConstatns.RESOURCE_URLS));
+        excludePatterns.addAll(Arrays.asList(UrlConstants.SWAGGER_URLS));
+        excludePatterns.addAll(Arrays.asList(UrlConstants.ALLOWED_URLS));
+        excludePatterns.addAll(Arrays.asList(UrlConstants.RESOURCE_URLS));
 
         registry.addInterceptor(roleInterceptor)
                 .addPathPatterns("/**")

@@ -1,25 +1,24 @@
 package com.example.default1.base.component.webclient;
 
-import com.example.default1.base.model.Response;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
 public interface WebRequestClient {
 
-    <T> Mono<Response<T>> get(String path, Map<String, String> queryParams);
+    <T> Mono<T> get(String path, Map<String, String> queryParams, Class<T> responseType);
 
-    <T> Mono<Response<T>> get(String path, Map<String, String> queryParams, Map<String, String> headers);
+    <T> Mono<T> get(String path, Map<String, String> queryParams, Map<String, String> headers, Class<T> responseType);
 
-    <T> Mono<Response<T>> post(String path, Object body);
+    <T> Mono<T> post(String path, Object body, Class<T> responseType);
 
-    <T> Mono<Response<T>> post(String path, Object body, Map<String, String> headers);
+    <T> Mono<T> post(String path, Object body, Map<String, String> headers, Class<T> responseType);
 
-    <T> Mono<Response<T>> put(String path, Object body);
+    <T> Mono<T> put(String path, Object body, Class<T> responseType);
 
-    <T> Mono<Response<T>> put(String path, Object body, Map<String, String> headers);
+    <T> Mono<T> put(String path, Object body, Map<String, String> headers, Class<T> responseType);
 
-    <T> Mono<Response<T>> delete(String path, Map<String, String> queryParams);
+    <T> Mono<T> delete(String path, Map<String, String> queryParams, Class<T> responseType);
 
-    <T> Mono<Response<T>> delete(String path, Map<String, String> queryParams, Map<String, String> headers);
+    <T> Mono<T> delete(String path, Map<String, String> queryParams, Map<String, String> headers, Class<T> responseType);
 }

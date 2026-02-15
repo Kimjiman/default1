@@ -3,13 +3,16 @@ package com.example.default1.base.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 /**
  * packageName    : com.example.default1.utils
@@ -76,5 +79,14 @@ public class JsonUtils {
 
     public static String toJson(Object object) {
         return GSON.toJson(object);
+    }
+
+    public static <T> T fromJson(String json, Class<T> clazz) {
+        return GSON.fromJson(json, clazz);
+    }
+
+    public static Map<String, Object> fromJsonToMap(String json) {
+        Type type = new TypeToken<Map<String, Object>>() {}.getType();
+        return GSON.fromJson(json, type);
     }
 }

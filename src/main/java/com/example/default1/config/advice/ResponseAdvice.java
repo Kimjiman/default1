@@ -11,12 +11,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 @Slf4j
-@ControllerAdvice
+@ControllerAdvice(basePackages = "com.example.default1.module")
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
-    private static final String[] EXCLUDE_URL_PATTERNS = {
-            "/v3/api-docs",
-            "/swagger-ui"
-    };
 
     @Override
     public boolean supports(MethodParameter returnType,
@@ -29,14 +25,6 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
                                   MediaType selectedContentType,
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
-
-        String requestPath = request.getURI().getPath();
-        for (String pattern : EXCLUDE_URL_PATTERNS) {
-            if (requestPath.startsWith(pattern)) {
-                return body;
-            }
-        }
-
         return Response.success(body);
     }
 }

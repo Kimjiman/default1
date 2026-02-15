@@ -2,7 +2,7 @@ package com.example.default1.base.constants;
 
 /**
  * packageName    : com.example.default1.constants
- * fileName       : UrlConstatns
+ * fileName       : UrlConstants
  * author         : KIM JIMAN
  * date           : 24. 7. 15. 월요일
  * description    :
@@ -11,7 +11,7 @@ package com.example.default1.base.constants;
  * -----------------------------------------------------------
  * 24. 7. 15.     KIM JIMAN      First Commit
  */
-public class UrlConstatns {
+public class UrlConstants {
     public static String[] SWAGGER_URLS = {
             "/swagger-ui/**"
             , "/v3/api-docs/**"

@@ -1,6 +1,6 @@
 package com.example.default1.config;
 
-import com.example.default1.base.constants.UrlConstatns;
+import com.example.default1.base.constants.UrlConstants;
 import com.example.default1.base.security.AuthUserDetailsService;
 import com.example.default1.base.security.jwt.JwtAuthenticationEntryPoint;
 import com.example.default1.base.security.jwt.JwtAuthenticationFilter;
@@ -74,9 +74,9 @@ public class SecurityConfig {
                 )
                 .userDetailsService(authUserDetailsService)
                 .authorizeRequests(authorizeRequest -> authorizeRequest
-                        .antMatchers(UrlConstatns.SWAGGER_URLS).permitAll()
-                        .antMatchers(UrlConstatns.ALLOWED_URLS).permitAll()
-                        .antMatchers(UrlConstatns.RESOURCE_URLS).permitAll()
+                        .antMatchers(UrlConstants.SWAGGER_URLS).permitAll()
+                        .antMatchers(UrlConstants.ALLOWED_URLS).permitAll()
+                        .antMatchers(UrlConstants.RESOURCE_URLS).permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

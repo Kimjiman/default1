@@ -1,6 +1,6 @@
 package com.example.default1.base.security.jwt;
 
-import com.example.default1.base.constants.UrlConstatns;
+import com.example.default1.base.constants.UrlConstants;
 import com.example.default1.base.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
-    private final List<String> allowedUrls = Arrays.asList(UrlConstatns.ALLOWED_URLS);
+    private final List<String> allowedUrls = Arrays.asList(UrlConstants.ALLOWED_URLS);
 
 
     @Override

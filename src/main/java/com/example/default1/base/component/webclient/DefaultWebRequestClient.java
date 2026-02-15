@@ -1,6 +1,6 @@
 package com.example.default1.base.component.webclient;
 
-import com.example.default1.base.model.Response;
+import com.example.default1.base.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -23,50 +23,53 @@ public class DefaultWebRequestClient implements WebRequestClient {
     }
 
     @Override
-    public <T> Mono<Response<T>> get(String path, Map<String, String> queryParams) {
-        return get(path, queryParams, Collections.emptyMap());
+    public <T> Mono<T> get(String path, Map<String, String> queryParams, Class<T> responseType) {
+        return get(path, queryParams, Collections.emptyMap(), responseType);
     }
 
     @Override
-    public <T> Mono<Response<T>> get(String path, Map<String, String> queryParams, Map<String, String> headers) {
-        return executeRequest(HttpMethod.GET, path, queryParams, null, headers);
+    public <T> Mono<T> get(String path, Map<String, String> queryParams, Map<String, String> headers, Class<T> responseType) {
+        return executeRequest(HttpMethod.GET, path, queryParams, null, headers)
+                .map(body -> JsonUtils.fromJson(body, responseType));
     }
 
     @Override
-    public <T> Mono<Response<T>> post(String path, Object body) {
-        return post(path, body, Collections.emptyMap());
+    public <T> Mono<T> post(String path, Object body, Class<T> responseType) {
+        return post(path, body, Collections.emptyMap(), responseType);
     }
 
     @Override
-    public <T> Mono<Response<T>> post(String path, Object body, Map<String, String> headers) {
-        return executeRequest(HttpMethod.POST, path, null, body, headers);
+    public <T> Mono<T> post(String path, Object body, Map<String, String> headers, Class<T> responseType) {
+        return executeRequest(HttpMethod.POST, path, null, body, headers)
+                .map(responseBody -> JsonUtils.fromJson(responseBody, responseType));
     }
 
     @Override
-    public <T> Mono<Response<T>> put(String path, Object body) {
-        return put(path, body, Collections.emptyMap());
+    public <T> Mono<T> put(String path, Object body, Class<T> responseType) {
+        return put(path, body, Collections.emptyMap(), responseType);
     }
 
     @Override
-    public <T> Mono<Response<T>> put(String path, Object body, Map<String, String> headers) {
-        return executeRequest(HttpMethod.PUT, path, null, body, headers);
+    public <T> Mono<T> put(String path, Object body, Map<String, String> headers, Class<T> responseType) {
+        return executeRequest(HttpMethod.PUT, path, null, body, headers)
+                .map(responseBody -> JsonUtils.fromJson(responseBody, responseType));
     }
 
     @Override
-    public <T> Mono<Response<T>> delete(String path, Map<String, String> queryParams) {
-        return delete(path, queryParams, Collections.emptyMap());
+    public <T> Mono<T> delete(String path, Map<String, String> queryParams, Class<T> responseType) {
+        return delete(path, queryParams, Collections.emptyMap(), responseType);
     }
 
     @Override
-    public <T> Mono<Response<T>> delete(String path, Map<String, String> queryParams, Map<String, String> headers) {
-        return executeRequest(HttpMethod.DELETE, path, queryParams, null, headers);
+    public <T> Mono<T> delete(String path, Map<String, String> queryParams, Map<String, String> headers, Class<T> responseType) {
+        return executeRequest(HttpMethod.DELETE, path, queryParams, null, headers)
+                .map(body -> JsonUtils.fromJson(body, responseType));
     }
 
-    @SuppressWarnings("unchecked")
-    private <T> Mono<Response<T>> executeRequest(HttpMethod method, String path,
-                                                  Map<String, String> queryParams,
-                                                  Object body,
-                                                  Map<String, String> headers) {
+    private Mono<String> executeRequest(HttpMethod method, String path,
+                                        Map<String, String> queryParams,
+                                        Object body,
+                                        Map<String, String> headers) {
         log.info("[{}] {} {}", domainName, method, path);
 
         WebClient.RequestBodySpec requestSpec = webClient.method(method)
@@ -100,14 +103,6 @@ public class DefaultWebRequestClient implements WebRequestClient {
                                             clientResponse.statusCode().value(), errorBody));
                                 })
                 )
-                .bodyToMono(String.class)
-                .map(responseBody -> (Response<T>) Response.success(responseBody))
-                .onErrorResume(WebClientRequestException.class, e ->
-                        Mono.just(Response.fail(e.getStatusCode(), e.getMessage()))
-                )
-                .onErrorResume(Exception.class, e -> {
-                    log.error("[{}] {} {} - unexpected error: {}", domainName, method, path, e.getMessage(), e);
-                    return Mono.just(Response.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
-                });
+                .bodyToMono(String.class);
     }
 }
