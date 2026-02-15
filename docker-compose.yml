@@ -1,0 +1,52 @@
+# ===========================================
+# Local Development - Infrastructure Only
+# MySQL + Redis (앱은 로컬에서 실행)
+# ===========================================
+# Usage:
+#   docker-compose up -d
+#   docker-compose down
+#   docker-compose down -v  (볼륨까지 삭제, DB 초기화)
+
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: default1-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: test
+      TZ: Asia/Seoul
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./DB-default.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    command: >
+      --character-set-server=utf8mb3
+      --collation-server=utf8_general_ci
+      --default-time-zone=+09:00
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p1234"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: default1-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql-data:
+  redis-data:

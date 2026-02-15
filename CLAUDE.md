@@ -281,7 +281,7 @@ src/main/resources/
 ├── application.yml — Spring config (profiles: local, dev, prod)
 └── jwt.yml         — JWT configuration
 
-docker-compose.yml  — Local dev environment (App + PostgreSQL + Redis + Jenkins)
+docker-compose.yml  — Local dev environment (App + MySql + Redis + Jenkins)
 Dockerfile          — Multi-stage build (build → runtime)
 Jenkinsfile         — CI/CD pipeline definition
 ```
