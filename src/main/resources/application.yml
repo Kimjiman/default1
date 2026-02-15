@@ -63,6 +63,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        default_schema: postgres
+        globally_quoted_identifiers: true
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
@@ -72,6 +74,7 @@ spring:
     password: 1234
     hikari:
       maximum-pool-size: 10
+      connection-init-sql: CREATE SCHEMA IF NOT EXISTS postgres
   devtools:
     add-properties: true
     livereload:
@@ -96,6 +99,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        default_schema: postgres
+        globally_quoted_identifiers: true
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
@@ -105,6 +110,7 @@ spring:
     password: 1234
     hikari:
       maximum-pool-size: 10
+      connection-init-sql: CREATE SCHEMA IF NOT EXISTS postgres
   devtools:
     add-properties: false
     livereload:
@@ -132,6 +138,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        default_schema: postgres
+        globally_quoted_identifiers: true
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
@@ -141,6 +149,7 @@ spring:
     password: 1234
     hikari:
       maximum-pool-size: 10
+      connection-init-sql: CREATE SCHEMA IF NOT EXISTS postgres
   devtools:
     add-properties: false
     livereload:

@@ -1,7 +1,11 @@
 -- =============================================
 -- DB: localhost:5432/project1
 -- root / 1234
+-- Schema: postgres
 -- =============================================
+
+CREATE SCHEMA IF NOT EXISTS postgres;
+SET search_path TO postgres;
 
 -- ===================
 -- 기존 테이블
