@@ -17,7 +17,7 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: project1
+      POSTGRES_DB: postgres
       TZ: Asia/Seoul
     ports:
       - "5432:5432"
@@ -25,7 +25,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
       - ./DB-default.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U root -d project1"]
+      test: ["CMD-SHELL", "pg_isready -U root -d postgres"]
       interval: 10s
       timeout: 5s
       retries: 5

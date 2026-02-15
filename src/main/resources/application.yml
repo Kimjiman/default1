@@ -63,18 +63,16 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        default_schema: postgres
         globally_quoted_identifiers: true
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:postgresql://localhost:5432/project1
+    url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
     username: root
     password: 1234
     hikari:
       maximum-pool-size: 10
-      connection-init-sql: CREATE SCHEMA IF NOT EXISTS postgres
   devtools:
     add-properties: true
     livereload:
@@ -99,18 +97,16 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        default_schema: postgres
         globally_quoted_identifiers: true
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:postgresql://localhost:5432/project1
+    url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
     username: root
     password: 1234
     hikari:
       maximum-pool-size: 10
-      connection-init-sql: CREATE SCHEMA IF NOT EXISTS postgres
   devtools:
     add-properties: false
     livereload:
@@ -138,18 +134,16 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        default_schema: postgres
         globally_quoted_identifiers: true
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:postgresql://localhost:5432/project1
+    url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
     username: root
     password: 1234
     hikari:
       maximum-pool-size: 10
-      connection-init-sql: CREATE SCHEMA IF NOT EXISTS postgres
   devtools:
     add-properties: false
     livereload:
