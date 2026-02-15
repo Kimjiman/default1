@@ -2,7 +2,7 @@ package com.example.default1.module.code.converter;
 
 import com.example.default1.base.converter.TypeConverter;
 import com.example.default1.module.code.model.CodeGroupModel;
-import com.example.default1.module.code.model.CodeGroup;
+import com.example.default1.module.code.entity.CodeGroup;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

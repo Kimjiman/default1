@@ -2,7 +2,7 @@ package com.example.default1.base.security;
 
 import com.example.default1.base.utils.CommonUtils;
 import com.example.default1.base.utils.SessionUtils;
-import com.example.default1.module.user.model.User;
+import com.example.default1.module.user.entity.User;
 import com.example.default1.module.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

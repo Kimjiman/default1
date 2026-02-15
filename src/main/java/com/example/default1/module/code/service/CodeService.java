@@ -1,7 +1,7 @@
 package com.example.default1.module.code.service;
 
 import com.example.default1.base.service.BaseService;
-import com.example.default1.module.code.model.Code;
+import com.example.default1.module.code.entity.Code;
 import com.example.default1.module.code.model.CodeSearchParam;
 import com.example.default1.module.code.repository.CodeRepository;
 import lombok.RequiredArgsConstructor;

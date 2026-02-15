@@ -1,7 +1,7 @@
 package com.example.default1.module.menu.service;
 
 import com.example.default1.base.service.BaseService;
-import com.example.default1.module.menu.model.Menu;
+import com.example.default1.module.menu.entity.Menu;
 import com.example.default1.module.menu.model.MenuSearchParam;
 import com.example.default1.module.menu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;

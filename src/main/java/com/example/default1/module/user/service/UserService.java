@@ -3,7 +3,7 @@ package com.example.default1.module.user.service;
 import com.example.default1.base.security.jwt.JwtTokenService;
 import com.example.default1.base.security.jwt.JwtTokenInfo;
 import com.example.default1.base.service.BaseService;
-import com.example.default1.module.user.model.User;
+import com.example.default1.module.user.entity.User;
 import com.example.default1.module.user.model.UserSearchParam;
 import com.example.default1.module.user.repository.UserRepository;
 import com.example.default1.base.utils.StringUtils;

@@ -4,7 +4,7 @@ import com.example.default1.base.converter.TypeConverter;
 import com.example.default1.base.model.pager.PageInfo;
 import com.example.default1.base.model.pager.PageResponse;
 import com.example.default1.module.code.model.CodeModel;
-import com.example.default1.module.code.model.Code;
+import com.example.default1.module.code.entity.Code;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;

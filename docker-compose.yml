@@ -1,6 +1,6 @@
 # ===========================================
 # Local Development
-# MySQL, Redis
+# PostgreSQL, Redis
 # ===========================================
 # Usage:
 #   docker-compose up -d
@@ -10,25 +10,22 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: default1-mysql
+  postgres:
+    image: postgres:15
+    container_name: default1-postgres
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: test
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: project1
       TZ: Asia/Seoul
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - postgres-data:/var/lib/postgresql/data
       - ./DB-default.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
-    command: >
-      --character-set-server=utf8mb3
-      --collation-server=utf8_general_ci
-      --default-time-zone=+09:00
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p1234"]
+      test: ["CMD-SHELL", "pg_isready -U root -d project1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -48,5 +45,5 @@ services:
       retries: 5
 
 volumes:
-  mysql-data:
+  postgres-data:
   redis-data:

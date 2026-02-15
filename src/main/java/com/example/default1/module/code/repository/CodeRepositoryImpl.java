@@ -1,9 +1,9 @@
 package com.example.default1.module.code.repository;
 
-import com.example.default1.module.code.model.Code;
+import com.example.default1.module.code.entity.Code;
 import com.example.default1.module.code.model.CodeSearchParam;
-import com.example.default1.module.code.model.QCode;
-import com.example.default1.module.code.model.QCodeGroup;
+import com.example.default1.module.code.entity.QCode;
+import com.example.default1.module.code.entity.QCodeGroup;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;

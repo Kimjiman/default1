@@ -1,7 +1,7 @@
 package com.example.default1.module.user.repository;
 
-import com.example.default1.module.user.model.QUser;
-import com.example.default1.module.user.model.User;
+import com.example.default1.module.user.entity.QUser;
+import com.example.default1.module.user.entity.User;
 import com.example.default1.module.user.model.UserSearchParam;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;

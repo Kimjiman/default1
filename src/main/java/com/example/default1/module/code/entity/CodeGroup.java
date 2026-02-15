@@ -1,4 +1,4 @@
-package com.example.default1.module.code.model;
+package com.example.default1.module.code.entity;
 
 import com.example.default1.base.model.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;

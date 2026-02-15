@@ -130,7 +130,7 @@ BaseObject
     └── id, createId, createTime(String), updateId, updateTime(String)
 ```
 
-- **Entity**: `module/{name}/model/{Name}.java` — JPA entity, `extends BaseEntity<Long>`
+- **Entity**: `module/{name}/entity/{Name}.java` — JPA entity, `extends BaseEntity<Long>`
 - **Model**: `module/{name}/model/{Name}Model.java` — DTO for Facade/Controller, `extends BaseModel<Long>`
 - **SearchParam**: `module/{name}/model/{Name}SearchParam.java` — Search criteria
 
@@ -274,14 +274,14 @@ src/main/java/com/example/default1/
 │   ├── interceptor/ — RoleInterceptor
 │   └── scheduler/  — CacheScheduler
 └── module/         — Feature modules (code, user, menu, file, main, test)
-                      Each module: controller/, converter/, facade/, model/, repository/, service/
+                      Each module: controller/, converter/, entity/, facade/, model/, repository/, service/
 
 src/main/resources/
 ├── db/migration/   — Flyway migration scripts (V1__init_schema.sql, ...)
 ├── application.yml — Spring config (profiles: local, dev, prod)
 └── jwt.yml         — JWT configuration
 
-docker-compose.yml  — Local dev environment (App + MySql + Redis + Jenkins)
+docker-compose.yml  — Local dev environment (App + PostgreSQL + Redis + Jenkins)
 Dockerfile          — Multi-stage build (build → runtime)
 Jenkinsfile         — CI/CD pipeline definition
 ```

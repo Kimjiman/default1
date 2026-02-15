@@ -1,8 +1,8 @@
 package com.example.default1.base.security;
 
-import com.example.default1.module.user.model.Role;
-import com.example.default1.module.user.model.User;
-import com.example.default1.module.user.model.UserRole;
+import com.example.default1.module.user.entity.Role;
+import com.example.default1.module.user.entity.User;
+import com.example.default1.module.user.entity.UserRole;
 import com.example.default1.module.user.repository.RoleRepository;
 import com.example.default1.module.user.repository.UserRepository;
 import com.example.default1.module.user.repository.UserRoleRepository;

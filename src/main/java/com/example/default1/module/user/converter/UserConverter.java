@@ -2,7 +2,7 @@ package com.example.default1.module.user.converter;
 
 import com.example.default1.base.converter.TypeConverter;
 import com.example.default1.module.user.model.UserModel;
-import com.example.default1.module.user.model.User;
+import com.example.default1.module.user.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

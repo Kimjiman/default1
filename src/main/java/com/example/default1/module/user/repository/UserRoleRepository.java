@@ -1,6 +1,6 @@
 package com.example.default1.module.user.repository;
 
-import com.example.default1.module.user.model.UserRole;
+import com.example.default1.module.user.entity.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

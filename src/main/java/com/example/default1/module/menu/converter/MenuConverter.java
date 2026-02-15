@@ -1,7 +1,7 @@
 package com.example.default1.module.menu.converter;
 
 import com.example.default1.base.converter.TypeConverter;
-import com.example.default1.module.menu.model.Menu;
+import com.example.default1.module.menu.entity.Menu;
 import com.example.default1.module.menu.model.MenuModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

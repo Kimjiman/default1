@@ -2,7 +2,7 @@ package com.example.default1;
 
 import com.example.default1.base.model.pager.PageInfo;
 import com.example.default1.base.model.pager.PageResponse;
-import com.example.default1.module.user.model.User;
+import com.example.default1.module.user.entity.User;
 import groovy.util.logging.Slf4j;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;

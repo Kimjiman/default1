@@ -1,6 +1,6 @@
 package com.example.default1.module.menu.repository;
 
-import com.example.default1.module.menu.model.Menu;
+import com.example.default1.module.menu.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

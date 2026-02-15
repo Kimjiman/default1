@@ -2,7 +2,7 @@ package com.example.default1.module.file.service;
 
 import com.example.default1.base.exception.CustomException;
 import com.example.default1.base.exception.SystemErrorCode;
-import com.example.default1.module.file.model.FileInfo;
+import com.example.default1.module.file.entity.FileInfo;
 import com.example.default1.base.utils.CollectionUtils;
 import com.example.default1.base.utils.DateUtils;
 import com.example.default1.base.utils.NetworkUtils;

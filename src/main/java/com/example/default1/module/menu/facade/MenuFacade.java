@@ -5,7 +5,7 @@ import com.example.default1.base.exception.CustomException;
 import com.example.default1.base.exception.SystemErrorCode;
 import com.example.default1.base.exception.ToyAssert;
 import com.example.default1.module.menu.converter.MenuConverter;
-import com.example.default1.module.menu.model.Menu;
+import com.example.default1.module.menu.entity.Menu;
 import com.example.default1.module.menu.model.MenuModel;
 import com.example.default1.module.menu.service.MenuService;
 import lombok.RequiredArgsConstructor;

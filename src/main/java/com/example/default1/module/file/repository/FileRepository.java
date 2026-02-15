@@ -1,6 +1,6 @@
 package com.example.default1.module.file.repository;
 
-import com.example.default1.module.file.model.FileInfo;
+import com.example.default1.module.file.entity.FileInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
