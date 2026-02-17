@@ -42,7 +42,7 @@ public class CodeFacade {
     }
 
     public void updateCodeGroup(CodeGroupModel codeGroupModel) {
-        codeGroupService.save(codeGroupConverter.toEntity(codeGroupModel));
+        codeGroupService.update(codeGroupConverter.toEntity(codeGroupModel));
         codeService.refreshCache();
     }
 
@@ -76,7 +76,7 @@ public class CodeFacade {
     }
 
     public void updateCode(CodeModel codeModel) {
-        codeService.save(codeConverter.toEntity(codeModel));
+        codeService.update(codeConverter.toEntity(codeModel));
         codeService.refreshCache();
     }
 

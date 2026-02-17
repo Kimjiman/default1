@@ -30,4 +30,5 @@ public class MenuModel extends BaseModel<Long> {
     private String roles;
     private String description;
     private List<String> roleList;
+    private List<MenuModel> children;
 }

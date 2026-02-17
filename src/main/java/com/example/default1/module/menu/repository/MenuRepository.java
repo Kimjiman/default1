@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
     List<Menu> findByUseYn(String useYn);
+    List<Menu> findByParentId(Long parentId);
+    void deleteByParentId(Long parentId);
 }

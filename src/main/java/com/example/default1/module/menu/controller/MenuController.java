@@ -1,5 +1,6 @@
 package com.example.default1.module.menu.controller;
 
+import com.example.default1.base.constants.YN;
 import com.example.default1.module.menu.facade.MenuFacade;
 import com.example.default1.module.menu.model.MenuModel;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +25,11 @@ public class MenuController {
     private final MenuFacade menuFacade;
 
     @GetMapping
-    public List<MenuModel> selectMenuList(@RequestParam(required = false) String useYn) {
+    public List<MenuModel> selectMenuTree(@RequestParam(required = false) YN useYn) {
         if (useYn != null) {
-            return menuFacade.findByUseYn(useYn);
+            return menuFacade.findTreeByUseYn(useYn);
         }
-        return menuFacade.findAll();
+        return menuFacade.findAllTree();
     }
 
     @GetMapping("/{id}")

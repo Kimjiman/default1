@@ -90,13 +90,11 @@ public class MenuService implements BaseService<Menu, MenuSearchParam, Long> {
     }
 
     public List<String> findRolesByUri(String uri) {
-        // 정확 매칭 우선
         Object value = stringRedisTemplate.opsForHash().get(ROLE_CACHE_KEY, uri);
         if (value != null) {
             return Arrays.asList(value.toString().split(","));
         }
 
-        // AntPathMatcher 패턴 매칭
         Map<Object, Object> entries = stringRedisTemplate.opsForHash().entries(ROLE_CACHE_KEY);
         for (Map.Entry<Object, Object> entry : entries.entrySet()) {
             if (pathMatcher.match(entry.getKey().toString(), uri)) {
@@ -104,7 +102,6 @@ public class MenuService implements BaseService<Menu, MenuSearchParam, Long> {
             }
         }
 
-        // 등록되지 않은 URI -> null (허용)
         return null;
     }
 
@@ -145,5 +142,13 @@ public class MenuService implements BaseService<Menu, MenuSearchParam, Long> {
 
     public List<Menu> findByUseYn(String useYn) {
         return menuRepository.findByUseYn(useYn);
+    }
+
+    public List<Menu> findByParentId(Long parentId) {
+        return menuRepository.findByParentId(parentId);
+    }
+
+    public void deleteByParentId(Long parentId) {
+        menuRepository.deleteByParentId(parentId);
     }
 }
