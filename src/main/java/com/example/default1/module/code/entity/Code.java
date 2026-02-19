@@ -24,7 +24,7 @@ import javax.persistence.UniqueConstraint;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "code", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"code_group_id", "code"}),
+        @UniqueConstraint(name = "uk_code_group_code", columnNames = {"code_group_id", "code"}),
 })
 public class Code extends BaseEntity<Long> {
     @Column(name = "code_group_id", nullable = false)
