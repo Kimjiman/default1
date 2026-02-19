@@ -33,8 +33,11 @@ JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "*.UserServiceTest.testMe
 
 ### Docker (Local Development)
 
+- Windows의 경우 **WSL2 + Docker Desktop** 설치 필요
+- `local` 프로필 시 `LocalDockerConfig`가 `docker-compose up -d`를 자동 실행
+
 ```bash
-# Start all services (PostgreSQL + Redis)
+# 수동 실행 시
 docker-compose up -d
 
 # Stop all services

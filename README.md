@@ -7,7 +7,8 @@ Spring Boot 2.7 web application (Java 17, Gradle 7.6)
 - Spring Boot 2.7.18 (Security, JPA, Thymeleaf, WebFlux)
 - JPA + QueryDSL 5.0 / MapStruct 1.5.5
 - Spring Security + JWT (jjwt 0.11.5)
-- MySQL / Redis => WINDOW(WSL), Linux => docker-compose up -d
+- PostgreSQL / Redis => Docker Compose (`docker-compose up -d`)
+- Windows의 경우 WSL2 + Docker Desktop 설치 필요
 
 ## Architecture
 
