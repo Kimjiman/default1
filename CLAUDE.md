@@ -116,9 +116,9 @@ AuthFacade  → UserService (login)
 - `file` — File upload/download
 - `test` — Testing utilities
 
-### Cache (In-Memory)
+### Cache (Redis)
 
-`ConcurrentHashMap` 기반 인메모리 캐시. `@PostConstruct`로 기동 시 로딩, `CacheScheduler`로 주기적 리프레시.
+`Redis` 기반 캐시. Redis Pub/Sub를 이용한 캐시 무효화 전략.
 
 | 캐시 | 위치 | 키 → 값 | 리프레시 주기 |
 |------|------|---------|-------------|
@@ -205,7 +205,7 @@ ErrorCode (strategy interface)
 - List queries: QueryDSL `.leftJoin().fetchJoin().distinct()`
 - Single queries: `@EntityGraph(attributePaths = {...})`
 
-### Database Migration (Flyway)
+### Database Migration (Flyway) - 미구현
 
 - Migration scripts: `src/main/resources/db/migration/`
 - Naming: `V{version}__{description}.sql` (e.g., `V1__init_schema.sql`)
