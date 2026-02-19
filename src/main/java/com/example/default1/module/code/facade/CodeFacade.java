@@ -1,8 +1,11 @@
 package com.example.default1.module.code.facade;
 
 import com.example.default1.base.annotation.Facade;
+import com.example.default1.base.constants.CacheType;
 import com.example.default1.base.exception.SystemErrorCode;
 import com.example.default1.base.exception.ToyAssert;
+import com.example.default1.base.redis.CacheEventPublishable;
+import lombok.Getter;
 import com.example.default1.module.code.converter.CodeConverter;
 import com.example.default1.module.code.converter.CodeGroupConverter;
 import com.example.default1.module.code.model.CodeGroupModel;
@@ -20,11 +23,18 @@ import java.util.List;
 
 @Facade
 @RequiredArgsConstructor
-public class CodeFacade {
+public class CodeFacade implements CacheEventPublishable {
     private final CodeGroupService codeGroupService;
     private final CodeService codeService;
     private final CodeConverter codeConverter;
     private final CodeGroupConverter codeGroupConverter;
+    @Getter
+    private final CacheEventPublishable.Publisher cacheEventPublisher;
+
+    @Override
+    public CacheType getCacheType() {
+        return CacheType.CODE;
+    }
 
     public List<CodeGroupModel> findCodeGroupAllBy(CodeGroupSearchParam param) {
         return codeGroupConverter.toModelList(codeGroupService.findAllBy(param));
@@ -38,12 +48,12 @@ public class CodeFacade {
 
     public void createCodeGroup(CodeGroupModel codeGroupModel) {
         codeGroupService.save(codeGroupConverter.toEntity(codeGroupModel));
-        codeService.refreshCache();
+        publishCacheEvent();
     }
 
     public void updateCodeGroup(CodeGroupModel codeGroupModel) {
         codeGroupService.update(codeGroupConverter.toEntity(codeGroupModel));
-        codeService.refreshCache();
+        publishCacheEvent();
     }
 
     @Transactional
@@ -51,7 +61,7 @@ public class CodeFacade {
         ToyAssert.notNull(id, SystemErrorCode.REQUIRED, "ID를 입력해주세요.");
         codeService.deleteByCodeGroupId(id);
         codeGroupService.deleteById(id);
-        codeService.refreshCache();
+        publishCacheEvent();
     }
 
     public List<CodeModel> findCodeAllBy(CodeSearchParam param) {
@@ -72,17 +82,17 @@ public class CodeFacade {
     public void createCode(CodeModel codeModel) {
         ToyAssert.notNull(codeModel.getCodeGroupId(), SystemErrorCode.REQUIRED, "code_group_id가 입력되지 않았습니다.");
         codeService.save(codeConverter.toEntity(codeModel));
-        codeService.refreshCache();
+        publishCacheEvent();
     }
 
     public void updateCode(CodeModel codeModel) {
         codeService.update(codeConverter.toEntity(codeModel));
-        codeService.refreshCache();
+        publishCacheEvent();
     }
 
     public void removeCodeById(Long id) {
         ToyAssert.notNull(id, SystemErrorCode.REQUIRED, "ID를 입력해주세요.");
         codeService.deleteById(id);
-        codeService.refreshCache();
+        publishCacheEvent();
     }
 }

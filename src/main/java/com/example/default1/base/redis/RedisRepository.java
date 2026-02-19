@@ -1,7 +1,7 @@
 package com.example.default1.base.redis;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
@@ -11,9 +11,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RedisRepository {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
-    public RedisRepository(final RedisTemplate<String, String> redisTemplate) {
+    public RedisRepository(final StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 

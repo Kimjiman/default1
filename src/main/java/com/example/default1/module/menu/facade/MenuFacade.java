@@ -1,10 +1,13 @@
 package com.example.default1.module.menu.facade;
 
 import com.example.default1.base.annotation.Facade;
+import com.example.default1.base.constants.CacheType;
 import com.example.default1.base.constants.YN;
 import com.example.default1.base.exception.CustomException;
 import com.example.default1.base.exception.SystemErrorCode;
 import com.example.default1.base.exception.ToyAssert;
+import com.example.default1.base.redis.CacheEventPublishable;
+import lombok.Getter;
 import com.example.default1.module.menu.converter.MenuConverter;
 import com.example.default1.module.menu.entity.Menu;
 import com.example.default1.module.menu.model.MenuModel;
@@ -23,9 +26,16 @@ import java.util.stream.Collectors;
 @Facade
 @Slf4j
 @RequiredArgsConstructor
-public class MenuFacade {
+public class MenuFacade implements CacheEventPublishable {
     private final MenuService menuService;
     private final MenuConverter menuConverter;
+    @Getter
+    private final CacheEventPublishable.Publisher cacheEventPublisher;
+
+    @Override
+    public CacheType getCacheType() {
+        return CacheType.MENU;
+    }
 
     public List<MenuModel> findAll() {
         return menuConverter.toModelList(menuService.findAllCached());
@@ -55,7 +65,7 @@ public class MenuFacade {
     public MenuModel create(MenuModel menuModel) {
         Menu menu = menuConverter.toEntity(menuModel);
         Menu saved = menuService.save(menu);
-        menuService.refreshCache();
+        publishCacheEvent();
         return menuConverter.toModel(saved);
     }
 
@@ -63,7 +73,7 @@ public class MenuFacade {
         ToyAssert.notNull(menuModel.getId(), SystemErrorCode.REQUIRED, "ID를 입력해주세요.");
         Menu menu = menuConverter.toEntity(menuModel);
         Menu saved = menuService.save(menu);
-        menuService.refreshCache();
+        publishCacheEvent();
         return menuConverter.toModel(saved);
     }
 
@@ -71,7 +81,7 @@ public class MenuFacade {
     public void removeById(Long id) {
         ToyAssert.notNull(id, SystemErrorCode.REQUIRED, "ID를 입력해주세요.");
         deleteRecursive(id);
-        menuService.refreshCache();
+        publishCacheEvent();
     }
 
     private void deleteRecursive(Long parentId) {

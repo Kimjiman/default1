@@ -39,7 +39,7 @@ public enum YN {
         ToyAssert.notNull(key, SystemErrorCode.REQUIRED, "key is null");
 
         return Arrays.stream(YN.values())
-                .filter(t -> t.key.equals(key.toLowerCase()))
+                .filter(it -> it.key.equals(key.toLowerCase()))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException(key  + " is illegal argument."));
     }
@@ -48,7 +48,7 @@ public enum YN {
         ToyAssert.notNull(value, SystemErrorCode.REQUIRED, "value is null");
 
         return Arrays.stream(YN.values())
-                .filter(t -> t.value.equals(value))
+                .filter(it -> it.value.equals(value))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException(value  + " is illegal argument."));
     }

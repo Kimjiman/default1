@@ -1,9 +1,11 @@
 package com.example.default1.module.code.service;
 
 import com.example.default1.base.service.BaseService;
+import com.example.default1.base.utils.JsonUtils;
 import com.example.default1.module.code.entity.Code;
 import com.example.default1.module.code.model.CodeSearchParam;
 import com.example.default1.module.code.repository.CodeRepository;
+import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
     private static final String CACHE_KEY = "cache:code";
+    private static final String CACHE_FIELD_ALL = "all";
 
     private final CodeRepository codeRepository;
     private final StringRedisTemplate stringRedisTemplate;
@@ -34,25 +37,30 @@ public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
     }
 
     public void refreshCache() {
-        List<Code> codes = codeRepository.findAll();
-        Map<String, String> newCache = new HashMap<>();
+        List<Code> codes = codeRepository.findAllBy(new CodeSearchParam());
 
-        for (Code code : codes) {
-            if (code.getCodeGroup() != null && code.getCode() != null) {
-                newCache.put(code.getCodeGroup() + ":" + code.getCode(), code.getName());
-            }
-        }
+        Map<String, String> newCache = new HashMap<>();
+        newCache.put(CACHE_FIELD_ALL, JsonUtils.toJson(codes));
 
         stringRedisTemplate.delete(CACHE_KEY);
-        if (!newCache.isEmpty()) {
-            stringRedisTemplate.opsForHash().putAll(CACHE_KEY, newCache);
+        stringRedisTemplate.opsForHash().putAll(CACHE_KEY, newCache);
+        log.info("Code cache refreshed. entries={}", codes.size());
+    }
+
+    public List<Code> findAllCached() {
+        Object value = stringRedisTemplate.opsForHash().get(CACHE_KEY, CACHE_FIELD_ALL);
+        if (value != null) {
+            return JsonUtils.fromJson(value.toString(), new TypeToken<List<Code>>() {}.getType());
         }
-        log.info("Code cache refreshed. entries={}", newCache.size());
+        return codeRepository.findAllBy(new CodeSearchParam());
     }
 
     public String findNameByCode(String codeGroup, String code) {
-        Object value = stringRedisTemplate.opsForHash().get(CACHE_KEY, codeGroup + ":" + code);
-        return value != null ? value.toString() : null;
+        return findAllCached().stream()
+                .filter(c -> codeGroup.equals(c.getCodeGroup()) && code.equals(c.getCode()))
+                .map(Code::getName)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
