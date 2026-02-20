@@ -9,10 +9,10 @@
 
 CREATE TABLE "user" (
     id BIGSERIAL PRIMARY KEY,
-    login_id VARCHAR(100) DEFAULT NULL,
-    password VARCHAR(100) DEFAULT NULL,
-    name VARCHAR(100) DEFAULT NULL,
-    use_yn VARCHAR(1) DEFAULT 'Y',
+    login_id VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    use_yn VARCHAR(1) NOT NULL DEFAULT 'Y',
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     create_id BIGINT DEFAULT 0,
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -39,9 +39,11 @@ CREATE TABLE "file" (
     save_path VARCHAR(200) DEFAULT NULL,
     ext VARCHAR(45) DEFAULT NULL,
     type VARCHAR(100) DEFAULT NULL,
-    size INT DEFAULT NULL,
+    size BIGINT DEFAULT NULL,
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    create_id BIGINT DEFAULT NULL
+    create_id BIGINT DEFAULT 0,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_id BIGINT DEFAULT 0
 );
 
 COMMENT ON TABLE "file" IS '파일';
@@ -56,11 +58,13 @@ COMMENT ON COLUMN "file".type IS '파일 MIME 타입';
 COMMENT ON COLUMN "file".size IS '파일 크기 (bytes)';
 COMMENT ON COLUMN "file".create_time IS '생성 일시';
 COMMENT ON COLUMN "file".create_id IS '생성자 ID';
+COMMENT ON COLUMN "file".update_time IS '수정 일시';
+COMMENT ON COLUMN "file".update_id IS '수정자 ID';
 
 CREATE TABLE code_group (
     id BIGSERIAL PRIMARY KEY,
-    code_group VARCHAR(10) DEFAULT NULL,
-    name VARCHAR(100) DEFAULT NULL,
+    code_group VARCHAR(10) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     create_id BIGINT DEFAULT 0,
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -78,15 +82,15 @@ COMMENT ON COLUMN code_group.update_id IS '수정자 ID';
 
 CREATE TABLE code (
     id BIGSERIAL PRIMARY KEY,
-    code_group_id BIGINT DEFAULT NULL,
-    code VARCHAR(10) DEFAULT NULL,
-    name VARCHAR(100) DEFAULT NULL,
-    "order" INT DEFAULT NULL,
+    code_group_id BIGINT NOT NULL,
+    code VARCHAR(10) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     info VARCHAR(1000) DEFAULT NULL,
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     create_id BIGINT DEFAULT 0,
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    update_id BIGINT DEFAULT 0
+    update_id BIGINT DEFAULT 0,
+    CONSTRAINT uk_code_group_code UNIQUE (code_group_id, code)
 );
 
 COMMENT ON TABLE code IS '코드';
@@ -94,7 +98,6 @@ COMMENT ON COLUMN code.id IS '코드 PK';
 COMMENT ON COLUMN code.code_group_id IS '코드 그룹 FK (code_group.id)';
 COMMENT ON COLUMN code.code IS '코드 값';
 COMMENT ON COLUMN code.name IS '코드명';
-COMMENT ON COLUMN code."order" IS '정렬 순서';
 COMMENT ON COLUMN code.info IS '코드 부가 정보';
 COMMENT ON COLUMN code.create_time IS '생성 일시';
 COMMENT ON COLUMN code.create_id IS '생성자 ID';

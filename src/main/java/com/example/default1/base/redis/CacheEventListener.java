@@ -28,8 +28,6 @@ public class CacheEventListener implements MessageListener {
             return;
         }
 
-        log.info("[CacheEvent] 수신: {}", cacheType);
-
         switch (cacheType) {
             case CODE:
                 codeService.refreshCache();
