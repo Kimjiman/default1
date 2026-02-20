@@ -34,5 +34,5 @@ COPY --from=builder /app/build/libs/*.jar app.jar
 # 포트 노출
 EXPOSE 8080
 
-# dev 프로필로 실행 (Railway 배포용)
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=dev", "app.jar"]
+# 프로필은 환경변수 SPRING_PROFILES_ACTIVE 로 주입 (dev/prod 환경변수로 구분)
+ENTRYPOINT ["java", "-jar", "app.jar"]
