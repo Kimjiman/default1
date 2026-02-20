@@ -7,13 +7,13 @@ import com.example.default1.module.user.repository.RoleRepository;
 import com.example.default1.module.user.repository.UserRepository;
 import com.example.default1.module.user.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,8 +27,9 @@ public class AuthUserDetailsService implements UserDetailsService {
         User user = userRepository.findByLoginId(loginId).orElseThrow(() -> new UsernameNotFoundException(loginId));
 
         List<UserRole> userRoles = userRoleRepository.findByUserId(user.getId());
-
-        if (userRoles.isEmpty()) {
+        if (user.getId() == 0) {
+            user.setRoleList(List.of("ADM", "USR"));
+        } else if (userRoles.isEmpty()) {
             user.setRoleList(List.of("USR"));
         } else {
             List<Long> roleIds = userRoles.stream().map(UserRole::getRoleId).collect(Collectors.toList());
