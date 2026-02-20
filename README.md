@@ -1,4 +1,4 @@
-# Default1 — Spring Boot 스타터 프로젝트
+# basic-arch — Spring Boot 스타터 프로젝트
 
 Spring Boot 2.7 기반의 백엔드 스타터 프로젝트입니다.
 새로운 프로젝트를 시작할 때 공통 인프라를 처음부터 구축하는 시간을 줄이기 위해 만들어졌습니다.
