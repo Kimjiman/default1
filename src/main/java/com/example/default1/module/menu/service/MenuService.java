@@ -1,5 +1,7 @@
 package com.example.default1.module.menu.service;
 
+import com.example.default1.base.constants.CacheType;
+import com.example.default1.base.redis.CacheEventHandler;
 import com.example.default1.base.service.BaseService;
 import com.example.default1.base.utils.JsonUtils;
 import com.example.default1.module.menu.entity.Menu;
@@ -22,7 +24,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class MenuService implements BaseService<Menu, MenuSearchParam, Long> {
+public class MenuService implements BaseService<Menu, MenuSearchParam, Long>, CacheEventHandler {
     private static final String ROLE_CACHE_KEY = "cache:menu:role";
     private static final String MENU_CACHE_KEY = "cache:menu";
     private static final String MENU_FIELD_ALL = "all";
@@ -32,9 +34,23 @@ public class MenuService implements BaseService<Menu, MenuSearchParam, Long> {
     private final StringRedisTemplate stringRedisTemplate;
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
+    @Override
+    public CacheType getSupportedCacheType() {
+        return CacheType.MENU;
+    }
+
+    @Override
+    public void handle() {
+        refreshCache();
+    }
+
     @PostConstruct
     public void init() {
-        refreshCache();
+        try {
+            refreshCache();
+        } catch (Exception e) {
+            log.warn("[MenuService] 초기 캐시 로드 실패 (Redis 미준비?): {}", e.getMessage());
+        }
     }
 
     public void refreshCache() {

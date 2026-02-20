@@ -1,5 +1,7 @@
 package com.example.default1.module.code.service;
 
+import com.example.default1.base.constants.CacheType;
+import com.example.default1.base.redis.CacheEventHandler;
 import com.example.default1.base.service.BaseService;
 import com.example.default1.base.utils.JsonUtils;
 import com.example.default1.module.code.entity.Code;
@@ -24,16 +26,30 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CodeService implements BaseService<Code, CodeSearchParam, Long> {
+public class CodeService implements BaseService<Code, CodeSearchParam, Long>, CacheEventHandler {
     private static final String CACHE_KEY = "cache:code";
     private static final String CACHE_FIELD_ALL = "all";
 
     private final CodeRepository codeRepository;
     private final StringRedisTemplate stringRedisTemplate;
 
+    @Override
+    public CacheType getSupportedCacheType() {
+        return CacheType.CODE;
+    }
+
+    @Override
+    public void handle() {
+        refreshCache();
+    }
+
     @PostConstruct
     public void init() {
-        refreshCache();
+        try {
+            refreshCache();
+        } catch (Exception e) {
+            log.warn("[CodeService] 초기 캐시 로드 실패 (Redis 미준비?): {}", e.getMessage());
+        }
     }
 
     public void refreshCache() {

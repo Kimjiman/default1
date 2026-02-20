@@ -78,7 +78,7 @@ file:
     path: c:/tmp/default1
 redis:
   host: localhost
-  port: 6379
+  port: 16379
 ---
 # dev
 server:
