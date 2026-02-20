@@ -18,10 +18,16 @@ public class RedisConfig {
     private String redisHost;
     @Value("${redis.port}")
     private int redisPort;
+    @Value("${redis.password:}")
+    private String redisPassword;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(redisHost, redisPort);
+        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisHost, redisPort);
+        if (redisPassword != null && !redisPassword.isBlank()) {
+            factory.setPassword(redisPassword);
+        }
+        return factory;
     }
 
     @Bean
