@@ -114,7 +114,6 @@ AuthFacade  → UserService (login)
 - `user` — User management & auth (JWT-based)
 - `menu` — Menu management
 - `file` — File upload/download
-- `test` — Testing utilities
 
 ### Cache (Redis)
 

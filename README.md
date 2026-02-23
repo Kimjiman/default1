@@ -151,8 +151,7 @@ src/main/java/com/example/default1/
     ├── code/                      # 공통 코드 · 코드그룹 관리
     ├── menu/                      # 메뉴 관리 + URI별 역할 캐시
     ├── file/                      # 파일 업로드/다운로드
-    ├── main/                      # 메인 페이지
-    └── test/                      # 개발/테스트용 유틸 엔드포인트
+    └── main/                      # 메인 페이지
 ```
 
 ---
@@ -305,10 +304,12 @@ http://localhost:8080/swagger-ui/index.html   (dev/prod)
 
 ## 데이터베이스 초기화
 
-`DB-default.sql`을 PostgreSQL에 실행하면 테이블 생성과 기본 데이터가 함께 설정됩니다.
+Flyway가 앱 시작 시 자동으로 스키마와 기본 데이터를 생성합니다.
 
 ```bash
-psql -U root -d postgres -f DB-default.sql
+# 볼륨까지 초기화 후 재시작 (DB를 완전히 리셋할 때)
+docker-compose down -v
+docker-compose up -d
 ```
 
 기본 계정: `admin` / `admin`

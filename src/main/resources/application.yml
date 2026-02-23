@@ -25,6 +25,9 @@ spring:
     cache: true
     prefix: classpath:/templates/
     suffix: .html
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
   profiles:
     default: local
 web-client:
@@ -55,7 +58,7 @@ spring:
       on-profile: local
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
@@ -89,7 +92,7 @@ spring:
       on-profile: dev
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
@@ -126,7 +129,7 @@ spring:
       on-profile: prod
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
