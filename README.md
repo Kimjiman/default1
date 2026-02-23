@@ -20,6 +20,7 @@ JWT 인증, RBAC 권한 체계, Redis 캐시, 파일 업로드, 공통 코드 �
 | 외부 통신 | Spring WebFlux (WebClient) |
 | 뷰 템플릿 | Thymeleaf |
 | 로컬 인프라 | Docker Compose (PostgreSQL + Redis 자동 기동) |
+| 배포 서버 | Railway 자동 배포 이용(진짜 넘편함) |
 
 ---
 
