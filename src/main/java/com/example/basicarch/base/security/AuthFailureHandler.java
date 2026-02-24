@@ -1,11 +1,11 @@
-package com.example.default1.base.security;
+package com.example.basicarch.base.security;
 
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.default1.base.utils.CommonUtils;
+import com.example.basicarch.base.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

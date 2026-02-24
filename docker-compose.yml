@@ -12,7 +12,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15
-    container_name: default1-postgres
+    container_name: basic-arch-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: root
@@ -31,7 +31,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: default1-redis
+    container_name: basic-arch-redis
     restart: unless-stopped
     ports:
       - "16379:6379"

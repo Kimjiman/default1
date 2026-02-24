@@ -1,11 +1,11 @@
-package com.example.default1.module.file.service;
+package com.example.basicarch.module.file.service;
 
-import com.example.default1.base.exception.CustomException;
-import com.example.default1.base.exception.SystemErrorCode;
-import com.example.default1.module.file.entity.FileInfo;
-import com.example.default1.base.utils.CollectionUtils;
-import com.example.default1.base.utils.DateUtils;
-import com.example.default1.base.utils.NetworkUtils;
+import com.example.basicarch.base.exception.CustomException;
+import com.example.basicarch.base.exception.SystemErrorCode;
+import com.example.basicarch.module.file.entity.FileInfo;
+import com.example.basicarch.base.utils.CollectionUtils;
+import com.example.basicarch.base.utils.DateUtils;
+import com.example.basicarch.base.utils.NetworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

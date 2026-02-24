@@ -1,8 +1,8 @@
-package com.example.default1.module.code.repository;
+package com.example.basicarch.module.code.repository;
 
-import com.example.default1.module.code.entity.CodeGroup;
-import com.example.default1.module.code.model.CodeGroupSearchParam;
-import com.example.default1.module.code.entity.QCodeGroup;
+import com.example.basicarch.module.code.entity.CodeGroup;
+import com.example.basicarch.module.code.model.CodeGroupSearchParam;
+import com.example.basicarch.module.code.entity.QCodeGroup;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

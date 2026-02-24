@@ -1,4 +1,4 @@
-package com.example.default1.base.utils;
+package com.example.basicarch.base.utils;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;

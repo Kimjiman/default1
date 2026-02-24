@@ -1,6 +1,6 @@
-package com.example.default1.module.user.entity;
+package com.example.basicarch.module.user.entity;
 
-import com.example.default1.base.model.BaseEntity;
+import com.example.basicarch.base.model.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

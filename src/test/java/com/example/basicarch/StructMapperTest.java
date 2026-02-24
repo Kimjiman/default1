@@ -1,8 +1,8 @@
-package com.example.default1;
+package com.example.basicarch;
 
-import com.example.default1.module.code.converter.CodeConverter;
-import com.example.default1.module.code.model.CodeModel;
-import com.example.default1.module.code.entity.Code;
+import com.example.basicarch.module.code.converter.CodeConverter;
+import com.example.basicarch.module.code.model.CodeModel;
+import com.example.basicarch.module.code.entity.Code;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

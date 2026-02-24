@@ -1,12 +1,12 @@
-package com.example.default1.module.user.service;
+package com.example.basicarch.module.user.service;
 
-import com.example.default1.base.security.jwt.JwtTokenService;
-import com.example.default1.base.security.jwt.JwtTokenInfo;
-import com.example.default1.base.service.BaseService;
-import com.example.default1.module.user.entity.User;
-import com.example.default1.module.user.model.UserSearchParam;
-import com.example.default1.module.user.repository.UserRepository;
-import com.example.default1.base.utils.StringUtils;
+import com.example.basicarch.base.security.jwt.JwtTokenService;
+import com.example.basicarch.base.security.jwt.JwtTokenInfo;
+import com.example.basicarch.base.service.BaseService;
+import com.example.basicarch.module.user.entity.User;
+import com.example.basicarch.module.user.model.UserSearchParam;
+import com.example.basicarch.module.user.repository.UserRepository;
+import com.example.basicarch.base.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

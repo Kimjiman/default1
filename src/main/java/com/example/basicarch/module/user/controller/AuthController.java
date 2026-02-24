@@ -1,9 +1,9 @@
-package com.example.default1.module.user.controller;
+package com.example.basicarch.module.user.controller;
 
-import com.example.default1.base.security.jwt.JwtTokenInfo;
-import com.example.default1.base.utils.SessionUtils;
-import com.example.default1.module.user.facade.AuthFacade;
-import com.example.default1.module.user.model.UserModel;
+import com.example.basicarch.base.security.jwt.JwtTokenInfo;
+import com.example.basicarch.base.utils.SessionUtils;
+import com.example.basicarch.module.user.facade.AuthFacade;
+import com.example.basicarch.module.user.model.UserModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,7 +1,7 @@
-package com.example.default1.module.user.model;
+package com.example.basicarch.module.user.model;
 
-import com.example.default1.base.constants.YN;
-import com.example.default1.base.model.BaseModel;
+import com.example.basicarch.base.constants.YN;
+import com.example.basicarch.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,9 +1,9 @@
-package com.example.default1.base.security.jwt;
+package com.example.basicarch.base.security.jwt;
 
-import com.example.default1.base.exception.SystemErrorCode;
-import com.example.default1.base.exception.ToyAssert;
-import com.example.default1.base.security.jwt.token.RefreshTokenStore;
-import com.example.default1.base.utils.StringUtils;
+import com.example.basicarch.base.exception.SystemErrorCode;
+import com.example.basicarch.base.exception.ToyAssert;
+import com.example.basicarch.base.security.jwt.token.RefreshTokenStore;
+import com.example.basicarch.base.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

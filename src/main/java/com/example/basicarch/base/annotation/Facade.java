@@ -1,4 +1,4 @@
-package com.example.default1.base.annotation;
+package com.example.basicarch.base.annotation;
 
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * packageName    : com.example.default1.base.annotation
+ * packageName    : com.example.basicarch.base.annotation
  * fileName       : Facade
  * author         : KIM JIMAN
  * date           : 25. 8. 5. 화요일

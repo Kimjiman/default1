@@ -1,4 +1,4 @@
-package com.example.default1.base.converter;
+package com.example.basicarch.base.converter;
 
 import org.mapstruct.MapperConfig;
 import org.mapstruct.MappingInheritanceStrategy;

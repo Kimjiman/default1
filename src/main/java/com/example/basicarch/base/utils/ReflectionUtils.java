@@ -1,4 +1,4 @@
-package com.example.default1.base.utils;
+package com.example.basicarch.base.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
- * packageName    : com.example.default1.utils
+ * packageName    : com.example.basicarch.utils
  * fileName       : ReflatorUtils
  * author         : KIM JIMAN
  * date           : 24. 5. 22.

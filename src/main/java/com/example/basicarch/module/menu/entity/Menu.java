@@ -1,6 +1,6 @@
-package com.example.default1.module.menu.entity;
+package com.example.basicarch.module.menu.entity;
 
-import com.example.default1.base.utils.StringUtils;
+import com.example.basicarch.base.utils.StringUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import com.example.default1.base.model.BaseEntity;
+import com.example.basicarch.base.model.BaseEntity;
 
 import javax.persistence.*;
 import java.util.Arrays;

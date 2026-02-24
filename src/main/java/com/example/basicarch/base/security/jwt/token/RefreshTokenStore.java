@@ -1,4 +1,4 @@
-package com.example.default1.base.security.jwt.token;
+package com.example.basicarch.base.security.jwt.token;
 
 public interface RefreshTokenStore {
     void save(String loginId, String refreshToken, long expirationDays);

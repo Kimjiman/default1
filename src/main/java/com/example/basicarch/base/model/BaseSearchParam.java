@@ -1,4 +1,4 @@
-package com.example.default1.base.model;
+package com.example.basicarch.base.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 /**
- * packageName    : com.example.default1.base.model
+ * packageName    : com.example.basicarch.base.model
  * fileName       : SearchParam
  * author         : KIM JIMAN
  * date           : 25. 8. 5. 화요일

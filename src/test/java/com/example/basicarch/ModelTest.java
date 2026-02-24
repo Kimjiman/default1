@@ -1,13 +1,13 @@
-package com.example.default1;
+package com.example.basicarch;
 
-import com.example.default1.module.code.entity.Code;
+import com.example.basicarch.module.code.entity.Code;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * packageName    : com.example.default1
+ * packageName    : com.example.basicarch
  * fileName       : ModelTest
  * author         : KIM JIMAN
  * date           : 25. 7. 4. 금요일

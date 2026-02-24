@@ -1,11 +1,11 @@
-package com.example.default1.base.security;
+package com.example.basicarch.base.security;
 
-import com.example.default1.module.user.entity.Role;
-import com.example.default1.module.user.entity.User;
-import com.example.default1.module.user.entity.UserRole;
-import com.example.default1.module.user.repository.RoleRepository;
-import com.example.default1.module.user.repository.UserRepository;
-import com.example.default1.module.user.repository.UserRoleRepository;
+import com.example.basicarch.module.user.entity.Role;
+import com.example.basicarch.module.user.entity.User;
+import com.example.basicarch.module.user.entity.UserRole;
+import com.example.basicarch.module.user.repository.RoleRepository;
+import com.example.basicarch.module.user.repository.UserRepository;
+import com.example.basicarch.module.user.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

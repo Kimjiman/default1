@@ -1,6 +1,6 @@
-package com.example.default1.config.advice;
+package com.example.basicarch.config.advice;
 
-import com.example.default1.base.model.Response;
+import com.example.basicarch.base.model.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 @Slf4j
-@ControllerAdvice(basePackages = "com.example.default1.module")
+@ControllerAdvice(basePackages = "com.example.basicarch.module")
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override

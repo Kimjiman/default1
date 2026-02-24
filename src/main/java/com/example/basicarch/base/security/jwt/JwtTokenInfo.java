@@ -1,6 +1,6 @@
-package com.example.default1.base.security.jwt;
+package com.example.basicarch.base.security.jwt;
 
-import com.example.default1.base.model.BaseObject;
+import com.example.basicarch.base.model.BaseObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

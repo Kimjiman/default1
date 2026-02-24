@@ -1,6 +1,6 @@
-package com.example.default1.base.utils;
+package com.example.basicarch.base.utils;
 
-import com.example.default1.base.model.Response;
+import com.example.basicarch.base.model.Response;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;

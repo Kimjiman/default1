@@ -1,8 +1,8 @@
-package com.example.default1.module.user.repository;
+package com.example.basicarch.module.user.repository;
 
-import com.example.default1.module.user.entity.QUser;
-import com.example.default1.module.user.entity.User;
-import com.example.default1.module.user.model.UserSearchParam;
+import com.example.basicarch.module.user.entity.QUser;
+import com.example.basicarch.module.user.entity.User;
+import com.example.basicarch.module.user.model.UserSearchParam;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

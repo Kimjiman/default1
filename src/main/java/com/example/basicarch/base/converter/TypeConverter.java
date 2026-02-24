@@ -1,7 +1,7 @@
-package com.example.default1.base.converter;
+package com.example.basicarch.base.converter;
 
-import com.example.default1.base.constants.YN;
-import com.example.default1.base.utils.DateUtils;
+import com.example.basicarch.base.constants.YN;
+import com.example.basicarch.base.utils.DateUtils;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 

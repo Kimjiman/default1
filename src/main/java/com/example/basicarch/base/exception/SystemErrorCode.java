@@ -1,4 +1,4 @@
-package com.example.default1.base.exception;
+package com.example.basicarch.base.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

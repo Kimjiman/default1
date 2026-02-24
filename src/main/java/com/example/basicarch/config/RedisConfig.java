@@ -1,7 +1,7 @@
-package com.example.default1.config;
+package com.example.basicarch.config;
 
-import com.example.default1.base.redis.CacheEventListener;
-import com.example.default1.base.redis.CacheEventPublishable;
+import com.example.basicarch.base.redis.CacheEventListener;
+import com.example.basicarch.base.redis.CacheEventPublishable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.example.default1.base.component;
+package com.example.basicarch.base.component;
 
 import lombok.Builder;
 import lombok.Getter;

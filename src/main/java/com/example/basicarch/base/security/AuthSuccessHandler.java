@@ -1,9 +1,9 @@
-package com.example.default1.base.security;
+package com.example.basicarch.base.security;
 
-import com.example.default1.base.utils.CommonUtils;
-import com.example.default1.base.utils.SessionUtils;
-import com.example.default1.module.user.entity.User;
-import com.example.default1.module.user.repository.UserRepository;
+import com.example.basicarch.base.utils.CommonUtils;
+import com.example.basicarch.base.utils.SessionUtils;
+import com.example.basicarch.module.user.entity.User;
+import com.example.basicarch.module.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

@@ -1,7 +1,7 @@
-package com.example.default1.base.utils;
+package com.example.basicarch.base.utils;
 
-import com.example.default1.base.security.AuthUserDetails;
-import com.example.default1.module.user.entity.User;
+import com.example.basicarch.base.security.AuthUserDetails;
+import com.example.basicarch.module.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

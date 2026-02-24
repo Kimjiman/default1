@@ -1,8 +1,8 @@
-package com.example.default1.config;
+package com.example.basicarch.config;
 
-import com.example.default1.base.constants.UrlConstants;
-import com.example.default1.base.converter.YnToEnumConverter;
-import com.example.default1.config.interceptor.RoleInterceptor;
+import com.example.basicarch.base.constants.UrlConstants;
+import com.example.basicarch.base.converter.YnToEnumConverter;
+import com.example.basicarch.config.interceptor.RoleInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;

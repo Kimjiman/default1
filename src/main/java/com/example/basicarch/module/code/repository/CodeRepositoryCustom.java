@@ -1,7 +1,7 @@
-package com.example.default1.module.code.repository;
+package com.example.basicarch.module.code.repository;
 
-import com.example.default1.module.code.entity.Code;
-import com.example.default1.module.code.model.CodeSearchParam;
+import com.example.basicarch.module.code.entity.Code;
+import com.example.basicarch.module.code.model.CodeSearchParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

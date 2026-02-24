@@ -1,7 +1,7 @@
-package com.example.default1.base.service;
+package com.example.basicarch.base.service;
 
-import com.example.default1.base.model.BaseEntity;
-import com.example.default1.base.model.BaseSearchParam;
+import com.example.basicarch.base.model.BaseEntity;
+import com.example.basicarch.base.model.BaseSearchParam;
 
 import java.io.Serializable;
 import java.util.List;

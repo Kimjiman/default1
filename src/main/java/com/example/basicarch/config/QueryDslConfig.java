@@ -1,4 +1,4 @@
-package com.example.default1.config;
+package com.example.basicarch.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;

@@ -1,11 +1,11 @@
-package com.example.default1.module.code.controller;
+package com.example.basicarch.module.code.controller;
 
-import com.example.default1.base.model.pager.PageResponse;
-import com.example.default1.module.code.facade.CodeFacade;
-import com.example.default1.module.code.model.CodeGroupModel;
-import com.example.default1.module.code.model.CodeGroupSearchParam;
-import com.example.default1.module.code.model.CodeModel;
-import com.example.default1.module.code.model.CodeSearchParam;
+import com.example.basicarch.base.model.pager.PageResponse;
+import com.example.basicarch.module.code.facade.CodeFacade;
+import com.example.basicarch.module.code.model.CodeGroupModel;
+import com.example.basicarch.module.code.model.CodeGroupSearchParam;
+import com.example.basicarch.module.code.model.CodeModel;
+import com.example.basicarch.module.code.model.CodeSearchParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;

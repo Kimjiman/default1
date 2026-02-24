@@ -1,6 +1,6 @@
-package com.example.default1.base.security.jwt;
+package com.example.basicarch.base.security.jwt;
 
-import com.example.default1.base.utils.CommonUtils;
+import com.example.basicarch.base.utils.CommonUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

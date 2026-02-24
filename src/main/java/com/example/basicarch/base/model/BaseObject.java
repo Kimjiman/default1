@@ -1,6 +1,6 @@
-package com.example.default1.base.model;
+package com.example.basicarch.base.model;
 
-import com.example.default1.base.utils.JsonUtils;
+import com.example.basicarch.base.utils.JsonUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

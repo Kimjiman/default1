@@ -87,9 +87,9 @@ JwtAuthenticationFilter → JwtTokenProvider (토큰 검증)
 ## 프로젝트 구조
 
 ```
-src/main/java/com/example/default1/
+src/main/java/com/example/basicarch/
 │
-├── Default1Application.java
+├── BasicArchApplication.java
 │
 ├── base/                          # 공통 인프라 (프로젝트 전역 공유)
 │   ├── annotation/                # @Facade 커스텀 어노테이션
@@ -178,7 +178,7 @@ src/main/java/com/example/default1/
 ### file — 파일
 - 멀티파트 업로드 / 다운로드 / 삭제
 - `ref_path` + `ref_id` 조합으로 어느 엔티티에도 파일 첨부 가능
-- 저장 경로: `local` 프로필 기준 `c:/tmp/default1`
+- 저장 경로: `local` 프로필 기준 `c:/tmp/basic-arch`
 
 ---
 
@@ -257,7 +257,7 @@ JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew bootRun -PspringProfiles=dev
 JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test
 
 # 특정 테스트 클래스
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "com.example.default1.module.user.UserServiceTest"
+JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "com.example.basicarch.module.user.UserServiceTest"
 ```
 
 ### Windows CMD / PowerShell 기준

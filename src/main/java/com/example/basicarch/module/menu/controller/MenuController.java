@@ -1,8 +1,8 @@
-package com.example.default1.module.menu.controller;
+package com.example.basicarch.module.menu.controller;
 
-import com.example.default1.base.constants.YN;
-import com.example.default1.module.menu.facade.MenuFacade;
-import com.example.default1.module.menu.model.MenuModel;
+import com.example.basicarch.base.constants.YN;
+import com.example.basicarch.module.menu.facade.MenuFacade;
+import com.example.basicarch.module.menu.model.MenuModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;

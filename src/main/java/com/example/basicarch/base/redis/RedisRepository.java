@@ -1,4 +1,4 @@
-package com.example.default1.base.redis;
+package com.example.basicarch.base.redis;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;

@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 Spring Boot 2.7 web application (Java 17, Gradle 7.6)
-- Root package: `com.example.default1`
+- Root package: `com.example.basicarch`
 - Swagger UI: `http://localhost:8085/swagger-ui/index.html`
 
 ## Build & Run
@@ -21,7 +21,7 @@ JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew bootRun -PspringProfiles=local
 JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test
 
 # Run single test class
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "com.example.default1.module.user.UserServiceTest"
+JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "com.example.basicarch.module.user.UserServiceTest"
 
 # Run single test method
 JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "*.UserServiceTest.testMethodName"
@@ -270,7 +270,7 @@ Entity stores `String` ("Y"/"N"), Model uses `YN` enum. MapStruct converts via `
 ## Project Structure
 
 ```
-src/main/java/com/example/default1/
+src/main/java/com/example/basicarch/
 ├── base/           — Shared infrastructure (annotations, components, constants, converters,
 │                     exceptions, models, redis, security/jwt, services, utils)
 ├── config/         — Spring config (Security, CORS, Redis, Swagger, QueryDSL, WebConfig)

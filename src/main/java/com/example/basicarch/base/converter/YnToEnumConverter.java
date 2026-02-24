@@ -1,6 +1,6 @@
-package com.example.default1.base.converter;
+package com.example.basicarch.base.converter;
 
-import com.example.default1.base.constants.YN;
+import com.example.basicarch.base.constants.YN;
 import org.springframework.core.convert.converter.Converter;
 
 public class YnToEnumConverter implements Converter<String, YN> {

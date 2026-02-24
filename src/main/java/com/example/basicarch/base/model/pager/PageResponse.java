@@ -1,8 +1,8 @@
-package com.example.default1.base.model.pager;
+package com.example.basicarch.base.model.pager;
 
-import com.example.default1.base.model.BaseEntity;
-import com.example.default1.base.model.BaseModel;
-import com.example.default1.base.model.BaseObject;
+import com.example.basicarch.base.model.BaseEntity;
+import com.example.basicarch.base.model.BaseModel;
+import com.example.basicarch.base.model.BaseObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;

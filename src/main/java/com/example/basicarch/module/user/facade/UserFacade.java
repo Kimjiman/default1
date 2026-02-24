@@ -1,14 +1,14 @@
-package com.example.default1.module.user.facade;
+package com.example.basicarch.module.user.facade;
 
-import com.example.default1.base.annotation.Facade;
-import com.example.default1.base.exception.SystemErrorCode;
-import com.example.default1.base.exception.ToyAssert;
-import com.example.default1.base.security.jwt.JwtTokenInfo;
-import com.example.default1.base.security.jwt.JwtTokenService;
-import com.example.default1.base.utils.SessionUtils;
-import com.example.default1.module.user.converter.UserConverter;
-import com.example.default1.module.user.model.UserModel;
-import com.example.default1.module.user.service.UserService;
+import com.example.basicarch.base.annotation.Facade;
+import com.example.basicarch.base.exception.SystemErrorCode;
+import com.example.basicarch.base.exception.ToyAssert;
+import com.example.basicarch.base.security.jwt.JwtTokenInfo;
+import com.example.basicarch.base.security.jwt.JwtTokenService;
+import com.example.basicarch.base.utils.SessionUtils;
+import com.example.basicarch.module.user.converter.UserConverter;
+import com.example.basicarch.module.user.model.UserModel;
+import com.example.basicarch.module.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

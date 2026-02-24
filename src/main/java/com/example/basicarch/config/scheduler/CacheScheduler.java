@@ -1,7 +1,7 @@
-package com.example.default1.config.scheduler;
+package com.example.basicarch.config.scheduler;
 
-import com.example.default1.module.code.service.CodeService;
-import com.example.default1.module.menu.service.MenuService;
+import com.example.basicarch.module.code.service.CodeService;
+import com.example.basicarch.module.menu.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

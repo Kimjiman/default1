@@ -1,6 +1,6 @@
-package com.example.default1.module.code.model;
+package com.example.basicarch.module.code.model;
 
-import com.example.default1.base.model.BaseSearchParam;
+import com.example.basicarch.base.model.BaseSearchParam;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 /**
- * packageName    : com.example.default1.module.code.model
+ * packageName    : com.example.basicarch.module.code.model
  * fileName       : CodeGroupSearchParam
  * author         : KIM JIMAN
  * date           : 25. 8. 5. 화요일

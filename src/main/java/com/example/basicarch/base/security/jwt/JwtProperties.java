@@ -1,4 +1,4 @@
-package com.example.default1.base.security.jwt;
+package com.example.basicarch.base.security.jwt;
 
 import lombok.Getter;
 import lombok.Setter;

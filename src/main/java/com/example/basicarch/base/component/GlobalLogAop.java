@@ -1,4 +1,4 @@
-package com.example.default1.base.component;
+package com.example.basicarch.base.component;
 
 import java.util.Arrays;
 
@@ -18,7 +18,7 @@ import org.springframework.util.StopWatch;
 @Slf4j
 public class GlobalLogAop {
 
-    @Pointcut("execution(* com.example.default1..controller..*(..))")
+    @Pointcut("execution(* com.example.basicarch..controller..*(..))")
     private void pointCut() {
     }
 

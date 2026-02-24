@@ -1,6 +1,6 @@
-package com.example.default1.base.model;
+package com.example.basicarch.base.model;
 
-import com.example.default1.base.utils.SessionUtils;
+import com.example.basicarch.base.utils.SessionUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

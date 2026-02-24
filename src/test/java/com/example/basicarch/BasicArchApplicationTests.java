@@ -1,10 +1,10 @@
-package com.example.default1;
+package com.example.basicarch;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Default1ApplicationTests {
+class BasicArchApplicationTests {
 
     @Test
     void contextLoads() {

@@ -1,7 +1,7 @@
-package com.example.default1.module.user.repository;
+package com.example.basicarch.module.user.repository;
 
-import com.example.default1.module.user.entity.User;
-import com.example.default1.module.user.model.UserSearchParam;
+import com.example.basicarch.module.user.entity.User;
+import com.example.basicarch.module.user.model.UserSearchParam;
 
 import java.util.List;
 

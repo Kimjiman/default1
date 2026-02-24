@@ -1,4 +1,4 @@
-package com.example.default1.config;
+package com.example.basicarch.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

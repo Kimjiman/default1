@@ -1,4 +1,4 @@
-package com.example.default1.base.component.webclient;
+package com.example.basicarch.base.component.webclient;
 
 import lombok.Getter;
 import lombok.Setter;

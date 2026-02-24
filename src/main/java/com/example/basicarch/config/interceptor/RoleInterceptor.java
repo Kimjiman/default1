@@ -1,8 +1,8 @@
-package com.example.default1.config.interceptor;
+package com.example.basicarch.config.interceptor;
 
-import com.example.default1.base.exception.CustomException;
-import com.example.default1.base.exception.SystemErrorCode;
-import com.example.default1.module.menu.service.MenuService;
+import com.example.basicarch.base.exception.CustomException;
+import com.example.basicarch.base.exception.SystemErrorCode;
+import com.example.basicarch.module.menu.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

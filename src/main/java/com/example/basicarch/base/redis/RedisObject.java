@@ -1,6 +1,6 @@
-package com.example.default1.base.redis;
+package com.example.basicarch.base.redis;
 
-import com.example.default1.base.model.BaseObject;
+import com.example.basicarch.base.model.BaseObject;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

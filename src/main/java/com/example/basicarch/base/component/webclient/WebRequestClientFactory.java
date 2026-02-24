@@ -1,7 +1,7 @@
-package com.example.default1.base.component.webclient;
+package com.example.basicarch.base.component.webclient;
 
-import com.example.default1.base.exception.CustomException;
-import com.example.default1.base.exception.SystemErrorCode;
+import com.example.basicarch.base.exception.CustomException;
+import com.example.basicarch.base.exception.SystemErrorCode;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;

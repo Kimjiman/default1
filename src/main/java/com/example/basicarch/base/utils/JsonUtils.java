@@ -1,4 +1,4 @@
-package com.example.default1.base.utils;
+package com.example.basicarch.base.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 /**
- * packageName    : com.example.default1.utils
+ * packageName    : com.example.basicarch.utils
  * fileName       : JsonUtils
  * author         : KIM JIMAN
  * date           : 25. 8. 5. 화요일

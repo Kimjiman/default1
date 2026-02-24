@@ -1,10 +1,10 @@
-package com.example.default1.module.code.converter;
+package com.example.basicarch.module.code.converter;
 
-import com.example.default1.base.converter.TypeConverter;
-import com.example.default1.base.model.pager.PageInfo;
-import com.example.default1.base.model.pager.PageResponse;
-import com.example.default1.module.code.model.CodeModel;
-import com.example.default1.module.code.entity.Code;
+import com.example.basicarch.base.converter.TypeConverter;
+import com.example.basicarch.base.model.pager.PageInfo;
+import com.example.basicarch.base.model.pager.PageResponse;
+import com.example.basicarch.module.code.model.CodeModel;
+import com.example.basicarch.module.code.entity.Code;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 /**
- * packageName    : com.example.default1.module.code.converter
+ * packageName    : com.example.basicarch.module.code.converter
  * fileName       : CodeMapper
  * author         : KIM JIMAN
  * date           : 25. 8. 11. 월요일

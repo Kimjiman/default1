@@ -1,15 +1,15 @@
-package com.example.default1.module.code.converter;
+package com.example.basicarch.module.code.converter;
 
-import com.example.default1.base.converter.TypeConverter;
-import com.example.default1.module.code.model.CodeGroupModel;
-import com.example.default1.module.code.entity.CodeGroup;
+import com.example.basicarch.base.converter.TypeConverter;
+import com.example.basicarch.module.code.model.CodeGroupModel;
+import com.example.basicarch.module.code.entity.CodeGroup;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
 
 /**
- * packageName    : com.example.default1.module.code.converter
+ * packageName    : com.example.basicarch.module.code.converter
  * fileName       : CodeMapper
  * author         : KIM JIMAN
  * date           : 25. 8. 11. 월요일

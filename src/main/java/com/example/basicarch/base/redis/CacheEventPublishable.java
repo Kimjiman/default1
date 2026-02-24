@@ -1,6 +1,6 @@
-package com.example.default1.base.redis;
+package com.example.basicarch.base.redis;
 
-import com.example.default1.base.constants.CacheType;
+import com.example.basicarch.base.constants.CacheType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;

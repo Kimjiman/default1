@@ -1,7 +1,7 @@
-package com.example.default1.config;
+package com.example.basicarch.config;
 
-import com.example.default1.base.component.ShellExecute;
-import com.example.default1.base.component.ShellResult;
+import com.example.basicarch.base.component.ShellExecute;
+import com.example.basicarch.base.component.ShellResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.context.annotation.Bean;

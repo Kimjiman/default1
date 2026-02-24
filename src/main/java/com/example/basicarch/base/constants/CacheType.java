@@ -1,4 +1,4 @@
-package com.example.default1.base.constants;
+package com.example.basicarch.base.constants;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.example.default1;
+package com.example.basicarch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,8 +15,8 @@ import java.security.NoSuchAlgorithmException;
 @EnableAspectJAutoProxy
 @EnableScheduling
 @EnableCaching
-public class Default1Application extends SpringBootServletInitializer {
-    private static final Class<?> app = Default1Application.class;
+public class BasicArchApplication extends SpringBootServletInitializer {
+    private static final Class<?> app = BasicArchApplication.class;
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
         SpringApplication springApplication = new SpringApplication(app);

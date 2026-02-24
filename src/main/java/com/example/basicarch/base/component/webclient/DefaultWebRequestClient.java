@@ -1,6 +1,6 @@
-package com.example.default1.base.component.webclient;
+package com.example.basicarch.base.component.webclient;
 
-import com.example.default1.base.utils.JsonUtils;
+import com.example.basicarch.base.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;

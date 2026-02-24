@@ -1,12 +1,12 @@
-package com.example.default1.module.menu.service;
+package com.example.basicarch.module.menu.service;
 
-import com.example.default1.base.constants.CacheType;
-import com.example.default1.base.redis.CacheEventHandler;
-import com.example.default1.base.service.BaseService;
-import com.example.default1.base.utils.JsonUtils;
-import com.example.default1.module.menu.entity.Menu;
-import com.example.default1.module.menu.model.MenuSearchParam;
-import com.example.default1.module.menu.repository.MenuRepository;
+import com.example.basicarch.base.constants.CacheType;
+import com.example.basicarch.base.redis.CacheEventHandler;
+import com.example.basicarch.base.service.BaseService;
+import com.example.basicarch.base.utils.JsonUtils;
+import com.example.basicarch.module.menu.entity.Menu;
+import com.example.basicarch.module.menu.model.MenuSearchParam;
+import com.example.basicarch.module.menu.repository.MenuRepository;
 import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

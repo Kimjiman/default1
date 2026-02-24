@@ -1,4 +1,4 @@
-package com.example.default1.base.utils;
+package com.example.basicarch.base.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;

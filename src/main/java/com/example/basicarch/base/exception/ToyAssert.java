@@ -1,6 +1,6 @@
-package com.example.default1.base.exception;
+package com.example.basicarch.base.exception;
 
-import com.example.default1.base.utils.StringUtils;
+import com.example.basicarch.base.utils.StringUtils;
 
 import java.util.Collection;
 

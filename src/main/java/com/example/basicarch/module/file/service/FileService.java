@@ -1,12 +1,12 @@
-package com.example.default1.module.file.service;
+package com.example.basicarch.module.file.service;
 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.default1.module.file.entity.FileInfo;
-import com.example.default1.module.file.repository.FileRepository;
+import com.example.basicarch.module.file.entity.FileInfo;
+import com.example.basicarch.module.file.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

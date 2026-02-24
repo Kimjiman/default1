@@ -1,7 +1,7 @@
-package com.example.default1.base.constants;
+package com.example.basicarch.base.constants;
 
 /**
- * packageName    : com.example.default1.constants
+ * packageName    : com.example.basicarch.constants
  * fileName       : UrlConstants
  * author         : KIM JIMAN
  * date           : 24. 7. 15. 월요일

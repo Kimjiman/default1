@@ -1,4 +1,4 @@
-package com.example.default1.base.model;
+package com.example.basicarch.base.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

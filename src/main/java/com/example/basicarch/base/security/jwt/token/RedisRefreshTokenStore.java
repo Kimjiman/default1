@@ -1,7 +1,7 @@
-package com.example.default1.base.security.jwt.token;
+package com.example.basicarch.base.security.jwt.token;
 
-import com.example.default1.base.redis.RedisObject;
-import com.example.default1.base.redis.RedisRepository;
+import com.example.basicarch.base.redis.RedisObject;
+import com.example.basicarch.base.redis.RedisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
-package com.example.default1.module.menu.converter;
+package com.example.basicarch.module.menu.converter;
 
-import com.example.default1.base.converter.TypeConverter;
-import com.example.default1.module.menu.entity.Menu;
-import com.example.default1.module.menu.model.MenuModel;
+import com.example.basicarch.base.converter.TypeConverter;
+import com.example.basicarch.module.menu.entity.Menu;
+import com.example.basicarch.module.menu.model.MenuModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

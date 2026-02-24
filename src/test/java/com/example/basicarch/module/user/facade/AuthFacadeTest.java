@@ -1,10 +1,10 @@
-package com.example.default1.module.user.facade;
+package com.example.basicarch.module.user.facade;
 
-import com.example.default1.base.exception.CustomException;
-import com.example.default1.base.security.jwt.JwtTokenInfo;
-import com.example.default1.base.security.jwt.JwtTokenService;
-import com.example.default1.module.user.model.UserModel;
-import com.example.default1.module.user.service.UserService;
+import com.example.basicarch.base.exception.CustomException;
+import com.example.basicarch.base.security.jwt.JwtTokenInfo;
+import com.example.basicarch.base.security.jwt.JwtTokenService;
+import com.example.basicarch.module.user.model.UserModel;
+import com.example.basicarch.module.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 /**
- * packageName    : com.example.default1.module.user.facade
+ * packageName    : com.example.basicarch.module.user.facade
  * fileName       : AuthFacadeTest
  * author         : KIM JIMAN
  * date           : 26. 2. 20. 금요일

@@ -1,10 +1,10 @@
-package com.example.default1.config;
+package com.example.basicarch.config;
 
-import com.example.default1.base.constants.UrlConstants;
-import com.example.default1.base.security.AuthUserDetailsService;
-import com.example.default1.base.security.jwt.JwtAuthenticationEntryPoint;
-import com.example.default1.base.security.jwt.JwtAuthenticationFilter;
-import com.example.default1.base.security.jwt.JwtTokenProvider;
+import com.example.basicarch.base.constants.UrlConstants;
+import com.example.basicarch.base.security.AuthUserDetailsService;
+import com.example.basicarch.base.security.jwt.JwtAuthenticationEntryPoint;
+import com.example.basicarch.base.security.jwt.JwtAuthenticationFilter;
+import com.example.basicarch.base.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

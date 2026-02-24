@@ -1,6 +1,6 @@
-package com.example.default1.module.file.model;
+package com.example.basicarch.module.file.model;
 
-import com.example.default1.base.model.BaseModel;
+import com.example.basicarch.base.model.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 /**
- * packageName    : com.example.default1.module.file.model
+ * packageName    : com.example.basicarch.module.file.model
  * fileName       : FileModel
  * author         : KIM JIMAN
  * date           : 26. 2. 11. 수요일

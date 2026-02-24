@@ -1,7 +1,7 @@
-package com.example.default1.base.security.jwt;
+package com.example.basicarch.base.security.jwt;
 
-import com.example.default1.base.exception.CustomException;
-import com.example.default1.base.exception.SystemErrorCode;
+import com.example.basicarch.base.exception.CustomException;
+import com.example.basicarch.base.exception.SystemErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;

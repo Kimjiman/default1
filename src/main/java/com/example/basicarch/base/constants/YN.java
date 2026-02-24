@@ -1,7 +1,7 @@
-package com.example.default1.base.constants;
+package com.example.basicarch.base.constants;
 
-import com.example.default1.base.exception.SystemErrorCode;
-import com.example.default1.base.exception.ToyAssert;
+import com.example.basicarch.base.exception.SystemErrorCode;
+import com.example.basicarch.base.exception.ToyAssert;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;

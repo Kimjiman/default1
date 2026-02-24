@@ -1,4 +1,4 @@
-package com.example.default1.config;
+package com.example.basicarch.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

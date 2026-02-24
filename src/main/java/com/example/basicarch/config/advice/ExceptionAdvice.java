@@ -1,7 +1,7 @@
-package com.example.default1.config.advice;
+package com.example.basicarch.config.advice;
 
-import com.example.default1.base.model.Response;
-import com.example.default1.base.exception.CustomException;
+import com.example.basicarch.base.model.Response;
+import com.example.basicarch.base.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
