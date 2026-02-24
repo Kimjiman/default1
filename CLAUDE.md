@@ -267,6 +267,16 @@ Entity stores `String` ("Y"/"N"), Model uses `YN` enum. MapStruct converts via `
 - Jenkins 또는 GitHub Actions 도입 예정
 - 파이프라인: Build → Test → Docker Build → Deploy
 
+## Learning Roadmap
+
+이직 준비 학습 순서 (와탭랩스 K8s Observability 포지션 목표)
+
+| 순서 | 기술 | 목표 | 상태 |
+|------|------|------|------|
+| 1 | **Kubernetes** | minikube로 현재 프로젝트 배포, Deployment/Service/ConfigMap/Secret/HPA 실습 | TODO |
+| 2 | **Prometheus + Grafana** | K8s 클러스터 메트릭 수집, 대시보드 구성, 알림 설정 | TODO |
+| 3 | **Kafka** | docker-compose에 Kafka 추가, 이벤트 드리븐 아키텍처 실습, DLT 처리 | TODO |
+
 ## Project Structure
 
 ```
