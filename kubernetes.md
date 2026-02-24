@@ -1,6 +1,6 @@
 # Kubernetes 학습 로드맵
 
-> 목표: 와탭랩스 K8s Observability 포지션 대비
+> 목표: CKA 대비
 > 환경: Windows 11 + WSL2 + Docker Desktop
 > 기간: 4~6주 (하루 1~2시간 기준)
 
