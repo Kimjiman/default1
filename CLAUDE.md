@@ -269,7 +269,7 @@ Entity stores `String` ("Y"/"N"), Model uses `YN` enum. MapStruct converts via `
 
 ## Learning Roadmap
 
-이직 준비 학습 순서 (와탭랩스 K8s Observability 포지션 목표)
+이직 준비 학습 순서 (CKA 목표)
 
 | 순서 | 기술 | 목표 | 상태 |
 |------|------|------|------|
