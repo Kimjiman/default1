@@ -69,15 +69,32 @@ Cluster
 ### 설치
 
 ```bash
-# 방법 1: Docker Desktop K8s 활성화 (가장 쉬움 - 이미 설치되어 있음)
-# Docker Desktop → Settings → Kubernetes → Enable Kubernetes → Apply
+# minikube 및 kubectl 설치 (더 많은 기능 실습 가능, 권장)
+# minikube
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 
-# 방법 2: minikube (더 많은 기능 실습 가능, 권장)
-# https://minikube.sigs.k8s.io/docs/start/
-winget install minikube
+# 설치
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
-# 방법 3: kind (Docker 기반)
-winget install kind
+# 설치 확인
+minikube version
+
+# 자동완성 설정
+echo 'source <(minikube completion bash)' >> ~/.bashrc
+source ~/.bashrc
+
+# kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+# 설치
+sudo install kubectl /usr/local/bin/kubectl
+
+# 설치 확인
+kubectl version --client
+
+# 자동완성 설정
+echo 'source <(kubectl completion bash)' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ### minikube 기본 명령어
@@ -121,6 +138,29 @@ kubectl port-forward pod/<pod-name> 8080:8080
 kubectl port-forward svc/<service-name> 8080:8080
 ```
 
+### 2026-02-26 minikube, kubectl 설치완료
+
+```bash
+# nginx 테스트
+kubectl create deployment nginx --image=nginx
+kubectl expose deployment nginx --type=NodePort --port=80
+minikube service nginx --url
+kubectl get all
+bash# 터미널 1 - 실시간 모니터링
+kubectl get pods -w
+# 터미널 2 - pod 강제 종료
+kubectl delete pod [pod명]
+# 스케일아웃
+kubectl scale deployment nginx --replicas=3
+```
+### 자동 복구
+- replicas=1 이면 pod 죽어도 자동으로 새 pod 재시작 
+- replicas=3 이면 하나 죽어도 나머지 2개가 트래픽 받음 → 진짜 무중단
+
+### Rolling Update
+
+- Deployment 수정하면 pod 하나씩 순차 교체
+- 교체 중에도 나머지 pod가 살아있어서 무중단 배포 가능
 ---
 
 ## 3단계: 워크로드 (2주차)
