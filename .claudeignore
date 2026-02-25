@@ -1,3 +1,9 @@
+### Secrets ###
+.env
+.env.*
+*.pem
+*.key
+
 HELP.md
 .gradle
 build/
