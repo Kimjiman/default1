@@ -2,7 +2,7 @@
 
 > 목표: CKA 대비
 > 환경: Windows 11 + WSL2 + Docker Desktop
-> 기간: 4~6주 (하루 1~2시간 기준)
+> 기간: 4-6주 (하루 1~2시간 기준)
 
 ---
 
@@ -138,29 +138,6 @@ kubectl port-forward pod/<pod-name> 8080:8080
 kubectl port-forward svc/<service-name> 8080:8080
 ```
 
-### 2026-02-26 minikube, kubectl 설치완료
-
-```bash
-# nginx 테스트
-kubectl create deployment nginx --image=nginx
-kubectl expose deployment nginx --type=NodePort --port=80
-minikube service nginx --url
-kubectl get all
-bash# 터미널 1 - 실시간 모니터링
-kubectl get pods -w
-# 터미널 2 - pod 강제 종료
-kubectl delete pod [pod명]
-# 스케일아웃
-kubectl scale deployment nginx --replicas=3
-```
-### 자동 복구
-- replicas=1 이면 pod 죽어도 자동으로 새 pod 재시작 
-- replicas=3 이면 하나 죽어도 나머지 2개가 트래픽 받음 → 진짜 무중단
-
-### Rolling Update
-
-- Deployment 수정하면 pod 하나씩 순차 교체
-- 교체 중에도 나머지 pod가 살아있어서 무중단 배포 가능
 ---
 
 ## 3단계: 워크로드 (2주차)
@@ -476,8 +453,6 @@ kubectl get all
 
 ## 7단계: Observability (5~6주차)
 
-> 와탭랩스 핵심 영역 — 가장 중요하게 공부할 부분
-
 ### K8s 기본 모니터링
 
 ```bash
@@ -514,7 +489,7 @@ kubectl port-forward svc/monitoring-grafana 3000:80 -n monitoring
 # 브라우저: http://localhost:3000  (admin / prom-operator)
 ```
 
-### 주요 Prometheus 메트릭 (면접 대비)
+### 주요 Prometheus 메트릭
 
 | 메트릭 | 설명 |
 |--------|------|
