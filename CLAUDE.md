@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Spring Boot 2.7 web application (Java 17, Gradle 7.6)
+Spring Boot 3.5.9 web application (Java 21, Gradle)
 - Root package: `com.example.basicarch`
 - Swagger UI: `http://localhost:8085/swagger-ui/index.html`
 
@@ -12,22 +12,22 @@ Spring Boot 2.7 web application (Java 17, Gradle 7.6)
 
 ```bash
 # Build
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew clean build
+JAVA_HOME=/c/java/jdk-21.0.10+7 ./gradlew clean build
 
 # Run (with profile)
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew bootRun -PspringProfiles=local
+JAVA_HOME=/c/java/jdk-21.0.10+7 ./gradlew bootRun -PspringProfiles=local
 
 # Run all tests
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test
+JAVA_HOME=/c/java/jdk-21.0.10+7 ./gradlew test
 
 # Run single test class
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "com.example.basicarch.module.user.UserServiceTest"
+JAVA_HOME=/c/java/jdk-21.0.10+7 ./gradlew test --tests "com.example.basicarch.module.user.UserServiceTest"
 
 # Run single test method
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "*.UserServiceTest.testMethodName"
+JAVA_HOME=/c/java/jdk-21.0.10+7 ./gradlew test --tests "*.UserServiceTest.testMethodName"
 ```
 
-- JDK 17 required (`C:\java\jdk-17.0.18+8`)
+- JDK 21 required (`C:\java\jdk-21.0.10+7`)
 - In Claude Code (Git Bash): always use `./gradlew` (Unix wrapper), not `gradlew.bat`
 - Git Bash path: `C:\java\...` becomes `/c/java/...`
 

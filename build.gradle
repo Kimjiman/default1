@@ -1,12 +1,12 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.7.18-SNAPSHOT'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.springframework.boot' version '3.5.9'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '21'
 
 configurations {
     compileOnly {
@@ -16,14 +16,11 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
-    maven { url 'https://repo.spring.io/snapshot' }
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -33,32 +30,29 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-    annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jpa'
-    annotationProcessor 'javax.persistence:javax.persistence-api'
-    annotationProcessor 'javax.annotation:javax.annotation-api:1.3.2'
+    annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 
     implementation 'org.apache.poi:poi-ooxml:5.4.0'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5' // 중복 제거
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-    implementation 'com.querydsl:querydsl-jpa'
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'
-    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
-    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.guava:guava:33.4.6-jre'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
-    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-core:10.21.0'
+    implementation 'org.flywaydb:flyway-database-postgresql:10.21.0'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
-    testImplementation 'org.mockito:mockito-junit-jupiter:4.8.0'
-    testImplementation 'org.instancio:instancio-core:2.11.0'
+    testImplementation 'org.instancio:instancio-junit:3.6.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }

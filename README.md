@@ -1,8 +1,6 @@
-# basic-arch — Spring Boot 스타터 프로젝트
+# basic-arch
 
-Spring Boot 2.7 기반의 백엔드 스타터 프로젝트입니다.
-새로운 프로젝트를 시작할 때 공통 인프라를 처음부터 구축하는 시간을 줄이기 위해 만들어졌습니다.
-JWT 인증, RBAC 권한 체계, Redis 캐시, 파일 업로드, 공통 코드 관리 등 실무에서 자주 필요한 기능을 미리 갖추고 있습니다.
+JWT 인증, RBAC 권한 체계, Redis 캐시, 파일 업로드, 공통 코드 관리 등 실무에서 자주 필요한 기능을 갖춘 백엔드 프로젝트입니다.
 
 ---
 
@@ -10,7 +8,7 @@ JWT 인증, RBAC 권한 체계, Redis 캐시, 파일 업로드, 공통 코드 �
 
 | 분류 | 기술 |
 |------|------|
-| 언어 / 플랫폼 | Java 17, Spring Boot 2.7.18, Gradle 7.6 |
+| 언어 / 플랫폼 | Java 21, Spring Boot 3.5.9, Gradle 8.14 |
 | 데이터 접근 | Spring Data JPA, QueryDSL 5.0, Flyway |
 | 매핑 | MapStruct 1.5.5, Lombok |
 | 인증 / 보안 | Spring Security, JWT (jjwt 0.11.5) |
@@ -238,33 +236,31 @@ src/main/java/com/example/basicarch/
 
 ### 사전 요구사항
 
-- **JDK 17** (`C:\java\jdk-17.0.18+8`)
+- **JDK 21**
 - **WSL2 + Docker Desktop** (Windows 기준, local 프로필 자동 실행에 필요)
 
 ### Git Bash 기준
 
 ```bash
 # 빌드
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew clean build
+./gradlew clean build
 
 # 실행 — local 프로필 (기본값, 포트 8085)
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew bootRun
+./gradlew bootRun
 
 # 실행 — dev 프로필 (포트 8080)
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew bootRun -PspringProfiles=dev
+./gradlew bootRun -PspringProfiles=dev
 
 # 전체 테스트
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test
+./gradlew test
 
 # 특정 테스트 클래스
-JAVA_HOME=/c/java/jdk-17.0.18+8 ./gradlew test --tests "com.example.basicarch.module.user.UserServiceTest"
+./gradlew test --tests "com.example.basicarch.module.user.UserServiceTest"
 ```
 
 ### Windows CMD / PowerShell 기준
 
 ```cmd
-set JAVA_HOME=C:\java\jdk-17.0.18+8
-
 gradlew.bat clean build
 gradlew.bat bootRun
 gradlew.bat bootRun -PspringProfiles=dev

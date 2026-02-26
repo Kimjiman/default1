@@ -3,7 +3,7 @@ package com.example.basicarch.base.utils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;

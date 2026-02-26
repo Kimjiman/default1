@@ -14,7 +14,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

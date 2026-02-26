@@ -19,9 +19,11 @@ public interface MenuConverter {
     @Mapping(source = "updateId", target = "updateId")
     @Mapping(source = "updateTime", target = "updateTime", qualifiedByName = "localDateTimeToString")
     @Mapping(source = "useYn", target = "useYn", qualifiedByName = "stringToYn")
+    @Mapping(target = "children", ignore = true)
     MenuModel toModel(Menu menu);
 
     @Mapping(target = "rowNum", ignore = true)
+    @Mapping(target = "isChild", ignore = true)
     @Mapping(source = "id", target = "id")
     @Mapping(source = "createId", target = "createId")
     @Mapping(source = "createTime", target = "createTime", qualifiedByName = "stringToLocalDateTime")

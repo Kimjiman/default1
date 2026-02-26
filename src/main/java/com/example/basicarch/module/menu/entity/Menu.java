@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 
 import com.example.basicarch.base.model.BaseEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Arrays;
 import java.util.List;
 

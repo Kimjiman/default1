@@ -2,8 +2,8 @@ package com.example.basicarch.base.security;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.example.basicarch.base.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;

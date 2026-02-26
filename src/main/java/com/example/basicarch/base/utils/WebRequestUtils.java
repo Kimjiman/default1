@@ -2,7 +2,7 @@ package com.example.basicarch.base.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -95,7 +95,7 @@ public class WebRequestUtils {
         }
 
         String responseBody = responseSpec
-                .onStatus(HttpStatus::isError, clientResponse ->
+                .onStatus(HttpStatusCode::isError, clientResponse ->
                         clientResponse.bodyToMono(String.class)
                                 .map(errorBody -> {
                                     log.error("[WebRequestUtils] {} {} - status: {}, error: {}",

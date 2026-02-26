@@ -10,7 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @Setter

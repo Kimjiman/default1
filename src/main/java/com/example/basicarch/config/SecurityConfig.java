@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,9 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
-import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
-import org.springframework.web.accept.ContentNegotiationStrategy;
-import org.springframework.web.accept.HeaderContentNegotiationStrategy;
 
 
 @Configuration
@@ -47,36 +43,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain endpointFilterChain(HttpSecurity http) throws Exception {
-        ContentNegotiationStrategy contentNegotiationStrategy = http.getSharedObject(ContentNegotiationStrategy.class);
-        if (contentNegotiationStrategy == null) {
-            contentNegotiationStrategy = new HeaderContentNegotiationStrategy();
-        }
-
-        MediaTypeRequestMatcher preferredMatcher = new MediaTypeRequestMatcher(
-                contentNegotiationStrategy,
-                MediaType.APPLICATION_FORM_URLENCODED,
-                MediaType.APPLICATION_JSON,
-                MediaType.MULTIPART_FORM_DATA
-        );
-
-        preferredMatcher.setUseEquals(true);
-
         return http
-                .cors()
-                .and()
-                .httpBasic().disable()
+                .cors(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .headers(header -> header
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
                 )
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+                .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .userDetailsService(authUserDetailsService)
-                .authorizeRequests(authorizeRequest -> authorizeRequest
-                        .antMatchers(UrlConstants.SWAGGER_URLS).permitAll()
-                        .antMatchers(UrlConstants.ALLOWED_URLS).permitAll()
-                        .antMatchers(UrlConstants.RESOURCE_URLS).permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(UrlConstants.SWAGGER_URLS).permitAll()
+                        .requestMatchers(UrlConstants.ALLOWED_URLS).permitAll()
+                        .requestMatchers(UrlConstants.RESOURCE_URLS).permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

@@ -2,8 +2,8 @@ package com.example.basicarch.module.file.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.example.basicarch.module.file.entity.FileInfo;
 import com.example.basicarch.module.file.repository.FileRepository;

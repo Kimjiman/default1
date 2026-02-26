@@ -3,7 +3,7 @@ package com.example.basicarch.base.component.webclient;
 import com.example.basicarch.base.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
@@ -94,7 +94,7 @@ public class DefaultWebRequestClient implements WebRequestClient {
         }
 
         return responseSpec
-                .onStatus(HttpStatus::isError, clientResponse ->
+                .onStatus(HttpStatusCode::isError, clientResponse ->
                         clientResponse.bodyToMono(String.class)
                                 .flatMap(errorBody -> {
                                     log.error("[{}] {} {} - status: {}, error: {}",
