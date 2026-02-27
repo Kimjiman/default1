@@ -17,6 +17,10 @@ public class UrlConstants {
             , "/v3/api-docs/**"
     };
 
+    public static final String[] ACTUATOR_URLS = {
+            "/actuator/**"
+    };
+
     public static String[] RESOURCE_URLS = {
             "/static/**"
     };

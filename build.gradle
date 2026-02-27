@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -65,4 +66,8 @@ if (project.hasProperty('springProfiles')) {
     bootRun {
         systemProperty "spring.profiles.active", springProfiles
     }
+}
+
+springBoot {
+    buildInfo()
 }

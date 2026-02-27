@@ -50,6 +50,26 @@ springdoc:
     disable-swagger-default-url: true
   api-docs:
     path: /v3/api-docs
+management:
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  info:
+    build:
+      enabled: true
+    env:
+      enabled: true
+info:
+  app:
+    name: basicarch
+    description: Spring Boot Basic Architecture
 ---
 # local
 server:
@@ -84,6 +104,11 @@ file:
 redis:
   host: localhost
   port: 16379
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 ---
 # dev
 server:
@@ -121,6 +146,11 @@ logging:
 redis:
   host: localhost
   port: 6379
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics"
 ---
 # prod
 server:
@@ -158,3 +188,11 @@ logging:
 redis:
   host: localhost
   port: 6379
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+  endpoint:
+    health:
+      show-details: never
