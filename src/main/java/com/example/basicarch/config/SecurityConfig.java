@@ -56,6 +56,7 @@ public class SecurityConfig {
                 .userDetailsService(authUserDetailsService)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(UrlConstants.SWAGGER_URLS).permitAll()
+                        .requestMatchers(UrlConstants.ACTUATOR_URLS).permitAll()
                         .requestMatchers(UrlConstants.ALLOWED_URLS).permitAll()
                         .requestMatchers(UrlConstants.RESOURCE_URLS).permitAll()
                         .anyRequest().authenticated()
