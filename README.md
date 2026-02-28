@@ -109,8 +109,11 @@ src/main/java/com/example/basicarch/
 - RBAC: `Role` ↔ `UserRole` ↔ `User` 구조
 - 중복 로그인 감지 (로그인 시 기존 리프레시 토큰 삭제)
 - `POST /auth/login`, `POST /auth/logout`, `POST /auth/issueAccessToken`
+
 **code — 공통 코드**
+
 **menu — 메뉴**
+
 **file — 파일**
 
 ---
@@ -131,9 +134,9 @@ src/main/java/com/example/basicarch/
 | `dev`         | 8080 | 파일 로깅 (`/web/jar/log/file.log`)        |
 | `prod`        | 8080 | SQL 로깅 비활성, 파일 로깅                      |
 
-- Swagger UI: `http://localhost:8085/swagger-ui/index.html` ##
-- Prometheus: `http://localhost:19090` ##
-- Grafana: `http://localhost:13000` ##
+- Swagger UI: `http://localhost:8085/swagger-ui/index.html`
+- Prometheus: `http://localhost:19090`
+- Grafana: `http://localhost:13000`
 기본 계정: `admin` / `admin`
 
 ---
