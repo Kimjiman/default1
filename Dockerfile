@@ -1,6 +1,4 @@
-# ─────────────────────────────────────────
 # Stage 1: Build
-# ─────────────────────────────────────────
 FROM eclipse-temurin:21-jdk AS builder
 
 WORKDIR /app
@@ -14,16 +12,14 @@ COPY settings.gradle .
 # gradlew 실행 권한 부여
 RUN chmod +x gradlew
 
-# 의존성 다운로드 (소스 변경 시 이 레이어는 캐시 재사용)
+# 의존성 다운로드
 RUN ./gradlew dependencies --no-daemon
 
 # 소스 복사 후 빌드
 COPY src src
 RUN ./gradlew clean bootJar --no-daemon -x test
 
-# ─────────────────────────────────────────
 # Stage 2: Run
-# ─────────────────────────────────────────
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
