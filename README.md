@@ -131,9 +131,9 @@ src/main/java/com/example/basicarch/
 | `dev`         | 8080 | 파일 로깅 (`/web/jar/log/file.log`)        |
 | `prod`        | 8080 | SQL 로깅 비활성, 파일 로깅                      |
 
-# Swagger UI: `http://localhost:8085/swagger-ui/index.html`
-# Prometheus: `http://localhost:19090`
-# Grafana: `http://localhost:13000`
+- Swagger UI: `http://localhost:8085/swagger-ui/index.html` ##
+- Prometheus: `http://localhost:19090` ##
+- Grafana: `http://localhost:13000` ##
 기본 계정: `admin` / `admin`
 
 ---
