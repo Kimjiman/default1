@@ -30,23 +30,16 @@ public class LocalDockerConfig {
             String redisHost = factory.resolveEmbeddedValue("${redis.host:localhost}");
             int redisPort = Integer.parseInt(factory.resolveEmbeddedValue("${redis.port:6379}"));
 
-            String prometheusHost = factory.resolveEmbeddedValue("${prometheus.host:localhost}");
-            int prometheusPort = Integer.parseInt(factory.resolveEmbeddedValue("${prometheus.port:9090}"));
-
-            String grafanaHost = factory.resolveEmbeddedValue("${grafana.host:localhost}");
-            int grafanaPort = Integer.parseInt(factory.resolveEmbeddedValue("${grafana.port:3000}"));
-
             log.info("[Docker] local 프로필 — docker-compose up -d 실행");
             ShellResult result = new ShellExecute().execute(List.of("docker-compose", "up", "-d"), 300);
             if (!result.isSuccess()) {
                 log.warn("[Docker] docker-compose 실행 실패: {}", result.getStderr());
             }
 
+            // 앱 구동에 필수인 서비스만 대기
             List<Service> services = List.of(
                     new Service("PostgreSQL", postgresHost, postgresPort),
-                    new Service("Redis", redisHost, redisPort),
-                    new Service("Prometheus", prometheusHost, prometheusPort),
-                    new Service("Grafana", grafanaHost, grafanaPort)
+                    new Service("Redis", redisHost, redisPort)
             );
 
             for (Service service : services) {

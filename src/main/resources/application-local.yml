@@ -12,7 +12,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:log4jdbc:postgresql://localhost:15432/postgres
     username: root
     password: 1234
     hikari:
@@ -26,16 +26,16 @@ file:
     path: c:/tmp/basic-arch
 postgres:
   host: localhost
-  port: 5432
+  port: 15432
 redis:
   host: localhost
   port: 16379
 prometheus:
   host: localhost
-  port: 9090
+  port: 19090
 grafana:
   host: localhost
-  port: 3000
+  port: 13000
 management:
   endpoints:
     web:

@@ -257,10 +257,12 @@ Entity stores `String` ("Y"/"N"), Model uses `YN` enum. MapStruct converts via `
 
 ### Docker Compose Services
 
-| Service | Image | Port | Purpose |
-|---------|-------|------|---------|
-| `postgres` | postgres:15 | 5432 | Primary database |
-| `redis` | redis:7-alpine | 6379 | Token store, cache |
+| Service      | Image             | Port  | Purpose            |
+|--------------|-------------------|-------|--------------------|
+| `postgres`   | postgres:15       | 15432 | Primary database   |
+| `redis`      | redis:7-alpine    | 16379 | Token store, cache |
+| `prometheus` | prometheus-latest | 19090 | Log Store          |
+| `grafana`    | grafana-latest    | 13000 | GUI                |
 
 ### CI/CD (TODO)
 
