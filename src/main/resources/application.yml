@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: basicarch
   config:
     import:
       - classpath:jwt.yml
@@ -39,6 +41,9 @@ springdoc:
   api-docs:
     path: /v3/api-docs
 management:
+  metrics:
+    tags:
+      application: ${spring.application.name}
   endpoint:
     health:
       show-details: always
