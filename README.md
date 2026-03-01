@@ -76,22 +76,45 @@ flowchart LR
 - **Model** (`extends BaseModel<Long>`): Facade/Controller 계층에서 주고받는 객체
 - **Converter** (MapStruct): 양방향 변환 (`toModel` / `toEntity`)
 
-### 인증 흐름
+---
+
+## 3. 기능
+
+### 인증 흐름 — 로그인
 
 ```mermaid
 flowchart LR
-    A[로그인] --> B[AuthFacade] --> C[UserService] --> D[JwtTokenService] --> E[RefreshTokenStore] --> F[토큰 반환]
-    A2[AccessToken 재발급] --> B2[JwtTokenService] --> C2[Refresh토큰 비교] --> D2[AccessToken 발급]
-    A3[사용자 요청] --> B3[JwtAuthenticationFilter] --> C3[JwtTokenProvider] --> D4[AuthUserDetailsService]
+    A[클라이언트] -->|id + password| B[AuthFacade] --> C[UserService] --> D[JwtTokenService\n토큰 생성 + Redis 저장] -->|accessToken + refreshToken| A
+```
+
+### 인증 흐름 — AccessToken 재발급
+
+```mermaid
+flowchart LR
+    A[클라이언트] --> B[JwtTokenService]
+    B -->|만료 또는 변조| Z[❌ 인증 실패]
+    B -->|Redis 토큰과 불일치| Y[❌ 중복 로그인]
+    B -->|정상| C[새 accessToken 발급] --> A
 ```
 
 > [RefreshTokenStore](src/main/java/com/example/basicarch/base/security/jwt/token/RefreshTokenStore.java)는 인터페이스로 추상화되어 있어 Redis 외 다른 저장소로 교체 가능합니다.
+
+### 인증 흐름 — 요청 인증
+
+```mermaid
+flowchart LR
+    A[클라이언트] -->|HTTP 요청| B[JwtAuthenticationFilter]
+    B -->|허용된 URL| E[요청 처리]
+    B -->|보호된 URL\n토큰 없음 또는 만료| Z[❌ 401]
+    B -->|보호된 URL\n토큰 유효| C[AuthUserDetailsService]
+    C --> D[SecurityContext 설정] --> E
+```
 
 ### 동적 URI 권한 체크
 
 ```mermaid
 flowchart LR
-    A[HTTP 요청] --> B[RoleInterceptor] --> C[MenuService] 
+    A[HTTP 요청] --> B[RoleInterceptor] --> C[MenuService]
     C -->|미등록 URI/역할 포함| E[✅ 허용]
 C -->|역할 미포함|F[❌ 차단]
 ```
@@ -128,10 +151,6 @@ public static <T> Response<T> fail(int status, String message) {
             .build();
 }
 ```
-
----
-
-## 3. 기능
 
 ### 프로젝트 구조
 
@@ -214,15 +233,14 @@ main 브랜치 push 시 자동 배포됩니다.
 
 ### JWT & Refresh Token
 
-SSO 작업을 하면서 JWT 개념을 처음 제대로 익혔습니다. 당시 Refresh Token을 인메모리로 관리했는데, 인스턴스가 재시작되면 토큰이 날아가고 사용자가 강제 로그아웃되는 문제가 있었습니다.
-Basic-Arch에서는 처음부터 Redis에 저장하는 방식을 선택했고, 저장소 자체를 인터페이스로 추상화해 교체 가능한 구조로 만들었습니다.
+2022년도에 JWT 개념을 처음 접했습니다. 당시 Refresh Token을 인메모리로 관리했는데, 인스턴스가 재시작되면 토큰이 날아가고 사용자가 강제 로그아웃되는 문제가 있었습니다.
+Basic-Arch에서는 처음부터 Redis에 저장하는 방식을 선택했기 때문에, 토큰관리를 좀더 용이하게 할수 있게 되었습니다.
 
 **저장소 추상화 — RefreshTokenStore 인터페이스**
 
-Refresh Token 저장소를 인터페이스로 분리했습니다. 현재 구현체는 Redis지만, 저장소가 바뀌어도 JWT 인증 로직은 전혀 건드리지 않아도 됩니다.
+Refresh Token 저장소를 인터페이스로 분리했습니다. 현재 구현체는 Redis지만, 저장소 실제 구현체를 변경하는 것으로써, JWT 인증 로직은 전혀 건드리지 않아도 됩니다.
 
 ```java
-// 저장소를 인터페이스로 추상화
 public interface RefreshTokenStore {
     void save(String loginId, String refreshToken, long expirationDays);
 
@@ -231,41 +249,17 @@ public interface RefreshTokenStore {
     void deleteByLoginId(String loginId);
 }
 
-// 현재 구현체 — Redis. DB나 다른 저장소로 교체 시 이것만 새로 만들면 됨
 @Component
 public class RedisRefreshTokenStore implements RefreshTokenStore {
     private static final String KEY_PREFIX = "jwt:refresh:";
-    // save / findByLoginId / deleteByLoginId ...
 }
-```
-
-**재발급은 로그인 액션으로만**
-
-Refresh Token으로 Access Token을 자동 갱신하는 방식을 채택하지 않았습니다. 재발급이 필요하면 다시 로그인해야 합니다. 토큰 탈취 시 자동 갱신이 반복되는 상황을 막고, 세션 피해 범위를
-명시적으로 제한하기 위한 선택입니다.
-
-**로그아웃 시 서버 측 강제 만료**
-
-로그아웃 시 클라이언트에서 토큰을 지우는 것에 그치지 않고, Redis에서 Refresh Token을 즉시 삭제합니다. Access Token이 아직 만료되지 않았더라도 서버 측에서 인증을 강제로 끊을 수 있는
-구조입니다.
-
-```java
-// 로그아웃 — Redis에서 즉시 삭제
-refreshTokenStore.deleteByLoginId(loginId);
-
-// 인증 검증 시 — Redis에 없으면 유효하지 않은 세션으로 처리
-String stored = refreshTokenStore.findByLoginId(loginId);
-if(stored ==null)throw new
-
-AuthenticationException();
 ```
 
 ---
 
 ### 캐시 무효화 전략
 
-실무에서 코드·메뉴 데이터를 캐싱하는 구조를 처음 접했을 때, 조회 성능은 확실히 좋았습니다. 하지만 캐시 무효화 전략이 없다 보니 데이터를 바꿔도 화면에 바로 반영이 안 되는 상황을 겪었습니다.
-Basic-Arch에서는 그 경험을 바탕으로 두 가지를 병행했습니다. 스케줄러로 N시간마다 캐시를 통째로 다시 불러오고, 데이터가 변경되는 순간엔 Redis Pub/Sub으로 즉시 무효화합니다.
+실무에서 코드/메뉴 데이터를 캐싱하는 구조를 처음 접했을 때, 조회 성능은 확실히 좋았습니다. 하지만 캐시 무효화 전략이 없다 보니 데이터를 바꿔도 화면에 바로 반영이 안 되는 상황을 겪었습니다. 때문에 데이터가 변경되는 순간엔 Redis Pub/Sub으로 즉시 무효화하게끔 구현하였습니다.
 
 ```
   code  캐시  →  cache:code:all
@@ -279,7 +273,8 @@ Basic-Arch에서는 그 경험을 바탕으로 두 가지를 병행했습니다.
 
 ## 6. 로드맵
 
-| 순서 | 기술         | 학습 내용                                         | 상태  |
-|----|------------|-----------------------------------------------|-----|
-| 1  | Kubernetes | minikube로 현재 프로젝트 배포, 및 실습                    | 진행중 |
-| 2  | Kafka      | docker-compose에 Kafka 추가하고 Redis 데이터 유실 문제 처리 | 대기  |
+| 순서 | 기술                   | 학습 내용                                         | 상태  |
+|----|----------------------|-----------------------------------------------|-----|
+| 1  | Prometheus + Grafana | Actuator 메트릭 수집, 대시보드 구성                      | 완료  |
+| 2  | Kubernetes           | minikube로 현재 프로젝트 배포, 및 실습                    | 진행중 |
+| 3  | Kafka                | docker-compose에 Kafka 추가하고 Redis 데이터 유실 문제 처리 | 대기  |
