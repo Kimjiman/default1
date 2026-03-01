@@ -7,7 +7,7 @@
 #   docker-compose down
 #   docker-compose down -v  (볼륨까지 삭제, DB 초기화)
 
-version: '3.8'
+name: basic-arch
 
 services:
   postgres:

@@ -33,7 +33,7 @@ JAVA_HOME=/c/java/jdk-21.0.10+7 ./gradlew test --tests "*.UserServiceTest.testMe
 
 ### Docker (Local Development)
 
-- Windows의 경우 **WSL2 + Docker Desktop** 설치 필요
+- Windows의 경우 **WSL2 + Docker** 설치 필요
 - `local` 프로필 시 `LocalDockerConfig`가 `docker-compose up -d`를 자동 실행
 
 ```bash
@@ -48,13 +48,13 @@ docker-compose down
 
 | Profile | Port | DB | Description |
 |---------|------|----|-------------|
-| `local` (default) | 8085 | PostgreSQL (localhost:5432) | DevTools enabled, show-sql on |
-| `dev` | 8080 | PostgreSQL (container) | File logging (`/web/jar/log/file.log`) |
-| `prod` | 8080 | PostgreSQL (container) | show-sql off, file logging |
+| `local` (default) | 8085 | PostgreSQL (localhost:15432) | DevTools enabled, show-sql on, file store: `c:/tmp/basic-arch` |
+| `dev` | 8080 | PostgreSQL (container) | show-sql on, file logging, file store: `/web/file` |
+| `prod` | 8080 | PostgreSQL (container) | show-sql off, file logging, file store: `/web/file` |
 
 ## Tech Stack
 
-- **Spring Boot 2.7.18** (spring-security, spring-data-jpa, thymeleaf, webflux)
+- **Spring Boot 3.5.9** (spring-security, spring-data-jpa, thymeleaf, webflux)
 - **JPA + QueryDSL 5.0** (dynamic queries)
 - **MapStruct 1.5.5** (Entity <-> Model conversion)
 - **Lombok** (@SuperBuilder, @Getter/@Setter)
@@ -119,10 +119,11 @@ AuthFacade  → UserService (login)
 
 `Redis` 기반 캐시. Redis Pub/Sub를 이용한 캐시 무효화 전략.
 
-| 캐시 | 위치 | 키 → 값 | 리프레시 주기 |
-|------|------|---------|-------------|
-| Code 캐시 | `CodeService.codeCache` | `codeGroup:code → name` | 1시간 |
-| Menu 역할 캐시 | `MenuService.roleCache` | `uri → roleList` | 30분 |
+| 캐시 | key → field | 리프레시 주기 |
+|------|-------------|-------------|
+| Code 캐시 | `cache:code` → `all` | 스케줄러 (`cron.yml`) |
+| Menu 캐시 | `cache:menu` → `all` / `useYn:Y` | 스케줄러 (`cron.yml`) |
+| Menu 역할 캐시 | `cache:menu:role` → `{uri}` | 스케줄러 (`cron.yml`) |
 
 - 스케줄러: `CacheScheduler` (`cron.yml`에서 주기 설정)
 - Menu 역할 캐시는 `RoleInterceptor`에서 URI별 권한 체크에 사용
@@ -204,12 +205,13 @@ ErrorCode (strategy interface)
 - List queries: QueryDSL `.leftJoin().fetchJoin().distinct()`
 - Single queries: `@EntityGraph(attributePaths = {...})`
 
-### Database Migration (Flyway) - 미구현
+### Database Migration (Flyway)
 
 - Migration scripts: `src/main/resources/db/migration/`
-- Naming: `V{version}__{description}.sql` (e.g., `V1__init_schema.sql`)
-- Current schema baseline from `DB-default.sql` → converted to PostgreSQL syntax
-- **Never use `ddl-auto: update` in dev/prod** — all schema changes via Flyway
+- Naming: `V{version}__{description}.sql`
+- `V1__init_schema.sql` — 전체 테이블 스키마 생성 (user, file, code, code_group, menu, role, user_role)
+- `V2__init_data.sql` — 기본 데이터 (admin 계정, ADM/USR 역할, user_role 매핑)
+- `ddl-auto: validate` — 모든 프로필에서 스키마 검증만 수행, 변경은 Flyway로만
 
 ## Commit Convention
 
@@ -264,10 +266,9 @@ Entity stores `String` ("Y"/"N"), Model uses `YN` enum. MapStruct converts via `
 | `prometheus` | prometheus-latest | 19090 | Log Store          |
 | `grafana`    | grafana-latest    | 13000 | GUI                |
 
-### CI/CD (TODO)
+### CI/CD
 
-- Jenkins 또는 GitHub Actions 도입 예정
-- 파이프라인: Build → Test → Docker Build → Deploy
+- Railway 자동 배포: main 브랜치 push 시 자동 배포
 
 ## Learning Roadmap
 
@@ -275,9 +276,9 @@ Entity stores `String` ("Y"/"N"), Model uses `YN` enum. MapStruct converts via `
 
 | 순서 | 기술 | 목표 | 상태 |
 |------|------|------|------|
-| 1 | **Kubernetes** | minikube로 현재 프로젝트 배포, Deployment/Service/ConfigMap/Secret/HPA 실습 | TODO |
-| 2 | **Prometheus + Grafana** | K8s 클러스터 메트릭 수집, 대시보드 구성, 알림 설정 | TODO |
-| 3 | **Kafka** | docker-compose에 Kafka 추가, 이벤트 드리븐 아키텍처 실습, DLT 처리 | TODO |
+| 1 | **Prometheus + Grafana** | Actuator 메트릭 수집, 대시보드 구성 | 완료 |
+| 2 | **Kubernetes** | minikube로 현재 프로젝트 배포, Deployment/Service/ConfigMap/Secret/HPA 실습 | 진행중 |
+| 3 | **Kafka** | docker-compose에 Kafka 추가, 이벤트 드리븐 아키텍처 실습, DLT 처리 | 대기 |
 
 ## Project Structure
 
@@ -293,9 +294,10 @@ src/main/java/com/example/basicarch/
                       Each module: controller/, converter/, entity/, facade/, model/, repository/, service/
 
 src/main/resources/
-├── db/migration/   — Flyway migration scripts (V1__init_schema.sql, ...)
+├── db/migration/   — Flyway scripts (V1__init_schema.sql, V2__init_data.sql)
 ├── application.yml — Spring config (profiles: local, dev, prod)
-└── jwt.yml         — JWT configuration
+├── jwt.yml         — JWT configuration
+└── cron.yml        — Cache scheduler intervals
 
-docker-compose.yml  — Local dev environment (PostgreSQL + Redis)
+docker-compose.yml  — Local dev environment (PostgreSQL, Redis, Prometheus, Grafana)
 ```

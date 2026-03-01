@@ -36,14 +36,13 @@ public class LocalDockerConfig {
                 log.warn("[Docker] docker-compose 실행 실패: {}", result.getStderr());
             }
 
-            // 앱 구동에 필수인 서비스만 대기
             List<Service> services = List.of(
                     new Service("PostgreSQL", postgresHost, postgresPort),
                     new Service("Redis", redisHost, redisPort)
             );
 
             for (Service service : services) {
-                waitForPort(service, 30_000);
+                waitForPort(service, 30_000L);
             }
         };
     }
