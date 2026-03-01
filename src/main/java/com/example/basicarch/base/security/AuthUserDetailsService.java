@@ -27,7 +27,7 @@ public class AuthUserDetailsService implements UserDetailsService {
         User user = userRepository.findByLoginId(loginId).orElseThrow(() -> new UsernameNotFoundException(loginId));
 
         List<UserRole> userRoles = userRoleRepository.findByUserId(user.getId());
-        if (user.getId() == 0) {
+        if (user.getId() == 1) {
             user.setRoleList(List.of("ADM", "USR"));
         } else if (userRoles.isEmpty()) {
             user.setRoleList(List.of("USR"));
